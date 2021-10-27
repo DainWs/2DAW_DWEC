@@ -86,17 +86,17 @@ class Book {
 }
 
 let booksL = [];
-booksL.push(new Book({title="Los Tres Cerditos", genre="niños", author="Pepe", read=false, readDate=null}));
-booksL.push(new Book({title="Spiderman", genre="accion", author="Javi", read=false, readDate=null}));
-booksL.push(new Book({title="Batman", genre="accion", author="Alberto", read=false, readDate=null}));
+booksL.push(new Book({title:"Los Tres Cerditos", genre:"niños", author:"Pepe", read:false, readDate:null}));
+booksL.push(new Book({title:"Spiderman", genre:"accion", author:"Javi", read:false, readDate:null}));
+booksL.push(new Book({title:"Batman", genre:"accion", author:"Alberto", read:false, readDate:null}));
 
 let builder = {
-   numBooksReaded=0,
-   numBooksNotReaded=booksL.length,
-   nextBookToRead=null,
-   currentBook=null,
-   lastBookReaded=null,
-   books=booksL
+   numBooksReaded:0,
+   numBooksNotReaded:booksL.length,
+   nextBookToRead:null,
+   currentBook:null,
+   lastBookReaded:null,
+   books:booksL
 };
 
 let bookList = new BookList(builder);
