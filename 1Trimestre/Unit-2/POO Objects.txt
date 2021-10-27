@@ -1,0 +1,6 @@
+var coche = new Object();
+coche.mark = 'Fort';
+
+var coche = {
+	mark = 'Fort'
+}
