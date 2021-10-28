@@ -2,8 +2,36 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <script src="./js/Models/Actions/Action.js"></script>
+        <script src="./js/Models/Actions/Paper.js"></script>
+        <script src="./js/Models/Actions/Rock.js"></script>
+        <script src="./js/Models/Actions/Scissors.js"></script>
+        <script src="./js/Models/Player.js"></script>
+        <script src="./js/Models/IA.js"></script>
+        <script src="./js/Controllers/GameController.js"></script>
+        <script src="./js/Index.js"></script>
     </head>
     <body>
+        <dialog id="select-action-dialog">
+            <form>
+                <fieldset>
+                    <legend>Actions</legend>
+                    <div>
+                        <input id="paper-action-checkbox" type="radio" name="action" value="Paper" checked/>
+                        <label for="paper-action-checkbox">Paper</label>
+                    </div>
+                    <div>
+                        <input id="rock-action-checkbox" type="radio" name="action" value="Rock"/>
+                        <label for="rock-action-checkbox">Rock</label>
+                    </div>
+                    <div>
+                        <input id="scissors-action-checkbox" type="radio" name="action" value="Scissors"/>
+                        <label for="scissors-action-checkbox">Scissors</label>
+                    </div>
+                </fieldset>
+                <input type="button" value="Select" onclick="controller.onSelectAction();">
+            </form>
+        </dialog>
     </body>
-    <script src="index.js"></script>
+    <script> run(); </script>
 </html>

@@ -3,11 +3,11 @@ class Rock extends Action {
         super("Rock");
     }
 
-    getWinsAgainst() {
-        return "Rock";
+    winsAgainst(action) {
+        return action.name == "Scissors";
     }
 
-    getLoseAgainst() {
-        return "Scissors";
+    loseAgainst(action) {
+        return action.name == "Paper";
     }
 }
