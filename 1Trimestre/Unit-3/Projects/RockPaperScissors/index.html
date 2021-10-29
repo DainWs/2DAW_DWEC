@@ -2,16 +2,33 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/index.css"/>
         <script src="./js/Models/Actions/Action.js"></script>
         <script src="./js/Models/Actions/Paper.js"></script>
         <script src="./js/Models/Actions/Rock.js"></script>
         <script src="./js/Models/Actions/Scissors.js"></script>
         <script src="./js/Models/Player.js"></script>
         <script src="./js/Models/IA.js"></script>
+        <script src="./js/Views/GameView.js"></script>
         <script src="./js/Controllers/GameController.js"></script>
         <script src="./js/Index.js"></script>
     </head>
     <body>
+        <header>
+            <h1>Rock Paper Scissors Game</h1>
+        </header>
+        <section>
+            <header>
+                <h2 id="playersCount"></h2>
+            </header>
+            <article id="results">
+
+            </article>
+            <article id="countdown">
+
+            </article>
+        </section>
+        <!--
         <dialog id="select-action-dialog">
             <form>
                 <fieldset>
@@ -32,6 +49,7 @@
                 <input type="button" value="Select" onclick="controller.onSelectAction();">
             </form>
         </dialog>
+        -->
     </body>
     <script> run(); </script>
 </html>

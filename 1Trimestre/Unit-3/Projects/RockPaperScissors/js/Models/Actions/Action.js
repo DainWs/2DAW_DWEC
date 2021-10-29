@@ -16,6 +16,10 @@ class Action {
         throw new TypeError('Abstract function has not been instantiated.'); 
     }
 
+    getSrc() {
+        return `./images/${this.name}.png`;
+    }
+
     equals(actionName) {
         return this.name == actionName;
     }

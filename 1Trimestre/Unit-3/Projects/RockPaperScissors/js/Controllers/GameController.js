@@ -3,14 +3,30 @@ class GameController {
     currentPlayer = 0;
     constructor(...players) {
         this.players = players;
+        this.view = new GameView();
     }
 
-    setView(view) {
-        this.view = view;
+    run() {
+        this.currentPlayer = 0;
+        this.view.clearCountdown();
+
+        this.askActions();
+        this.showActions();
+        this.calcWiners();
+        this.showCurrentPlayers();
+
+        if (this.players.length > 1) {
+            countdownClock(this, this.view, 5);
+        } else {
+            console.log("The winner is player " + this.players[0].num);
+        }
     }
 
-    nextPlayer() {
-        this.currentPlayer++;
+    askActions() {
+        do {
+            this.selectAction();
+            this.currentPlayer++;
+        } while (this.currentPlayer < this.players.length);
     }
 
     selectAction() {
@@ -18,21 +34,17 @@ class GameController {
         if (player instanceof IA) {
             player.createAction();
         } else {
-            let actionName = prompt("Select acction (Paper/Rock/Scissors):", "Paper");
+            let actionName = this.view.askOneAction();
             let selectedAction = getActionFromString(actionName);
-            let player = this.players[this.currentPlayer];
             player.setAction(selectedAction);
         }
     }
 
-    askActions() {
-        do {
-            this.selectAction();
-            this.nextPlayer();
-        } while (this.currentPlayer < this.players.length);
+    showActions() {
+        this.view.writeResults(this.players);
     }
 
-    calcWiner() {
+    calcWiners() {
         const newPlayers = [];
         this.players.forEach(
             (p, i) => {
@@ -51,37 +63,8 @@ class GameController {
         this.players = newPlayers;
     }
 
-    showActions() {
-        console.log("## Actions");
-        this.players.forEach(
-            (p) => {
-                console.log(p.num + " => " + p.getAction().name);
-            }
-        );
-    }
-
     showCurrentPlayers() {
-        console.log("## Current players");
-        this.players.forEach(
-            (p) => {
-                console.log(p.num);
-            }
-        );
-    }
-
-    run() {
-
-        this.askActions();
-        this.showActions();
-        this.calcWiner();
-        this.showCurrentPlayers();
-
-        console.log(this.players.length);
-        if (this.players.length > 1) {
-            setTimeout(this.run, 5000);
-        } else {
-            console.log("The winner is player " + this.players[0].num);
-        }
+        this.view.writePlayersRemaining(this.players.length);
     }
 }
 

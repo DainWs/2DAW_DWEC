@@ -39,6 +39,16 @@ function getRandomAction() {
     return action;
 }
 
+function countdownClock(controller, view, num) {
+    view.writeCountdown(num);
+    if(num > 0) {
+        setTimeout(countdownClock, 1000, controller, view, num - 1);
+    }
+    else {
+        controller.run();
+    }
+}
+
 let playerOne = new Player(1);
 let playerTwo = new IA(2);
 
