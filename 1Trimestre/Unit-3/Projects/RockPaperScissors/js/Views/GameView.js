@@ -1,5 +1,5 @@
 class GameView {
-    constructor() {}
+    constructor() { }
 
     writePlayersRemaining(num) {
         document.getElementById("playersCount").innerText = `${num} Players  remaining.`;
@@ -14,12 +14,26 @@ class GameView {
         });
     }
 
+    updateResults(player) {
+        let image = document.getElementById(player.num);
+        image.setAttribute("class", player.state);
+    }
+
     makeImage(player) {
+        let figure = document.createElement("figure");
+        figure.setAttribute("id", `figure-${player.num}`);
+
         let image = document.createElement("img");
         image.setAttribute("id", player.num);
         image.setAttribute("src", player.getAction().getSrc());
 
-        return image;
+        let figcaption = document.createElement("figcaption");
+        figcaption.setAttribute("id", `figcaption-${player.num}`);
+        figcaption.innerText = player.getId();
+
+        figure.appendChild(image);
+        figure.appendChild(figcaption);
+        return figure;
     }
 
     writeCountdown(num) {
@@ -29,6 +43,10 @@ class GameView {
 
     clearCountdown() {
         document.getElementById("countdown").innerText = "";
+    }
+
+    writeWinner(player) {
+        document.getElementById("winnerText").innerText = `${player.getId()} is the winner.`;
     }
 
     askOneAction() {

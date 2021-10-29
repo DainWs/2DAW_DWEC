@@ -1,6 +1,6 @@
 class IA extends Player {
     constructor(num) {
-        super(num);
+        super(num, `IA ${num}`);
     }
 
     createAction() {

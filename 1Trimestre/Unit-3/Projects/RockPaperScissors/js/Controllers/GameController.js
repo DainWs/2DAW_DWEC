@@ -18,6 +18,7 @@ class GameController {
         if (this.players.length > 1) {
             countdownClock(this, this.view, 5);
         } else {
+            this.view.writeWinner(this.players[0]);
             console.log("The winner is player " + this.players[0].num);
         }
     }
@@ -52,15 +53,28 @@ class GameController {
                     let nextPlayer = this.players[i + 1];
                     if (p.winsAgainst(nextPlayer)) {
                         newPlayers.push(p);
+                        p.win();
+                        nextPlayer.lose();
                     } else if (p.loseAgainst(nextPlayer)) {
                         newPlayers.push(nextPlayer);
+                        p.lose();
+                        nextPlayer.win();
                     } else {
                         newPlayers.push(p, nextPlayer);
+                        p.tie();
+                        nextPlayer.tie();
                     }
+
+                    this.updatePlayerResult(p);
+                    this.updatePlayerResult(nextPlayer);
                 }
             }
         );
         this.players = newPlayers;
+    }
+
+    updatePlayerResult(player) {
+        this.view.updateResults(player);
     }
 
     showCurrentPlayers() {

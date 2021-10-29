@@ -49,7 +49,7 @@ function countdownClock(controller, view, num) {
     }
 }
 
-let playerOne = new Player(1);
+let playerOne = new Player(1, "Jose");
 let playerTwo = new IA(2);
 
 const controller = new GameController(playerOne, playerTwo);
