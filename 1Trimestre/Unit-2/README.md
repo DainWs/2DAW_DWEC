@@ -1,11 +1,11 @@
 # POO Objects
 ## Keywords
-Objects
-Properties
-Methods
-Constructor
-Dot Notation		- persona.nombre
-Bracket Notation	- persona[nombre]
+Objects <br/>
+Properties <br/>
+Methods <br/>
+Constructor <br/>
+Dot Notation		- persona.nombre <br/>
+Bracket Notation	- persona[nombre] <br/>
 
 ## Examples
 > var coche = new Object(); <br/>
