@@ -1,7 +1,7 @@
 class GameController {
     players = [];
     currentPlayer = 0;
-    constructor(...players) {
+    constructor(players) {
         this.players = players;
         this.view = new GameView();
     }
@@ -48,24 +48,24 @@ class GameController {
     calcWiners() {
         const newPlayers = [];
         this.players.forEach(
-            (p, i) => {
+            (player, i) => {
                 if (i + 1 < this.players.length) {
                     let nextPlayer = this.players[i + 1];
-                    if (p.winsAgainst(nextPlayer)) {
-                        newPlayers.push(p);
-                        p.win();
+                    if (player.winsAgainst(nextPlayer)) {
+                        newPlayers.push(player);
+                        player.win();
                         nextPlayer.lose();
-                    } else if (p.loseAgainst(nextPlayer)) {
+                    } else if (player.loseAgainst(nextPlayer)) {
                         newPlayers.push(nextPlayer);
-                        p.lose();
+                        player.lose();
                         nextPlayer.win();
                     } else {
-                        newPlayers.push(p, nextPlayer);
-                        p.tie();
+                        newPlayers.push(player, nextPlayer);
+                        player.tie();
                         nextPlayer.tie();
                     }
 
-                    this.updatePlayerResult(p);
+                    this.updatePlayerResult(player);
                     this.updatePlayerResult(nextPlayer);
                 }
             }
