@@ -1,9 +1,0 @@
-Slice devuelve un rango del array sin borrarlo de este.
-array.slice(1, 2)
-array.slice(posicion, posicionFinal)
-
-//example
-array = [0, 1, 2, 3, 4, 5];
-a = array.slice(2, 4);
-
-a = [2, 3, 4]

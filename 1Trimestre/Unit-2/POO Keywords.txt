@@ -1,7 +1,0 @@
-Objects
-Properties
-Methods
-
-Constructor
-Dot Notation		- persona.nombre
-Bracket Notation	- persona[nombre]
