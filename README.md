@@ -27,4 +27,4 @@ Módulo Desarrollo Web en Entornos Cliente del CFGS Desarrollo de Aplicaciones W
 
   
 
-> Jose A. Piñero Berbel
+> Jose A. Piñero Berbel - [Exercises repository](https://github.com/jpineroberbel/Desarrollo-Web-en-Entornos-Cliente)
