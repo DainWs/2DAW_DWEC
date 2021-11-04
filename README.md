@@ -25,6 +25,4 @@ Módulo Desarrollo Web en Entornos Cliente del CFGS Desarrollo de Aplicaciones W
 
 - Unit 9. JavaScript Frameworks II
 
-  
-
-> Jose A. Piñero Berbel - [Exercises repository](https://github.com/jpineroberbel/Desarrollo-Web-en-Entornos-Cliente)
+> Author: [Jose A. Piñero Berbel](https://github.com/jpineroberbel) - [Exercises repository](https://github.com/jpineroberbel/Desarrollo-Web-en-Entornos-Cliente)
