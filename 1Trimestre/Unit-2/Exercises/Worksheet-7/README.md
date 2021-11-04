@@ -1,3 +1,4 @@
+# Exercises
 The **geolocation API** allows the user to provide their location to web applications if they so desire. For privacy reasons, the user is asked for permission to report location information.
 
 The geolocation API is published through the `navigator.geolocation` object. If the object exists, geolocation services are available.
