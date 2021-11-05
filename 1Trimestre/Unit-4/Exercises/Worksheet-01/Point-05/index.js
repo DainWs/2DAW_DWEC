@@ -1,3 +1,5 @@
+var teclaDPulsada = false
+
 function drawCell(e){
     if (e.ctrlKey) {
         e.target.style.backgroundColor = "red";
@@ -5,8 +7,25 @@ function drawCell(e){
     else if (e.shiftKey) {
         e.target.style.backgroundColor = "blue";
     }
-    else if (e.altKey) {
+    /*else if (e.altKey) {
         e.target.style.backgroundColor = "white";
+    }*/
+    else if (teclaDPulsada) {
+        e.target.style.backgroundColor = "white";
+    }
+}
+
+function onKeyDown(e) {
+    let keyDown = e.key;
+    if (keyDown == "d") {
+        teclaDPulsada = true;
+    }
+}
+
+function onKeyUp(e) {
+    let keyUp = e.key;
+    if (keyUp == "d") {
+        teclaDPulsada = false;
     }
 }
 
@@ -29,6 +48,8 @@ function makeTable() {
         table.appendChild(row);
     }
 
+    document.onkeydown = onKeyDown;
+    document.onkeyup = onKeyUp;
     document.body.appendChild(table);
 }
 
