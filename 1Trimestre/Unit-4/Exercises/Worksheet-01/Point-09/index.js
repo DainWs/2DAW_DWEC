@@ -1,20 +1,3 @@
-function drawCell(e){
-    if (e.ctrlKey) {
-        e.target.style.backgroundColor = "red";
-    }
-    else if (e.shiftKey) {
-        e.target.style.backgroundColor = "blue";
-    }
-    else if (e.altKey) {
-        e.target.style.backgroundColor = "white";
-    }
-}
-
-function clear() {
-    document.getElementById("table").remove();
-    makeTable();
-}
-
 const coords = [0, 0];
 const lastCoords = [0, 0];
 function initial(e) {
