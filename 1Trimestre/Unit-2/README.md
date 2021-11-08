@@ -32,9 +32,11 @@ Dot Notation		- persona.nombre <br/>
 Bracket Notation	- persona[nombre] <br/>
 
 ## Examples
-> var coche = new Object(); <br/>
-> coche.mark = 'Fort'; <br/>
-> <br/>
-> var coche = { <br/>
->	mark = 'Fort' <br/>
->} 
+```js
+var coche = new Object();
+coche.mark = 'Fort';
+
+var coche = {
+    mark = 'Fort'
+}
+```

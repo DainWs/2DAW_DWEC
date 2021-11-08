@@ -4,14 +4,7 @@ These exercises are based on the worksheet #2. You have to ask the user for the 
 
 Why pay a fortune teller when you can just program your fortune yourself?
 
-- Write a function named 
-
-  ```
-  tellFortune
-  ```
-
-   
-
+- Write a function named `tellFortune`
   that:
 
   - takes 4 arguments: number of children, partner's name, geographic location, job title.
@@ -23,14 +16,7 @@ Why pay a fortune teller when you can just program your fortune yourself?
 
 Forgot how old you are? Calculate it!
 
-- Write a function named 
-
-  ```
-  calculateAge
-  ```
-
-   
-
+- Write a function named `calculateAge`
   that:
 
   - takes 2 arguments: birth year, current year.
@@ -45,14 +31,7 @@ Forgot how old you are? Calculate it!
 
 Ever wonder how much a "lifetime supply" of your favorite snack is? Wonder no more!
 
-- Write a function named 
-
-  ```
-  calculateSupply
-  ```
-
-   
-
+- Write a function named `calculateSupply`
   that:
 
   - takes 2 arguments: age, amount per day.
