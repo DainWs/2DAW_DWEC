@@ -33,7 +33,7 @@ function initialize() {
 
     var hammerObject = new Hammer(imagesElement);
     hammerObject.on("panleft", changeImageToPrev);
-    hammerObject.on("panright", changeImageToNext);
+    hammerObject.on("panright doubletap", changeImageToNext);
 }
 
 window.onload = initialize;
