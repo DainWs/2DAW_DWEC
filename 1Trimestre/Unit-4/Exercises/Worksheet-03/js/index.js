@@ -5,9 +5,18 @@ function rotate(e) {
     updateImage();
 }
 
+function a() {
+    alpha+=1;
+    console.log(alpha);
+    updateImage();
+    setTimeout(a, 1);
+}
+
+setTimeout(a, 1);
+
 function updateImage() {
     let image = document.getElementById("image");
-    image.style.transform = `rotate(${alpha}deg)`;
+    image.style.transform = `skewY(${alpha}deg)`;
 }
 
 function initialize() {
