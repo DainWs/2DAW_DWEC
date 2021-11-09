@@ -2,8 +2,22 @@ var imageNum = 1;
 var imageMin = 1;
 var imageMax = 4;
 
+var lastOrientation = 0;
+
+function onOrientationEvent(e) {
+    let diference = lastOrientation - e.alpha;
+    if (diference > 20) {
+        lastOrientation = e.alpha;
+        changeImageToNext(true);
+    }
+    else if (diference < -20) {
+        lastOrientation = e.alpha;
+        changeImageToPrev(true);
+    }
+}
+
 function changeImageToPrev(e) {
-    if(e.isFinal || e.type == "click") {
+    if(e == true || e.isFinal || e.type == "click") {
         beforeUpdate();
         imageNum--;
         if (imageNum < imageMin) imageNum = imageMax;
@@ -12,7 +26,7 @@ function changeImageToPrev(e) {
 }
 
 function changeImageToNext(e) {
-    if(e.isFinal || e.type == "click") {
+    if(e == true || e.isFinal || e.type == "click") {
         beforeUpdate();
         imageNum++;
         if (imageNum > imageMax) imageNum = imageMin;
@@ -28,7 +42,7 @@ function beforeUpdate() {
 function updateImage() {
     let imageSelector = document.getElementById(`image-selector-${imageNum}`);
     imageSelector.style.backgroundColor = "gray";
-    
+
     let imageNumElement = document.getElementById("image-num");
     imageNumElement.innerText = `${imageNum}/${imageMax}`;
 
@@ -46,6 +60,8 @@ function initialize() {
     var hammerObject = new Hammer(imagesElement);
     hammerObject.on("panleft", changeImageToPrev);
     hammerObject.on("panright doubletap", changeImageToNext);
+
+    window.addEventListener("deviceorientation", onOrientationEvent);
 
     makeSelectors();
     updateImage();
