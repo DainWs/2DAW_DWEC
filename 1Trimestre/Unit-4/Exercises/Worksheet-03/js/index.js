@@ -1,26 +1,23 @@
-var alpha = 0;
+var grades = 0;
 
 function rotate(e) {
-    alpha = Math.round(e.alpha);
+    grades = Math.round(e.alpha);
     updateImage();
 }
 
-function a() {
-    alpha+=1;
-    console.log(alpha);
+function acceletare(e) {
+    grades = Math.round(e.acceleration.y);
     updateImage();
-    setTimeout(a, 1);
 }
-
-setTimeout(a, 1);
 
 function updateImage() {
     let image = document.getElementById("image");
-    image.style.transform = `skewY(${alpha}deg)`;
+    image.style.transform = `rotate(${grades}deg)`;
 }
 
 function initialize() {
-    window.addEventListener("deviceorientation", rotate);
+    //window.addEventListener("deviceorientation", rotate);
+    window.addEventListener("devicemotion", acceletare);
     updateImage();
 }
 
