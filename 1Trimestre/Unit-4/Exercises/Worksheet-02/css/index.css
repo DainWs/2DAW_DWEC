@@ -1,0 +1,18 @@
+body { position: relative; }
+
+aside {
+    width: 250px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    border: 1px solid black;
+}
+
+aside div {
+    height: 45%;
+    margin: 15px;
+}
+
+section {
+    margin-left: 270px;
+}

@@ -14,11 +14,7 @@ class BookList {
    }
 
    add(book) {
-      this.books.add(book);
-   }
-
-   remove(book) {
-      this.books.remove(book);
+      this.books.push(book);
    }
 
    getCurrentBook() {
