@@ -1,0 +1,15 @@
+aside {
+    width: 15%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+}
+
+aside div {
+    height: 45%;
+    margin: 15px;
+}
+
+section {
+    margin-left: 270px;
+}
