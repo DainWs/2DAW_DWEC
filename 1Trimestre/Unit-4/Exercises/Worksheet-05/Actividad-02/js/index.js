@@ -1,5 +1,4 @@
-function applyNormalStyle(e) {
-    e.preventDefault();
+function applyNormalStyle() {
     document.body.style.backgroundColor = "lightyellow";
     
     let parrafosNegrita = document.getElementsByClassName("negrita");
@@ -42,7 +41,6 @@ function applyNormalStyle(e) {
 }
 
 function applyMinimalistStyle() {
-    e.preventDefault();
     document.body.style.backgroundColor = "unset";
     
     let parrafosNegrita = document.getElementsByClassName("negrita");
