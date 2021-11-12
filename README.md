@@ -17,6 +17,6 @@ Módulo Desarrollo Web en Entornos Cliente del CFGS Desarrollo de Aplicaciones W
 - Unit 9. JavaScript Frameworks II
 
 ### Projectos
-- [Unit 3. RockPaperScissors]("https://github.com/DainWs/2DAW_DWEC/tree/master/1Trimestre/Unit-3/Projects/RockPaperScissors")
+- [Unit 3. RockPaperScissors](https://github.com/DainWs/2DAW_DWEC/tree/master/1Trimestre/Unit-3/Projects/RockPaperScissors)
 
 > Author: [Jose A. Piñero Berbel](https://github.com/jpineroberbel) - [Exercises repository](https://github.com/jpineroberbel/Desarrollo-Web-en-Entornos-Cliente)
