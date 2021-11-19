@@ -2582,7 +2582,7 @@ input, select, textarea {
 			-ms-transition: -ms-transform 0.5s ease, opacity 0.5s ease;
 			transition: transform 0.5s ease, opacity 0.5s ease;
 			position: relative;
-			width: calc(33.33333% - 2.5em);
+			width: calc(25% - 2.5em);
 			margin: 2.5em 0 0 2.5em;
 		}
 
@@ -2774,7 +2774,7 @@ input, select, textarea {
 			}
 
 				.tiles article {
-					width: calc(33.33333% - 1.25em);
+					width: calc(25% - 1.25em);
 					margin: 1.25em 0 0 1.25em;
 				}
 
@@ -2787,7 +2787,7 @@ input, select, textarea {
 			}
 
 				.tiles article {
-					width: calc(50% - 2.5em);
+					width: calc(25% - 2.5em);
 					margin: 2.5em 0 0 2.5em;
 				}
 
@@ -2800,7 +2800,7 @@ input, select, textarea {
 			}
 
 				.tiles article {
-					width: calc(50% - 1.25em);
+					width: calc(33.33333% - 1.25em);
 					margin: 1.25em 0 0 1.25em;
 				}
 
@@ -2816,12 +2816,12 @@ input, select, textarea {
 		@media screen and (max-width: 480px) {
 
 			.tiles {
-				margin: 0;
+				margin: -1.25em 0 0 -1.25em;
 			}
 
 				.tiles article {
-					width: 100%;
-					margin: 1.25em 0 0 0;
+					width: calc(50% - 1.25em);
+					margin: 1.25em 0 0 1.25em;
 				}
 
 		}

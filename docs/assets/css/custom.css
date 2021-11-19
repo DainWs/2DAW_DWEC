@@ -1,0 +1,8 @@
+.tiles-title {
+    margin-bottom: 10px;
+    border-bottom: 2px solid lightgray;
+}
+
+img.rounded {
+    border-radius: 50%;
+}
