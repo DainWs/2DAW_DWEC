@@ -1,12 +1,11 @@
 
 function hasCookie(cookieName) {
-    return (getCookie(cookieName, null) != null);
+    return (document.cookie.indexOf(cookieName) != -1);
 }
 
 function getCookie(cookieName, defaultValue = '') {
-    let cookies = document.cookie;
-    let pattern = new RegExp(`${cookieName}\s*=([^;$]+)`);
-    let matches = cookies.match(pattern);
+    let pattern = new RegExp(`${cookieName}\s*=([^,$]+)`);
+    let matches = document.cookie.match(pattern);
     let result = defaultValue;
     if (matches != null && matches.length > 1) {
         result = matches[1];
