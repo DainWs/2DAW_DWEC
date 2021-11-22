@@ -1,21 +1,16 @@
-html {
-    height: 100%;
-}
-
+html {height: 100%;}
 body {
     font-family: Arial;
     box-sizing: border-box;
     height: -webkit-fill-available;
     margin: 0;
 }
-
 #tab {
     background-color: #333;
     overflow: auto;
     white-space: nowrap;
     max-height: 65px;
 }
-  
 #tab button {
     display: inline-block;
     color: white;
@@ -26,16 +21,15 @@ body {
     text-decoration: none;
     height: 48px;
 }
-  
 #tab button:hover {
     background-color: #777;
 }
-
 /* Style the tab content */
 .tabcontent {
     box-sizing: border-box;
     width: 100%;
     height: calc(100% - 70px);
-    padding: 6px 12px;
-    border: 3px solid #777;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
