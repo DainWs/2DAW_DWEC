@@ -6,3 +6,21 @@
 img.rounded {
     border-radius: 50%;
 }
+
+.tabs {
+    width: 650px;
+    float: none;
+    list-style: none;
+    position: relative;
+    margin: 80px 0 0 10px;
+    text-align: left;
+}
+.tabs li {
+    float: left;
+    display: block;
+}
+.tabs input[type="radio"] {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+}
