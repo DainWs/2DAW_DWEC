@@ -1,3 +1,7 @@
+import { BookList } from "../domain/BookList";
+import { Book } from "../models/Book";
+import { BookView } from "../views/BookView";
+
 class BookController {
     constructor() {}
 
@@ -45,3 +49,5 @@ class BookController {
         else this.view.showBook(book);
     }
 }
+
+export { BookController };

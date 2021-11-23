@@ -1,4 +1,7 @@
-body { position: relative; }
+body { 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: relative;
+}
 
 aside {
     width: 250px;
@@ -15,4 +18,24 @@ aside div {
 
 section {
     margin-left: 270px;
+}
+
+
+section.form-libro {
+    margin-top: 15px;
+}
+
+section.form-libro header h1 {
+    margin: 0;
+    border: 2px solid dimgray;
+    border-bottom: 0;
+    padding: 2px;
+    font-size: 12pt;
+    background-color: dimgray;
+    color: white;
+}
+
+section.form-libro form {
+    padding: 5px;
+    border: 2px solid dimgray;
 }

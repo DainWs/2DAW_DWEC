@@ -68,3 +68,5 @@ class BookView {
         return document.getElementById("form-book-readdate").value;
     }
 }
+
+export { BookView };

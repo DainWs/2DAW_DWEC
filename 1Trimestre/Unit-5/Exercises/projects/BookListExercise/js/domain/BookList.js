@@ -79,3 +79,5 @@ class BookList {
         return this.nextBookToRead != null;
     }
 }
+
+export { BookList };

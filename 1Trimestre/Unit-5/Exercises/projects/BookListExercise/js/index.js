@@ -1,3 +1,5 @@
+import { BookController } from "./controller/BookController.js";
+
 const controller = new BookController();
 
 function afterLoad() {
