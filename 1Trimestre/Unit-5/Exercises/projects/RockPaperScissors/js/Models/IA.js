@@ -1,3 +1,6 @@
+import { getRandomAction } from "../Utils/ActionUtils.js";
+import { Player } from "./Player.js";
+
 class IA extends Player {
     constructor(num) {
         super(num, `IA ${num}`);
@@ -7,3 +10,5 @@ class IA extends Player {
         this.setAction(getRandomAction());
     }
 }
+
+export { IA };

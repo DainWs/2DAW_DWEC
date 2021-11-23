@@ -1,3 +1,5 @@
+import { Action } from "./Action.js";
+
 class Rock extends Action {
     constructor() {
         super("Rock");
@@ -11,3 +13,5 @@ class Rock extends Action {
         return action.name == "Paper";
     }
 }
+
+export { Rock };

@@ -24,3 +24,5 @@ class Action {
         return this.name == actionName;
     }
 }
+
+export { Action };

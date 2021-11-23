@@ -1,6 +1,6 @@
 class Player {
     num = 0;
-    action = null;
+    action;
     state = "tie";
     constructor(num, name) {
         this.num = num;
@@ -41,3 +41,5 @@ class Player {
         this.state = "losser";
     }
 }
+
+export { Player };

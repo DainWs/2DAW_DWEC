@@ -3,17 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="css/index.css"/>
-        <script src="./js/Models/Actions/Action.js"></script>
-        <script src="./js/Models/Actions/Paper.js"></script>
-        <script src="./js/Models/Actions/Rock.js"></script>
-        <script src="./js/Models/Actions/Scissors.js"></script>
-        <script src="./js/Models/Player.js"></script>
-        <script src="./js/Models/IA.js"></script>
-        <script src="./js/Utils/ActionUtils.js"></script>
-        <script src="./js/Utils/Clock.js"></script>
-        <script src="./js/Views/GameView.js"></script>
-        <script src="./js/Controllers/GameController.js"></script>
-        <script src="./js/Index.js"></script>
+        <script type="Module" src="./js/Index.js"></script>
     </head>
     <body>
         <header>
@@ -35,28 +25,5 @@
                 <h2 id="winnerText"></h2>
             </header>
         </section>
-        <!--
-        <dialog id="select-action-dialog">
-            <form>
-                <fieldset>
-                    <legend>Actions</legend>
-                    <div>
-                        <input id="paper-action-checkbox" type="radio" name="action" value="Paper" checked/>
-                        <label for="paper-action-checkbox">Paper</label>
-                    </div>
-                    <div>
-                        <input id="rock-action-checkbox" type="radio" name="action" value="Rock"/>
-                        <label for="rock-action-checkbox">Rock</label>
-                    </div>
-                    <div>
-                        <input id="scissors-action-checkbox" type="radio" name="action" value="Scissors"/>
-                        <label for="scissors-action-checkbox">Scissors</label>
-                    </div>
-                </fieldset>
-                <input type="button" value="Select" onclick="controller.onSelectAction();">
-            </form>
-        </dialog>
-        -->
     </body>
-    <script> run(); </script>
 </html>

@@ -1,4 +1,4 @@
-function countdownClock(controller, view, num) {
+function countdownClock(controller, view, num = 0) {
     view.writeCountdown(num);
     if(num > 0) {
         setTimeout(countdownClock, 1000, controller, view, num - 1);
@@ -7,3 +7,5 @@ function countdownClock(controller, view, num) {
         controller.run();
     }
 }
+
+export { countdownClock };

@@ -53,3 +53,5 @@ class GameView {
         return prompt("Select one action (Paper/Rock/Scissors):");
     }
 }
+
+export { GameView }

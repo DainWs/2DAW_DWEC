@@ -1,3 +1,8 @@
+import { IA } from "../Models/IA.js";
+import { getActionFromString } from "../Utils/ActionUtils.js";
+import { countdownClock } from "../Utils/Clock.js";
+import { GameView } from "../Views/GameView.js";
+
 class GameController {
     players = [];
     currentPlayer = 0;
@@ -82,3 +87,4 @@ class GameController {
     }
 }
 
+export { GameController };

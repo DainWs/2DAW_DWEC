@@ -1,3 +1,7 @@
+import { Paper } from "../Models/Actions/Paper.js";
+import { Rock } from "../Models/Actions/Rock.js";
+import { Scissors } from "../Models/Actions/Scissors.js";
+
 const paper = new Paper();
 const rock = new Rock();
 const scissors = new Scissors();
@@ -38,3 +42,5 @@ function getRandomAction() {
     }
     return action;
 }
+
+export { getActionFromString, getRandomAction };
