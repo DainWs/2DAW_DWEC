@@ -8,8 +8,10 @@
             "name": "Launch DWEC",
             "request": "launch",
             "type": "pwa-msedge",
-            "url": "${workspaceFolder}",
-            "webRoot": "${workspaceFolder}"
+            "url": "http://localhost/DWEC/",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "DWES-start",
+            "postDebugTask": "DWES-stop"
         }
     ]
 }
