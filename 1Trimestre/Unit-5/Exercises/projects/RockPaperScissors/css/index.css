@@ -1,8 +1,14 @@
+html {
+    height: 100vh;
+    display: flex;
+}
+
 body {
     margin: auto;
     width: 70vw;
     border: 1px solid gainsboro;
     border-radius: 15px;
+    vertical-align: middle;
 }
 
 header h1, section header #winnerText {
@@ -10,6 +16,13 @@ header h1, section header #winnerText {
     padding: 15px;
     background: gainsboro;
     margin: 0;
+}
+
+header h1 {
+    border-radius: 10px 10px 0 0;
+}
+
+section header #winnerText {
     border-radius: 0 0 10px 10px;
 }
 
@@ -18,12 +31,25 @@ section header h2 {
     padding: 0 15px;
 }
 
-#results img{
-    width: 50px;
-    height: 50px;
-    margin: 5px;
+#results > figure > * {
     border: 1px solid black;
-    border-radius: 5px;
+}
+
+#results img{
+    box-sizing: border-box;
+    width: 75px;
+    height: 75px;
+    border-radius: 5px 5px 0 0;
+    padding: 15px;
+}
+
+#results figcaption {
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 5px 5px;
+    padding: 5px;
+    
+    position: relative;
+    bottom: 5px;
 }
 
 .winner {
@@ -42,4 +68,8 @@ section header h2 {
     margin: 0;
     padding: 0;
     display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: flex-start;
 }

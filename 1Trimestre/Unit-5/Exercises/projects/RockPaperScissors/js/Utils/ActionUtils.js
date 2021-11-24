@@ -43,4 +43,12 @@ function getRandomAction() {
     return action;
 }
 
-export { getActionFromString, getRandomAction };
+function getRandomActionNotEqual(action) {
+    let newAction = null;
+    do {
+        newAction = getRandomAction();
+    } while(action == newAction);
+    return newAction;
+}
+
+export { getActionFromString, getRandomAction, getRandomActionNotEqual };
