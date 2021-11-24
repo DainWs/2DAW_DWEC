@@ -1,6 +1,6 @@
-import { BookList } from "../domain/BookList";
-import { Book } from "../models/Book";
-import { BookView } from "../views/BookView";
+import { BookList } from "../domain/BookList.js";
+import { Book } from "../models/Book.js";
+import { BookView } from "../views/BookView.js";
 
 class BookController {
     constructor() {}
@@ -10,9 +10,9 @@ class BookController {
         this.view = new BookView();
 
         let addBtn = this.view.getAddBookButton();
-        addBtn.onclick = (e => controller.addBook(e));
+        addBtn.onclick = ((e) => instance.addBook(e));
         let finishBtn = this.view.getFinishBookButton();
-        finishBtn.onclick = (e => controller.finishBook(e));
+        finishBtn.onclick = ((e) => instance.finishBook(e));
     }
 
     addBook(event) {
@@ -28,9 +28,24 @@ class BookController {
             book.setReadDate(this.view.getFormBookReadDate());
         }
         this.booklist.add(book);
-        if (book.isReaded()) this.view.addReadedBook(book);
-            else this.view.addNotReadedBook(book);
-        this.update();
+        if (this.validateBook(book)) {
+            if (book.isReaded()) 
+                this.view.addReadedBook(book);
+            else 
+                this.view.addNotReadedBook(book);
+            this.update();
+        }
+        else {
+            this.view.showTooltipOf(event.target);
+        }
+    }
+
+    validateBook(book) {
+        let isValid = true;
+        if(book.getTitle() == "") {
+            isValid = false;
+        }
+        return isValid;
     }
 
     finishBook(event) {
@@ -38,6 +53,8 @@ class BookController {
         if (book != null) {
             if (book.isReaded()) this.view.moveReadedBook(book);
             else this.view.moveNotReadedBook(book);
+        } else {
+            this.view.showTooltipOf(event.target);
         }
         this.booklist.finishCurrentBook();
         this.update();
@@ -50,4 +67,6 @@ class BookController {
     }
 }
 
-export { BookController };
+const instance = new BookController();
+
+export { instance };

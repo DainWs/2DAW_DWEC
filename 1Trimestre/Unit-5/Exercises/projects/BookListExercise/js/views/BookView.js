@@ -48,7 +48,6 @@ class BookView {
     }
 
     getFormBookTitle() {
-        console.log(document.getElementById("form-book-title"));
         return document.getElementById("form-book-title").value;
     }
 
@@ -66,6 +65,12 @@ class BookView {
 
     getFormBookReadDate() {
         return document.getElementById("form-book-readdate").value;
+    }
+
+    showTooltipOf(target) {
+        let tooltip = document.getElementById(`${target.id}-tooltip`);
+        tooltip.setAttribute("class", "tooltip visible");
+        setTimeout((tooltipObj) => tooltipObj.setAttribute("class", "tooltip hidden"), 2000, tooltip);
     }
 }
 

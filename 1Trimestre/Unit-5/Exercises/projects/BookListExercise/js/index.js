@@ -1,10 +1,9 @@
-import { BookController } from "./controller/BookController.js";
-
-const controller = new BookController();
+import { instance } from "./controller/BookController.js";
 
 function afterLoad() {
     console.log("initilize");
-    controller.initialize();
+    instance.initialize();
 }
+
 
 window.onload = afterLoad;

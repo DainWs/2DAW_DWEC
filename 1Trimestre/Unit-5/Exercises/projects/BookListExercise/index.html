@@ -2,13 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/index.css"/>
-        <!--
-        <script src="./js/models/Book.js"></script>
-        <script src="./js/domain/BookList.js"></script>
-        <script src="./js/views/BookView.js"></script>
-        <script src="./js/controller/BookController.js"></script>
-        -->
+        <link rel="stylesheet" type="text/css" href="css/index.css?t=5"/>
         <script type="Module" src="./js/index.js"></script>
     </head>
     <body>
@@ -36,6 +30,7 @@
                 Autor: <span id="book-author"></span><br/>
                 <form action="#" method="POST">
                     <input id="finish-book-btn" type="button" value="Leer este libro"/>
+                    <span id="finish-book-btn-tooltip" class="tooltip hidden">No quedan libros para leer.</span>
                 </form>
             </article>
         </section>
@@ -58,7 +53,10 @@
                 <label class="on-book-readed" for="form-book-readdate">Fecha en la que el libro ha sido leido</label><br/>
                 <input class="on-book-readed" id="form-book-readdate" type="date" name="book-readdate" value=""/>
                 <br/>
-                <input id="add-book-btn" type="button" value="A&ntilde;adir libro"/>
+                <div class="relative">
+                    <input id="add-book-btn" type="button" value="A&ntilde;adir libro"/>
+                    <span id="add-book-btn-tooltip" class="tooltip hidden">Para agregar un libro, indique un nombre.</span>
+                </div>
             </form>
         </section>
     </body>
