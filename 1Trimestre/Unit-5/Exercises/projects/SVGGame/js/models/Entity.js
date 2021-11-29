@@ -1,6 +1,8 @@
 
-class Entity {
+class Entity extends Collider {
     constructor() {
+        super();
+
         this.id = "";
         this.x = 0;
         this.y = window.innerHeight;
@@ -17,7 +19,8 @@ class Entity {
 
         this.isGrounded = true;
 
-        this.modelType = "rect";
+        this.lifes = 1;
+
         this.view = null
     }
 
@@ -37,9 +40,6 @@ class Entity {
         } else if (newXPos >= (window.innerWidth - this.width)) {
             newXPos = window.innerWidth - this.width;
         }
-        console.log(newXPos);
-        console.log((window.innerWidth + this.width));
-        console.log(newXPos >= (window.innerWidth + this.width));
 
         if (newYPos >= window.innerHeight) {
             this.currentYForce = 0;
@@ -48,6 +48,50 @@ class Entity {
 
         this.x = newXPos;
         this.y = newYPos;
+    }
+
+    isCollidingWith(collision) {
+        let box = this.getCollisionBox();
+        let otherBox = collision.getCollisionBox();
+        if (
+            (otherBox.getLeft() <= box.getRight()) &&
+            (otherBox.getTop() <= box.getBottom()) &&
+            (otherBox.getRight() >= box.getLeft()) &&
+            (otherBox.getBottom() >= box.getTop())
+        ) {
+            console.log(box);
+            console.log(otherBox);
+            console.log(`left ${(box.getLeft() < otherBox.getRight())}`);
+            console.log(`top ${(box.getTop() < otherBox.getBottom())}`);
+            console.log(`right ${(box.getRight() > otherBox.getLeft())}`);
+            console.log(`bottom ${(box.getBottom() > otherBox.getTop())}`);
+            this.onCollision(collision);
+        }
+    }
+    
+    onCollision(collider) {
+
+    }
+
+    getCollisionBox() {
+        let collisionbox = new CollisionBox();
+        collisionbox.setX(this.x);
+        collisionbox.setY(this.y);
+        collisionbox.setWidth(this.width);
+        collisionbox.setHeight(this.height);
+        return collisionbox;
+    }
+
+    getLifes() {
+        return this.lifes;
+    }
+
+    hurt() {
+        this.lifes--;
+    }
+
+    isAlive() {
+        return (this.lifes > 0);
     }
 
     getId() {
@@ -76,14 +120,6 @@ class Entity {
         return this.isGrounded;
     }
 
-    getModelType() {
-        return this.modelType;
-    }
-
-    getModelColor() {
-        return "yellow";
-    }
-
     getX() {
         return this.x + this.width/2;
     }
@@ -101,9 +137,8 @@ class Entity {
     }
 
     draw() {
-        if (this.view == null) {
-            this.view = new EntityView(this);
+        if (this.isAlive()) {
+            this.view.draw(this);
         }
-        this.view.draw(this);
     }
 }

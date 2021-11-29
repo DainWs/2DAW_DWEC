@@ -1,0 +1,5 @@
+class UIView {
+    updateLifes(lifes) {
+
+    }
+}

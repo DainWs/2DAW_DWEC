@@ -1,6 +1,6 @@
 class EntityView {
-    constructor(entity) {
-        this.element = document.createElementNS("http://www.w3.org/2000/svg", entity.getModelType());
+    constructor(entity, modelType) {
+        this.element = document.createElementNS("http://www.w3.org/2000/svg", modelType);
         
         if (entity.getId().length > 0) {
             this.element.setAttribute("id", entity.getId());
@@ -10,13 +10,7 @@ class EntityView {
         append(this.element);
     }
 
-    draw(entity) {
-        this.element.setAttribute("cx", entity.getX());
-        this.element.setAttribute("cy", entity.getY());
-        this.element.setAttribute("rx", entity.getWidth());
-        this.element.setAttribute("ry", entity.getHeight());
-        this.element.setAttribute("fill", entity.getModelColor());
-    }
+    draw(entity) { }
 }
 
 var svgElement;
@@ -26,6 +20,5 @@ function append(element) {
         svgElement = document.getElementById("game-screen");
     }
 
-    this.svgElement.appendChild(element);
-    console.log("append")
+    svgElement.appendChild(element);
 }

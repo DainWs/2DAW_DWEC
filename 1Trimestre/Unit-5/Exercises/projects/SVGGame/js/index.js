@@ -25,6 +25,7 @@ function initializeKeyboard() {
 }
 
 window.onload = () =>{
+    instance.start();
     initializeKeyboard();
     setInterval(loop, 60);
 };

@@ -1,15 +1,22 @@
 
 class GameController {
     constructor() {
+        this.running = false;
+    }
+
+    start() {
         this.playerEntity = new Player();
         this.entities = [
             new Enemy(100)
         ];
+        this.running = true;
     }
 
     update() {
-        this.updatePlayer();
-        this.updateEntities();
+        if (this.running) {
+            this.updatePlayer();
+            this.updateEntities();
+        }
     }
 
     updatePlayer() {
@@ -38,6 +45,10 @@ class GameController {
     }
 
     updateEntities() {
-
+        this.entities.forEach(entity => {
+            entity.update();
+            entity.draw();
+            entity.isCollidingWith(this.playerEntity);
+        });
     }
 }

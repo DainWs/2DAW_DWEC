@@ -8,8 +8,10 @@ class Player extends Entity {
         this.jumpForce = 80;
         this.isJumping = false;
         this.isCrouched = false;
+        
+        this.lifes = 3;
 
-        this.modelType = "ellipse";
+        this.view = new PlayerView(this);
     }
 
     jump() {
@@ -26,6 +28,11 @@ class Player extends Entity {
 
     rise() {
         this.isCrouched = false;
+    }
+
+    hurt() {
+        super.hurt();
+        this.view.changeColorForMilis("red", 1000);
     }
 
     setGrounded(isGrounded) {
