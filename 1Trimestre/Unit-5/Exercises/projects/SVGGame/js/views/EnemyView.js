@@ -2,7 +2,7 @@ class EnemyView extends EntityView {
     constructor(entity) {
         super(entity, "rect");
 
-        this.element.setAttribute("fill", "yellow");
+        this.element.setAttribute("fill", "red");
     }
 
     draw(entity) {

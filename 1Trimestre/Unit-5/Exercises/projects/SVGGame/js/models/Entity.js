@@ -59,12 +59,6 @@ class Entity extends Collider {
             (otherBox.getRight() >= box.getLeft()) &&
             (otherBox.getBottom() >= box.getTop())
         ) {
-            console.log(box);
-            console.log(otherBox);
-            console.log(`left ${(box.getLeft() < otherBox.getRight())}`);
-            console.log(`top ${(box.getTop() < otherBox.getBottom())}`);
-            console.log(`right ${(box.getRight() > otherBox.getLeft())}`);
-            console.log(`bottom ${(box.getBottom() > otherBox.getTop())}`);
             this.onCollision(collision);
         }
     }
@@ -98,12 +92,19 @@ class Entity extends Collider {
         return this.id;
     }
 
+    applyForce(xForce = 0, yForce = 0) {
+        this.currentXForce = xForce;
+        this.currentYForce = yForce;
+    }
+
     setDirection(xDirection) {
         let result = 0;
         if (xDirection < 0) {
             result = -1;
         } else if (xDirection > 0) {
             result = 1;
+        } else {
+            result = 0;
         }
         this.direction = result;
     }
@@ -139,6 +140,8 @@ class Entity extends Collider {
     draw() {
         if (this.isAlive()) {
             this.view.draw(this);
+        } else {
+            this.view.undraw(this);
         }
     }
 }

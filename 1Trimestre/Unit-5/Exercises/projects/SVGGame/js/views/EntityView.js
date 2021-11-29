@@ -7,7 +7,11 @@ class EntityView {
         }
 
         this.draw(entity);
-        append(this.element);
+        attach(this.element);
+    }
+
+    undraw(entity) {
+        deattach(this.element);
     }
 
     draw(entity) { }
@@ -15,10 +19,18 @@ class EntityView {
 
 var svgElement;
 
-function append(element) {
+function attach(element) {
     if (svgElement == null) {
         svgElement = document.getElementById("game-screen");
     }
 
     svgElement.appendChild(element);
+}
+
+function deattach(element) {
+    if (svgElement == null) {
+        svgElement = document.getElementById("game-screen");
+    }
+
+    svgElement.removeChild(element);
 }

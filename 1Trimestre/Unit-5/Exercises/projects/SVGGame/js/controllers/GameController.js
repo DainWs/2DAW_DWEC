@@ -2,12 +2,16 @@
 class GameController {
     constructor() {
         this.running = false;
+        this.enemyCountdown = 10;
+        this.enemySpawnCooldown = 0;
+        this.maxEnemies = 20;
+        this.enemyFactory = new EnemyFactory();
     }
 
     start() {
         this.playerEntity = new Player();
         this.entities = [
-            new Enemy(100)
+            this.enemyFactory.getEnemy()
         ];
         this.running = true;
     }
@@ -16,6 +20,11 @@ class GameController {
         if (this.running) {
             this.updatePlayer();
             this.updateEntities();
+        }
+        
+        if (this.enemySpawnCooldown++ >= this.enemyCountdown && this.entities.length < this.maxEnemies) {
+            this.enemySpawnCooldown = 0;
+            this.entities.push(this.enemyFactory.getEnemy());
         }
     }
 
@@ -50,5 +59,7 @@ class GameController {
             entity.draw();
             entity.isCollidingWith(this.playerEntity);
         });
+
+        this.entities = this.entities.filter(e => e.isAlive());
     }
 }
