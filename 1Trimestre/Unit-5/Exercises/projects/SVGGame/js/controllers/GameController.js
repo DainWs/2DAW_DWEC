@@ -1,32 +1,43 @@
 
 class GameController {
-    playerEntity;
     constructor() {
         this.playerEntity = new Player();
-        this.view = new PlayerView();
-        this.initialize();
+        this.entities = [
+            new Enemy(100)
+        ];
     }
 
-    initialize() {
-        this.playerEntity.initialize();
+    update() {
+        this.updatePlayer();
+        this.updateEntities();
     }
 
-    update(e) {
-        let keyDown = e.key;
-        switch (keyDown) {
-            case "a":
-                console.log(instance.playerEntity);
-                instance.playerEntity.update(-1);
-                break;
-            case "d":
-                instance.playerEntity.update(1);
-                break;
-            case "w":
-                instance.playerEntity.jump();
-                instance.playerEntity.update(0);
-                break;
+    updatePlayer() {
+        let direction = 0;
+        if (keypressed['a']) {
+            direction = -1;
+        }
+        else if (keypressed['d']) {
+            direction = 1;
+        }
+        
+        this.playerEntity.setDirection(direction);
+
+        if(keypressed['w']) {
+            this.playerEntity.jump();
         }
 
-        instance.view.drawPlayer(instance.playerEntity);
+        if(keypressed['s']) {
+            this.playerEntity.crouch();
+        } else {
+            this.playerEntity.rise();
+        }
+
+        this.playerEntity.update();
+        this.playerEntity.draw();
+    }
+
+    updateEntities() {
+
     }
 }

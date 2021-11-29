@@ -1,58 +1,47 @@
-class Player {
+class Player extends Entity {
 
     constructor() {
-        this.x = 0;
-        this.y = 0;
+        super();
+
+        this.id = "player";
+
+        this.jumpForce = 80;
         this.isJumping = false;
-        this.jumpForce = 40;
-        this.currentYForce = 0;
-        this.gravity = 10;
-        this.speed = 20;
-        this.width = 80;
-        this.height = 80;
-    }
+        this.isCrouched = false;
 
-    initialize() {
-        this.x = this.width/2;
-        this.y = window.innerHeight - (this.height/2);
-    }
-
-    update(xDirection) {
-        let newXPos = (xDirection * this.speed) + this.x;
-        if (newXPos < 0) {
-            newXPos = 0;
-        }
-        else if (newXPos > window.innerWidth) {
-            newXPos = window.innerWidth;
-        }
-
-        let newYPos = this.y;
-        if (this.isJumping) {
-            this.currentYForce -= this.gravity
-            newYPos -= this.currentYForce;
-
-            if (newYPos >= window.innerHeight - (this.height/2)) {
-                this.isJumping = false;
-                this.currentYForce = 0;
-            }
-        }
-
-        this.x = newXPos;
-        this.y = newYPos;
+        this.modelType = "ellipse";
     }
 
     jump() {
-        if (!this.isJumping) {
+        if (!this.isJumping && this.isGrounded) {
             this.isJumping = true;
+            this.isGrounded = false;
             this.currentYForce = this.jumpForce;
         }
     }
 
-    getX() {
-        return this.x;
+    crouch() {
+        this.isCrouched = true;
+    }
+
+    rise() {
+        this.isCrouched = false;
+    }
+
+    setGrounded(isGrounded) {
+        super.setGrounded(isGrounded);
+        this.isJumping = false;
     }
 
     getY() {
-        return this.y;
+        return (this.isCrouched) 
+            ? this.y - this.height/4 
+            : this.y - this.height/2;
+    }
+
+    getHeight() {
+        return (this.isCrouched) 
+            ? this.height/4 
+            : this.height/2;
     }
 }
