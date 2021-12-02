@@ -1,3 +1,6 @@
+import { PlayerView } from "../views/PlayerView.js";
+import { Entity } from "./Entity.js";
+
 class Player extends Entity {
 
     constructor() {
@@ -63,3 +66,5 @@ class Player extends Entity {
             : this.height;
     }
 }
+
+export { Player };

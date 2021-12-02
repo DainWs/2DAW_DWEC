@@ -1,3 +1,13 @@
+import { CookieFactory } from "../factories/CookieFactory.js";
+import { EnemyFactory } from "../factories/EnemyFactory.js";
+import { Player } from "../models/Player.js";
+import { UIView } from "../views/UIView.js";
+
+const keypressed = [];
+keypressed['a'] = false;
+keypressed['d'] = false;
+keypressed['w'] = false;
+keypressed['s'] = false;
 
 class GameController {
     constructor() {
@@ -36,6 +46,10 @@ class GameController {
             }
     
             this.uiView.updateLifes(this.playerEntity.getLifes());
+
+            let timeDiff = Date.now() - this.timer;
+            let score = Math.trunc(timeDiff/100);
+            this.uiView.updateScore(score);
 
             if (!this.playerEntity.isAlive()) {
                 this.running = false;
@@ -98,3 +112,5 @@ class GameController {
         }
     }
 }
+
+export { GameController, keypressed };

@@ -1,3 +1,5 @@
+import { EntityView } from "./EntityView.js";
+
 class PlayerView extends EntityView {
     constructor(entity) {
         super(entity, "ellipse");
@@ -29,3 +31,6 @@ class PlayerView extends EntityView {
         this.element.setAttribute("ry", entity.getHeight()/2);
     }
 }
+
+
+export { PlayerView };

@@ -13,9 +13,26 @@ html, body, svg {
     top: 0;
     left: 0;
 }
+
 #ui #lifes img.heart {
     width: 50px;
     height: 50px;
+}
+
+#ui #score {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    min-width: 10%;
+
+    border-radius: 0 0 0 15px;
+    padding: 16px;
+    background-color: #2a2a2a;
+
+    text-align: end;
+    color: white;
+    font-size: 16pt;
 }
 
 #ui #modal-dialog {

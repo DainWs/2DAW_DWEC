@@ -17,3 +17,5 @@ class CookieFactory {
         document.cookie = customCookie;
     }
 }
+
+export { CookieFactory };

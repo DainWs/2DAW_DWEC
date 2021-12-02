@@ -34,3 +34,5 @@ function deattach(element) {
 
     svgElement.removeChild(element);
 }
+
+export { EntityView };

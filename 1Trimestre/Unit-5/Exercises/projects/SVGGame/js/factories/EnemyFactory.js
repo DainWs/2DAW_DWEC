@@ -1,3 +1,5 @@
+import { Enemy } from "../models/Enemy.js";
+
 class EnemyFactory {
     constructor() {
         this.progresiveDificultCooldown = 0;
@@ -50,3 +52,5 @@ class EnemyFactory {
         return entity;
     }
 }
+
+export { EnemyFactory };

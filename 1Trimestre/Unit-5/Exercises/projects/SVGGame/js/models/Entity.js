@@ -1,8 +1,6 @@
 
-class Entity extends Collider {
+class Entity {
     constructor() {
-        super();
-
         this.id = "";
         this.x = 0;
         this.y = window.innerHeight;
@@ -147,3 +145,5 @@ class Entity extends Collider {
         }
     }
 }
+
+export { Entity };

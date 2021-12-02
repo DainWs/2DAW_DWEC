@@ -19,6 +19,11 @@ class UIView {
         }
     }
 
+    updateScore(score) {
+        let scoreUI = document.getElementById('score');
+        scoreUI.innerText = score;
+    }
+
     showEnd(time, score, highScore, lifes = 0) {
         let dialogUI = document.getElementById('modal-dialog');
         
@@ -39,8 +44,10 @@ class UIView {
         timeSurvivedDiv.innerText = `Time survived: ${time}`;
         sectionOne.appendChild(timeSurvivedDiv);
 
+        let isHighScore = score > highScore;
+
         let scoreDiv = document.createElement("div");
-        scoreDiv.innerText = `Score: ${score}`;
+        scoreDiv.innerText = `Score: ${score} ${(isHighScore)? 'NEW HIGH SCORE' : ''}`;
         sectionOne.appendChild(scoreDiv);
 
         dialogUI.appendChild(sectionOne);
@@ -51,7 +58,7 @@ class UIView {
         sectionTwo.setAttribute("class", "end-content");
 
         let highScoreDiv = document.createElement("div");
-        highScoreDiv.innerText = `High score: ${highScore}`;
+        highScoreDiv.innerText = `High score: ${(isHighScore)? score : highScore}`;
         sectionTwo.appendChild(highScoreDiv);
         
         dialogUI.appendChild(sectionTwo);
@@ -67,3 +74,5 @@ class UIView {
         dialogUI.setAttribute("class", "visible");
     }
 }
+
+export { UIView };
