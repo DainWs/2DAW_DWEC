@@ -9,6 +9,10 @@ keypressed['s'] = false;
 
 function loop() {
     instance.update();
+
+    if (instance.isRunning()) {
+        window.requestAnimationFrame(loop);
+    }
 }
 
 function onKeyDown(e) {
@@ -27,5 +31,5 @@ function initializeKeyboard() {
 window.onload = () =>{
     instance.start();
     initializeKeyboard();
-    setInterval(loop, 60);
+    window.requestAnimationFrame(loop);
 };

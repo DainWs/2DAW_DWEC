@@ -1,5 +1,16 @@
 class EnemyFactory {
+    constructor() {
+        this.progresiveDificultCooldown = 0;
+        this.progresiveDificult = 1;
+
+    }
+
     getEnemy() {
+
+        if (this.progresiveDificultCooldown++ >= 5 && this.progresiveDificult <= 10 ) {
+            this.progresiveDificultCooldown = 0;
+            this.progresiveDificult += 1;
+        }
 
         let entity = null;
         /**
@@ -13,28 +24,28 @@ class EnemyFactory {
         let maxY = window.innerHeight;
         let x = 0;
         let y = 0;
-        
-        switch(position) {
-            case 1:
-                x = -100;
-                y = (maxY-30) - Math.trunc(Math.random() * 300);
-                entity = new Enemy(x, y);
-                entity.setDirection(1);
-                break;
-            case 2:
-                x = Math.trunc(Math.random() * maxX);
-                y = -100;
-                entity = new Enemy(x, y);
-                entity.setDirection(0);
-                entity.applyForce(0, -100);
-                break;
-            case 3:
-                x = maxX + 100;
-                y = (maxY-30) - Math.trunc(Math.random() * 300);
-                entity = new Enemy(x, y);
-                entity.setDirection(-1);
-                break;
+
+        if (position == 3 && this.progresiveDificult >= 5) {
+            x = maxX + 100;
+            y = (maxY-30) - Math.trunc(Math.random() * 300);
+            entity = new Enemy(x, y);
+            entity.setDirection(-1);
         }
+        else if (position == 2 && this.progresiveDificult > 2) {
+            x = Math.trunc(Math.random() * maxX);
+            y = -100;
+            entity = new Enemy(x, y);
+            entity.setDirection(0);
+            entity.applyForce(0, -(5 + this.progresiveDificult));
+        }
+        else {
+            x = -100;
+            y = (maxY-30) - Math.trunc(Math.random() * 300);
+            entity = new Enemy(x, y);
+            entity.setDirection(1);
+        }
+
+        entity.setSpeed(5 + this.progresiveDificult);
 
         return entity;
     }
