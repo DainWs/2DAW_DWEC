@@ -8,16 +8,16 @@ class EnemyFactory {
          * 3 = from Right to Left
          */
         let position = Math.trunc((Math.random() * 3) + 1);
-        
+
         let maxX = window.innerWidth;
         let maxY = window.innerHeight;
         let x = 0;
         let y = 0;
-
+        
         switch(position) {
             case 1:
                 x = -100;
-                y = Math.trunc(Math.random() * maxY);
+                y = (maxY-30) - Math.trunc(Math.random() * 300);
                 entity = new Enemy(x, y);
                 entity.setDirection(1);
                 break;
@@ -30,11 +30,12 @@ class EnemyFactory {
                 break;
             case 3:
                 x = maxX + 100;
-                y = Math.trunc(Math.random() * maxY);
+                y = (maxY-30) - Math.trunc(Math.random() * 300);
                 entity = new Enemy(x, y);
                 entity.setDirection(-1);
                 break;
         }
+
         return entity;
     }
 }

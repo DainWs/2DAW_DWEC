@@ -4,12 +4,6 @@ class CollisionBox {
         this.y = 0;
         this.width = 0;
         this.height = 0;
-
-        this.sides = [];
-        this.sides["left"] = false;
-        this.sides["top"] = false;
-        this.sides["right"] = false;
-        this.sides["bottom"] = false;
     }
 
     setX(x) {

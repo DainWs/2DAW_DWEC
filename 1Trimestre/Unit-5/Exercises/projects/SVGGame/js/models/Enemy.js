@@ -47,20 +47,4 @@ class Enemy extends Entity {
             this.draw();
         }
     }
-
-    getX() {
-        return this.x;
-    }
-
-    getY() {
-        return this.y - this.height;
-    }
-
-    getWidth() {
-        return this.width;
-    }
-
-    getHeight() {
-        return this.height;
-    }
 }

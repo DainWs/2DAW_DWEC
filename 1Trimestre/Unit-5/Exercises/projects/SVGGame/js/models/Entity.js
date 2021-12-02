@@ -53,11 +53,22 @@ class Entity extends Collider {
     isCollidingWith(collision) {
         let box = this.getCollisionBox();
         let otherBox = collision.getCollisionBox();
+        console.log("------------------");
+        console.log(this.getX() + " " + collision.getX());
+        console.log(this.getWidth() + " " + collision.getWidth());
+        console.log(this.getY() + " " + collision.getY());
+        console.log(this.getHeight() + " " + collision.getHeight());
+        console.log("------------------");
+        console.log(this.getX() < (collision.getX() + collision.getWidth()));
+        console.log((this.getX() + this.getWidth()) > collision.getX());
+        console.log(this.getY() < (collision.getY() + collision.getHeight()));
+        console.log((this.getY() + this.getHeight()) > collision.getY());
+        console.log("------------------");
         if (
-            (otherBox.getLeft() <= box.getRight()) &&
-            (otherBox.getTop() <= box.getBottom()) &&
-            (otherBox.getRight() >= box.getLeft()) &&
-            (otherBox.getBottom() >= box.getTop())
+            (this.getX() < (collision.getX() + collision.getWidth())) &&
+            ((this.getX() + this.getWidth()) > collision.getX()) &&
+            (this.getY() < (collision.getY() + collision.getHeight())) &&
+            ((this.getY() + this.getHeight()) > collision.getY())
         ) {
             this.onCollision(collision);
         }
@@ -122,19 +133,19 @@ class Entity extends Collider {
     }
 
     getX() {
-        return this.x + this.width/2;
+        return this.x;
     }
 
     getY() {
-        return this.y - this.height/2;
+        return this.y;
     }
 
     getWidth() {
-        return this.width/2;
+        return this.width;
     }
 
     getHeight() {
-        return this.height/2;
+        return this.height;
     }
 
     draw() {

@@ -42,13 +42,13 @@ class Player extends Entity {
 
     getY() {
         return (this.isCrouched) 
-            ? this.y - this.height/4 
-            : this.y - this.height/2;
+            ? this.y - this.height/2 
+            : this.y - this.height;
     }
 
     getHeight() {
         return (this.isCrouched) 
-            ? this.height/4 
-            : this.height/2;
+            ? this.height/2 
+            : this.height;
     }
 }

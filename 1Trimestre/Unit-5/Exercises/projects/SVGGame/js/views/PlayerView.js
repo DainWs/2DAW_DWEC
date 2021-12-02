@@ -14,9 +14,9 @@ class PlayerView extends EntityView {
     }
 
     draw(entity) {
-        this.element.setAttribute("cx", entity.getX());
-        this.element.setAttribute("cy", entity.getY());
-        this.element.setAttribute("rx", entity.getWidth());
-        this.element.setAttribute("ry", entity.getHeight());
+        this.element.setAttribute("cx", entity.getX() + (entity.getWidth()/2));
+        this.element.setAttribute("cy", entity.getY() + (entity.getHeight()/2));
+        this.element.setAttribute("rx", entity.getWidth()/2);
+        this.element.setAttribute("ry", entity.getHeight()/2);
     }
 }
