@@ -6,6 +6,7 @@ class GameController {
         this.enemySpawnCooldown = 0;
         this.maxEnemies = 20;
         this.enemyFactory = new EnemyFactory();
+        this.uiView = new UIView();
     }
 
     start() {
@@ -14,6 +15,7 @@ class GameController {
             this.enemyFactory.getEnemy()
         ];
         this.running = true;
+        this.uiView.updateLifes(this.playerEntity.getLifes());
     }
 
     update() {
