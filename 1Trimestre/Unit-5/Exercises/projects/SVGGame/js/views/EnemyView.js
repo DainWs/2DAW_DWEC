@@ -1,3 +1,5 @@
+import { EntityView } from "./EntityView.js";
+
 class EnemyView extends EntityView {
     constructor(entity) {
         super(entity, "rect");
@@ -12,3 +14,5 @@ class EnemyView extends EntityView {
         this.element.setAttribute("height", entity.getHeight());
     }
 }
+
+export { EnemyView };

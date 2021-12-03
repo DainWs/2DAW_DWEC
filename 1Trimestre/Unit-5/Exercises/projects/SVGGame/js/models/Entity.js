@@ -1,21 +1,19 @@
 
-class Entity extends Collider {
+class Entity {
     constructor() {
-        super();
-
         this.id = "";
         this.x = 0;
         this.y = window.innerHeight;
         
         this.direction = 0;
-        this.speed = 20;
+        this.speed = 10;
         
         this.width = 80;
         this.height = 80;
 
         this.currentXForce = 0;
         this.currentYForce = 0;
-        this.gravity = 10;
+        this.gravity = 5;
 
         this.isGrounded = true;
 
@@ -51,19 +49,6 @@ class Entity extends Collider {
     }
 
     isCollidingWith(collision) {
-        let box = this.getCollisionBox();
-        let otherBox = collision.getCollisionBox();
-        console.log("------------------");
-        console.log(this.getX() + " " + collision.getX());
-        console.log(this.getWidth() + " " + collision.getWidth());
-        console.log(this.getY() + " " + collision.getY());
-        console.log(this.getHeight() + " " + collision.getHeight());
-        console.log("------------------");
-        console.log(this.getX() < (collision.getX() + collision.getWidth()));
-        console.log((this.getX() + this.getWidth()) > collision.getX());
-        console.log(this.getY() < (collision.getY() + collision.getHeight()));
-        console.log((this.getY() + this.getHeight()) > collision.getY());
-        console.log("------------------");
         if (
             (this.getX() < (collision.getX() + collision.getWidth())) &&
             ((this.getX() + this.getWidth()) > collision.getX()) &&
@@ -106,6 +91,10 @@ class Entity extends Collider {
     applyForce(xForce = 0, yForce = 0) {
         this.currentXForce = xForce;
         this.currentYForce = yForce;
+    }
+
+    setSpeed(speed) {
+        this.speed = speed;
     }
 
     setDirection(xDirection) {
@@ -156,3 +145,5 @@ class Entity extends Collider {
         }
     }
 }
+
+export { Entity };

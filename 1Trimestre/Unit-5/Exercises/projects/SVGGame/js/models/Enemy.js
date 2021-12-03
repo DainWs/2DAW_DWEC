@@ -1,3 +1,6 @@
+import { EnemyView } from "../views/EnemyView.js";
+import { Entity } from "./Entity.js";
+import { Player } from "./Player.js";
 
 class Enemy extends Entity {
     constructor (x = 0, y = window.innerHeight) {
@@ -48,3 +51,5 @@ class Enemy extends Entity {
         }
     }
 }
+
+export { Enemy };
