@@ -1,15 +1,22 @@
+import { Gato } from "./models/Gato.js";
+
+const gatos = [];
+
 function plus(e) {
-    let counter = document.getElementById('counter');
-    let countNum = counter.countNum;
-    countNum++;
-    counter.countNum = countNum;
-    counter.innerText = `${countNum} times`;
+    let gato = gatos[e.target.getAttribute('id')];
+    gato.incrementCount();
+    document.getElementById(`counter-${gato.getID()}`).innerText = `${gato.getCount()} times`;
 }
 
 window.onload = () =>{
-    let counter = document.getElementById('counter');
-    counter.countNum = 0;
-    counter.innerText = `0 times`;
+    let images = document.getElementsByTagName('img');
 
-    document.getElementById('image').onclick = plus;
+    Array.from(images).forEach((v) => {
+        v.onclick = plus;
+
+        let i = v.getAttribute('id');
+        let newGato = new Gato(i, v.getAttribute('src'));
+        document.getElementById(`counter-${i}`).innerText = `${newGato.getCount()} times`;
+        gatos[i] = newGato;
+    });
 };
