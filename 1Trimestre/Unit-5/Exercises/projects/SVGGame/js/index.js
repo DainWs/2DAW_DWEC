@@ -23,7 +23,7 @@ function initializeKeyboard() {
     window.onkeyup = onKeyUp;
 }
 
-window.onload = () =>{
+window.onload = () => {
     instance.start();
     initializeKeyboard();
     window.requestAnimationFrame(loop);

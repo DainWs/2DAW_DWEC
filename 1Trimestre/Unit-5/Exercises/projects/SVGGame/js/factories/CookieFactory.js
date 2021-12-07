@@ -1,6 +1,6 @@
 class CookieFactory {
     get(cookieName, defaultValue = '') {
-        let pattern = new RegExp(`${cookieName}\s*=([^,$]+)`);
+        let pattern = new RegExp(`${cookieName}\s*=([^,;$]+)`);
         let matches = document.cookie.match(pattern);
         let result = defaultValue;
         if (matches != null && matches.length > 1) {
