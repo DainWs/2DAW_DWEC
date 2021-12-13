@@ -1,12 +1,13 @@
-import { BookList } from "../domain/BookList.js";
 import { Book } from "../models/Book.js";
+import { LocalStorage } from "../services/LocalStorage.js";
 import { BookView } from "../views/BookView.js";
 
 class BookController {
     constructor() {}
 
     initialize() {
-        this.booklist = new BookList();
+        this.storage = new LocalStorage();
+        this.booklist = this.storage.get();
         this.view = new BookView();
 
         let addBtn = this.view.getAddBookButton();
@@ -35,8 +36,7 @@ class BookController {
                 this.view.addNotReadedBook(book);
             this.update();
 
-            let bookJson = JSON.stringify(book);
-            window.localStorage.setItem(book.getId(), bookJson);
+            this.storage.saveBookList(this.booklist);
         }
         else {
             this.view.showTooltipOf(event.target, this.errorMessage);
