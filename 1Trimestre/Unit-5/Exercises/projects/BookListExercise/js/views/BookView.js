@@ -67,9 +67,12 @@ class BookView {
         return document.getElementById("form-book-readdate").value;
     }
 
-    showTooltipOf(target) {
+    showTooltipOf(target, message = "") {
         let tooltip = document.getElementById(`${target.id}-tooltip`);
         tooltip.setAttribute("class", "tooltip visible");
+        if (message.length >= 0) {
+            tooltip.innerText = message;
+        }
         setTimeout((tooltipObj) => tooltipObj.setAttribute("class", "tooltip hidden"), 2000, tooltip);
     }
 }

@@ -1,0 +1,7 @@
+{
+    "readingList": [
+        {"id": 0, "title":"Esto es un titulo", "isReaded":true, "readDate": 23234325235235},
+        {"id": 1, "title":"Los 3 cerditos", "isReaded":false},
+        {"id": 2, "title":"Caperucita Roja", "isReaded":false}
+    ]
+}

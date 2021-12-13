@@ -17,32 +17,41 @@ class BookController {
 
     addBook(event) {
         let book = new Book();
-        console.log(this);
         book.setTitle(this.view.getFormBookTitle());
         book.setGenre(this.view.getFormBookGenre());
         book.setAuthor(this.view.getFormBookAuthor());
         let isReaded = this.view.getFormBookIsReaded();
         book.setReaded(isReaded);
         if (isReaded) {
-            console.log(this.view.getFormBookReadDate());
             book.setReadDate(this.view.getFormBookReadDate());
         }
-        this.booklist.add(book);
+
         if (this.validateBook(book)) {
+            this.booklist.add(book);
+        
             if (book.isReaded()) 
                 this.view.addReadedBook(book);
             else 
                 this.view.addNotReadedBook(book);
             this.update();
+
+            let bookJson = JSON.stringify(book);
+            window.localStorage.setItem(book.getId(), bookJson);
         }
         else {
-            this.view.showTooltipOf(event.target);
+            this.view.showTooltipOf(event.target, this.errorMessage);
         }
     }
 
     validateBook(book) {
         let isValid = true;
         if(book.getTitle() == "") {
+            this.errorMessage = "Para agregar un libro, indique un nombre.";
+            isValid = false;
+        }
+
+        if (this.booklist.indexOf(book) > -1) {
+            this.errorMessage = "Este libro ya existe.";
             isValid = false;
         }
         return isValid;

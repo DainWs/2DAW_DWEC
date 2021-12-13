@@ -27,7 +27,19 @@ class BookList {
     }
 
     add(book) {
-        this.books.push(book);
+        let bookIndex = this.books.push(book);
+        book.setId(bookIndex - 1);
+    }
+
+    indexOf(book) {
+        let result = -1;
+        let i = -1;
+        while (result == -1 && ++i < this.books.length) {
+            if (this.books[i].equals(book)) {
+                result = i;
+            }
+        }
+        return result;
     }
 
     getCurrentBook() {

@@ -1,10 +1,19 @@
 class Book {
     constructor() {
+        this.id = 0;
         this.title = '';
         this.genre = '';
         this.author = '';
         this.read = false;
         this.readDate = null;
+    }
+
+    setId(newId) {
+        this.id = newId;
+    }
+
+    getId() {
+        return this.id;
     }
 
     setTitle(title) {
@@ -52,6 +61,11 @@ class Book {
             this.read = true;
             this.readDate = new Date(Date.now);
         }
+    }
+
+    equals(otherBook) {
+        return (this.id == otherBook.id) ||
+            (this.title == otherBook.title);
     }
 }
 
