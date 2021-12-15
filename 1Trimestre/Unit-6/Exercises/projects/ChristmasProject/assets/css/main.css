@@ -1,0 +1,28 @@
+#characters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+}
+
+.character-div {
+    
+}
+
+.character-div figure,
+.character-div figure img {
+    margin: 0;
+    height: 100px;
+}
+
+.character-div figure {
+    position: relative;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+}
+
+.character-div figure img {
+    position: relative;
+    left: calc(50% - 75px);
+}
