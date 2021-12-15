@@ -1,5 +1,8 @@
-# Ajax
-## basic example
+# Unit 6
+----------------------
+
+## Ajax
+### basic example
 **JS:**
 ```js
 let xhttp = new XMLHttpRequest();
@@ -37,7 +40,7 @@ echo "Hello World!!";
     </body>
 </html>
 
-## JSON example
+### JSON example
 **JS:**
 ```js
 let xhttp = new XMLHttpRequest();
@@ -80,5 +83,45 @@ echo json_encode($response);
 <html lang="es">
     <body id="body">
         Hello World
+    </body>
+</html>
+
+----------------------
+
+## Requests
+### Example
+**JS:**
+```js
+let file = new Request("https://avatars.githubusercontent.com/u/59877930");
+fetch(file).then(r => {
+    let image = document.createElement("img");
+    image.setAttribute("src", r.url);
+    document.getElementById('content').appendChild(image);
+});
+```
+
+**Result previsualization:**
+```html
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <script type="module" src="js/index.js"></script>
+    </head>
+    <body id="content">
+        <img src="https://avatars.githubusercontent.com/u/59877930"/>
+    </body>
+</html>
+```
+
+**Result:**
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <script type="module" src="js/index.js"></script>
+    </head>
+    <body id="content">
+        <img src="https://avatars.githubusercontent.com/u/59877930"/>
     </body>
 </html>
