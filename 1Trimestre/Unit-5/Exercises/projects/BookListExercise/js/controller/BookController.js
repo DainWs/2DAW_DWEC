@@ -10,6 +10,14 @@ class BookController {
         this.booklist = this.storage.get();
         this.view = new BookView();
 
+        this.booklist.books.forEach(book => {
+            if (book.isReaded()) 
+                this.view.addReadedBook(book);
+            else 
+                this.view.addNotReadedBook(book);
+        });
+        this.update();
+
         let addBtn = this.view.getAddBookButton();
         addBtn.onclick = ((e) => instance.addBook(e));
         let finishBtn = this.view.getFinishBookButton();
