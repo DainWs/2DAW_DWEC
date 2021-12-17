@@ -20,6 +20,8 @@
     overflow: hidden;
     width: 100px;
     height: 100px;
+    background-position:center;
+    background-size: 100px;
 }
 
 .character-div figure img {

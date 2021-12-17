@@ -9,7 +9,7 @@ function load() {
         characterDiv.setAttribute("id", character._id);
 
         let characterFigure = document.createElement('figure');
-        characterFigure.style.cssText = `background-image:url('${character.imageUrl}'); width:100px; height:100px; background-position:center;`
+        characterFigure.style.backgroundImage = `url('${character.imageUrl}')`;
         let characterImage = document.createElement('img');
         characterFigure.appendChild(characterImage);
         characterDiv.appendChild(characterFigure);
