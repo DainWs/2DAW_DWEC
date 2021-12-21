@@ -224,7 +224,7 @@ window.onload = (e) => {
     document.getElementById("animation").onclick = animation;    
 
     //Ejercicio 4
-    google.charts.load('current', {'packages':['bar']});
+    google.charts.load('current', {'packages':['barchart']});
     google.charts.setOnLoadCallback(draw);
 
     function draw() {
@@ -242,7 +242,7 @@ window.onload = (e) => {
         colors: ['pink', 'gray', 'blue', 'yellow'],
         opacity: [0.8, 0.5, 0.2, 1],
         backgroundColor: 'green'
-        };
+    };
 
     var chart = new google.charts.Bar(document.getElementById('charts'));
     chart.draw(data, options);

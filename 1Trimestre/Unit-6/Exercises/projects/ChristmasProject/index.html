@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">        
         <link rel="stylesheet" type="text/css" href="assets/css/header.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css?t=1s"/>
         <script src="assets/js/index.js"></script>
         <title>Christmas Project</title>
     </head>
@@ -15,7 +15,34 @@
 
         </main>
         <footer>
-
+            <button id="show-more-button">Mostrar mas</button>
         </footer>
     </body>
+    <div id="modal-dialog">
+        <span id="modal-close">&times;</span>
+        <div class="modal-content">
+            <header>
+                <h1><span id="character-name"></span></h1>
+            </header>
+            <hr/>
+            <figure class="character-figure">
+                <img id="character-image" src="" alt="">
+            </figure>
+            <!--
+            <div>
+                <p><strong>ID: </strong><span id="character-id"></span></p>
+                <p><strong>Creation date: </strong><span id="character-date"></span></p>
+            </div>
+            -->
+            <hr/>
+            <div id="detail-list">
+
+            </div>
+            <hr/>
+            <div>
+                <p><i><strong>Para m&aacute;s informaci&oacute;n, vease el </strong></i><a id="character-fandom">Fandom (wiki)</a></p>
+            </div>
+        </div>
+        
+    </div>
 </html>

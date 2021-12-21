@@ -1,0 +1,5 @@
+class HomeView {
+
+}
+
+export { HomeView };
