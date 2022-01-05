@@ -17,7 +17,7 @@ El diseño es libre, lo anteriores son sólo ideas, pero éste ya se valora. Por
 
 ## IMPORTANTE:
 - [X] La web se carga una sóla vez al inicio, y a partir de ahí todo se hace mediante peticiones AJAX.
-- [ ] El proyecto debe ponerse en producción (subido a un servidor).
+- [X] El proyecto debe ponerse en producción (subido a un servidor).
 - [ ] Para la entrega debéis enviarme un correo a jpineroberbel@gmail.com indicandome la URL del repositorio GIthub que lo alberga. En el README de dicho repositorio estará la URL en producción.
 
 Por supuesto, si tenéis dudas podéis escribirme al correo.
