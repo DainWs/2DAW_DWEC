@@ -1,7 +1,7 @@
 function loadFrame(e) {
     let iframe = document.getElementById('iframe');
     let folder = e.target.id;
-    iframe.setAttribute('src', `${folder}/index.html`);
+    iframe.setAttribute('src', `${window.location.href}${folder}/index.html`);
 }
 
 window.onload = () => {
