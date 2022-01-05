@@ -2,7 +2,9 @@ import { formatImageUrl } from '../utils/ViewUtils.js';
 
 class ModalView {
     constructor() {
-        
+        document.getElementById('modal-close').onclick = function() {
+            document.getElementById('modal-dialog').style.display = "none";
+        }
     }
 
     setImage(image) {
@@ -20,39 +22,20 @@ class ModalView {
         fandomLink.setAttribute('href', link);
     }
 
-    setDetails(films) {
-        if (Array.from(character.shortFilms).length > 0) {
-            let detailList = document.getElementById('detail-list');
-            let details = makeDetailsWithSummary('Peliculas cortas');
-            let ul = document.createElement('ul');
-            ul.innerHTML = "";
-            Array.from(character.shortFilms).forEach((name) => {
-                let li = document.createElement('li');
-    
-                let link = document.createElement('a');
-                link.setAttribute('href', `https://www.google.es/search?q=${formatTextToURL(name)}`)
-                link.innerText = name;
-    
-                li.appendChild(link);
-                ul.appendChild(li);
-            });
-            details.appendChild(ul);
-            detailList.appendChild(details);
-        } 
-    }
-
-    showCharacterInfo(character) {
-    
+    resetDetails() {
         let detailList = document.getElementById('detail-list');
         detailList.innerHTML = "";
-    
-        tryMakeFilmsDetails(character);
-        tryMakeShortFilmsDetails(character);
-        tryMakeTVShowsDetails(character);
-        tryMakeVideoGamesDetails(character);
-        tryMakeAliesDetails(character);
-        tryMakeEnemiesDetails(character);
-    
+    }
+
+    addDetails(detailElement) {
+        if (detailElement != null) {
+            console.log(detailElement);
+            let detailList = document.getElementById('detail-list');
+            detailList.appendChild(detailElement);
+        }
+    }
+
+    showCharacterInfo() {
         let modalDialog = document.getElementById('modal-dialog');
         modalDialog.style.display = "block";
     }
