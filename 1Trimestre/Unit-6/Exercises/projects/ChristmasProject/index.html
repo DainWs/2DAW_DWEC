@@ -2,13 +2,21 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="assets/css/main.css?t=1s"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css?t=2s"/>
         <script type="module" src="assets/js/index.js"></script>
         <title>Personajes de Disney [Christmas Project]</title>
     </head>
     <body>
         <header>
             <h1>Lista de personajes de Disney</h1>
+            <div>
+                <span>Disable/Enable Infinite scroll mode: </span>
+                <label class="switch">
+                    <input id="scroll-mode" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span id="current-scroll-mode"></span>
+            </div>
         </header>
         <main id="characters">
 

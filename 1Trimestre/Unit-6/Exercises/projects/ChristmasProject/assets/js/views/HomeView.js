@@ -8,6 +8,18 @@ class HomeView {
         this.update();
     }
 
+    setOnScrollListener(listener) {
+        window.addEventListener("scroll", listener);
+    }
+
+    setScrollToggleButtonListener(listener) {
+        document.getElementById('scroll-mode').onclick = listener;
+    }
+
+    setScrollModeText(text) {
+        document.getElementById('current-scroll-mode').innerText = text;
+    }
+
     setShowMoreListener(listener) {
         document.getElementById('show-more-button').onclick = listener;
     }

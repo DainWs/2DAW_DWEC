@@ -12,6 +12,19 @@ class MainController {
         this.homeView = new HomeView();
         this.modalView = new ModalView();
 
+        this.oldScroll = 0;
+        this.infiniteScrollEnabled = false;
+        this.isRequestInProgress = false;
+        this.homeView.setScrollModeText("(Disabled)");
+
+        this.homeView.setScrollToggleButtonListener(
+            function(event) { instance.toggleScrollMode(event); }
+        )
+
+        this.homeView.setOnScrollListener(
+            function() { instance.onScroll(); }
+        )
+
         this.homeView.setShowMoreListener(
             function() { instance.request(true); }
         );
@@ -48,12 +61,15 @@ class MainController {
     }
     
     request(loadNewPage = false) {
+        this.isRequestInProgress = true;
+        
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let page = JSON.parse(this.response);
                 instance.loadRequest(page);
             }
+            instance.isRequestInProgress = false;
         }
     
         let url = "http://api.disneyapi.dev/characters";
@@ -63,6 +79,30 @@ class MainController {
     
         xhttp.open("GET", url, true);
         xhttp.send();
+    }
+
+    toggleScrollMode(event) {
+        let element = event.target;
+        if (element.checked) {
+            this.infiniteScrollEnabled = true;
+            this.homeView.setScrollModeText("(Enabled)");
+        } else {
+            this.infiniteScrollEnabled = false;
+            this.homeView.setScrollModeText("(Disabled)");
+        }
+    }
+
+    onScroll() {
+        this.scrollY = window.pageYOffset;
+        if (this.oldScroll < this.scrollY && (this.infiniteScrollEnabled)) {
+            let currentScrolled = window.scrollY + window.innerHeight;
+            let endOfScroll = document.documentElement.scrollHeight - 10;
+
+            if ((currentScrolled > endOfScroll) && (!this.isRequestInProgress)) {
+                this.request(true);
+            }
+        }
+        this.oldScroll = this.scrollY
     }
 }
 
