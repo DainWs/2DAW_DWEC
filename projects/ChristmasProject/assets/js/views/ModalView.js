@@ -2,42 +2,35 @@ import { formatImageUrl } from '../utils/ViewUtils.js';
 
 class ModalView {
     constructor() {
-        document.getElementById('modal-close').onclick = function() {
-            document.getElementById('modal-dialog').style.display = "none";
-        }
+        $('#modal-close').on('click', function() {
+            $('#modal-dialog').css('display', 'none');
+        });
     }
 
     setImage(image) {
-        let characterImage = document.getElementById('character-image');
-        characterImage.setAttribute('src', formatImageUrl(image));
+        $('#character-image').attr('src', formatImageUrl(image));
     }
 
     setName(name) {
-        let characterName = document.getElementById('character-name');
-        characterName.innerText = name;
+        $('#character-name').text(name);
     }
 
     setFandomLink(link) {
-        let fandomLink = document.getElementById('character-fandom');
-        fandomLink.setAttribute('href', link);
+        $('#character-fandom').attr('href', link);
     }
 
     resetDetails() {
-        let detailList = document.getElementById('detail-list');
-        detailList.innerHTML = "";
+        $('#detail-list').html("");
     }
 
     addDetails(detailElement) {
         if (detailElement != null) {
-            console.log(detailElement);
-            let detailList = document.getElementById('detail-list');
-            detailList.appendChild(detailElement);
+            $('#detail-list').append(detailElement);
         }
     }
 
     showCharacterInfo() {
-        let modalDialog = document.getElementById('modal-dialog');
-        modalDialog.style.display = "block";
+        $('#modal-dialog').css('display', 'block');
     }
 }
 

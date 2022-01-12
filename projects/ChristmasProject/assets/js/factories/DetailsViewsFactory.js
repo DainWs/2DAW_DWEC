@@ -1,19 +1,13 @@
 import { formatTextToURL, formatImageUrl } from "../utils/ViewUtils.js";
 
 function makeSimpleDetails(value) {
-    let li = document.createElement('li');
-    li.innerText = value;
-    return li;
+    return $(`<li>${value}</li>`);
 }
 
 function makeSimpleLinkedDetails(value) {
-    let li = document.createElement('li');
-
-    let link = document.createElement('a');
-    link.setAttribute('href', `https://www.google.es/search?q=${formatTextToURL(value)}`)
-    link.innerText = value;
-
-    li.appendChild(link);
+    let li = $('<li></li>');
+    let link =$(`<a href="https://www.google.es/search?q=${formatTextToURL(value)}">${value}</a>`);
+    li.append(link);
     return li;
 }
 
@@ -22,21 +16,19 @@ function makeDetails(title, list, fun) {
     let array = Array.from(list);
     if (array.length > 0) {
         details = makeDetailsWithSummary(title);
-        let ul = document.createElement('ul');
-        ul.innerHTML = "";
+        let ul = $('<ul></ul>');
         array.forEach((value) => {
-            ul.appendChild(fun(value))
+            ul.append(fun(value))
         });
-        details.appendChild(ul);
+        details.append(ul);
     }
     return details;
 }
 
 function makeDetailsWithSummary(summaryText) {
-    let details = document.createElement('details');
-    let summary = document.createElement('summary');
-    summary.innerText = summaryText;
-    details.appendChild(summary);
+    let details = $('<details></details>');
+    let summary = $(`<summary>${summaryText}</summary>`);
+    details.append(summary);
     return details;
 }
 

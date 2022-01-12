@@ -3,59 +3,59 @@ import { formatImageUrl } from "../utils/ViewUtils.js";
 class HomeView {
 
     constructor() {
-        this.charactersElement = document.getElementById('characters');
+        this.charactersElement = $('#characters');
         this.individualWidth = 0;
+        
         this.update();
+
+        window.onresize = this.update;
     }
 
     setOnScrollListener(listener) {
         window.addEventListener("scroll", listener);
     }
 
-    setScrollToggleButtonListener(listener) {
-        document.getElementById('scroll-mode').onclick = listener;
+    setScrollModeText(text) {
+        $('#current-scroll-mode').text(text);
     }
 
-    setScrollModeText(text) {
-        document.getElementById('current-scroll-mode').innerText = text;
+    setScrollToggleButtonListener(listener) {
+        $('#scroll-mode').on('click', listener);
     }
 
     setShowMoreListener(listener) {
-        document.getElementById('show-more-button').onclick = listener;
+        $('#show-more-button').on('click', listener);
     }
 
     update() {
         if (window.innerWidth < 800) {
             this.individualWidth = Math.trunc(window.innerWidth / 6);
+        } else if (window.innerWidth < 1000) {
+            this.individualWidth = Math.trunc(window.innerWidth / 9);
         } else {
             this.individualWidth = Math.trunc(window.innerWidth / 11);
         }
+        
+        $('.character-div').css('width', `${this.individualWidth}px`);
     }
 
     addCharacter(character, onclick) {
-        let characterDiv = document.createElement('div');
-        characterDiv.setAttribute("class", "character-div");
-        characterDiv.setAttribute("id", character._id);
-        characterDiv.style.width = `${this.individualWidth}px`;
+        let characterDivCss =  `width: ${this.individualWidth}px;`;
+        let characterDiv = $(`<div id="${character._id}" class="character-div" style="${characterDivCss}"></div>`);
 
-        let characterFigure = document.createElement('figure');
-        characterFigure.style.backgroundImage = `url('${formatImageUrl(character.imageUrl)}')`;
-        let characterImage = document.createElement('img');
-        characterFigure.appendChild(characterImage);
-        characterDiv.appendChild(characterFigure);
+        let characterFigureCss = `background-image: url('${formatImageUrl(character.imageUrl)}')`;
+        let characterFigure = $(`<figure style="${characterFigureCss}"></figure>`);
+
+        characterDiv.append(characterFigure);
+        characterDiv.append($(`<p>${character.name}</p>`));
         
-        let characterName = document.createElement('p')
-        characterName.innerText = character.name;
-        characterDiv.appendChild(characterName);
-        
-        characterDiv.character = character;
-        characterDiv.onclick = onclick;
-        this.charactersElement.appendChild(characterDiv);
+        characterDiv[0].character = character;
+        characterDiv.on('click', onclick);
+        $(this.charactersElement).append(characterDiv);
     }
 
     removeCharacter(character) {
-        let characterDiv = document.getElementById(character._id);
-        characterDiv.remove();
+        $(`#${character._id}`).remove();
     }
 }
 

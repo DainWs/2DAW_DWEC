@@ -8,7 +8,6 @@ class MainController {
     }
 
     start() {
-        console.log('start');
         this.homeView = new HomeView();
         this.modalView = new ModalView();
 
@@ -62,23 +61,22 @@ class MainController {
     
     request(loadNewPage = false) {
         this.isRequestInProgress = true;
-        
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let page = JSON.parse(this.response);
-                instance.loadRequest(page);
-            }
-            instance.isRequestInProgress = false;
-        }
-    
+
         let url = "http://api.disneyapi.dev/characters";
         if (loadNewPage && instance.nextPage != null) {
             url = instance.nextPage;
         }
-    
-        xhttp.open("GET", url, true);
-        xhttp.send();
+        
+        $.ajax( url, {
+            type : 'GET',
+            success: function (response) {
+                instance.loadRequest(response);
+                instance.isRequestInProgress = false;
+            },
+            error: function() {
+                instance.isRequestInProgress = false;
+            }
+        });
     }
 
     toggleScrollMode(event) {
