@@ -3,6 +3,6 @@ function hide(event) {
     $('.intro').hide();
 }
 
-window.onload = () => {
+$(document).ready(function () {
     $('#hideButton').on('click', hide);
-};
+});
