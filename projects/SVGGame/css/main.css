@@ -1,0 +1,103 @@
+html, body, svg {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+#ui {
+    position: absolute;
+}
+
+#ui #lifes{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#ui #lifes img.heart {
+    width: 50px;
+    height: 50px;
+}
+
+#ui #score {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    min-width: 10%;
+
+    border-radius: 0 0 0 15px;
+    padding: 16px;
+    background-color: #2a2a2a;
+
+    text-align: end;
+    color: white;
+    font-size: 16pt;
+}
+
+#ui #modal-dialog {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    bottom: 30%;
+    right: 30%;
+
+    width: 40%;
+    height: 40%;
+
+    padding: 15px;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 15px;
+    background-color: #2a2a2a;
+    font-family: monospace;
+}
+
+#ui #modal-dialog.visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#ui #modal-dialog header {
+    text-align: center;
+}
+
+#ui #modal-dialog main,
+#ui #modal-dialog section,
+#ui #modal-dialog footer {
+    flex-grow: 1;
+}
+
+#ui #modal-dialog hr {
+    width: 100%;
+    border: 1px solid white;
+}
+
+#ui #modal-dialog .end-content,
+#ui #modal-dialog hr {
+    padding: 0 15px;
+    font-size: 16pt;
+}
+
+#ui #modal-dialog footer {
+    padding: 15px;
+}
+
+#ui #modal-dialog input {
+    width: 100%;
+    height: 100%;
+    color: #2a2a2a;
+    border-radius: 15px;
+    box-shadow: none;
+    text-align: center;
+    font-size: 16pt;
+    box-sizing: border-box;
+    border: 0;
+}
+
+#ui #modal-dialog input[type="button"]:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}

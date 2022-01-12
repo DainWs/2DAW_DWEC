@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css?t=2s"/>
+        <script src="libs/js/jquery.js"></script>
+        <script type="module" src="assets/js/index.js"></script>
+        <title>Personajes de Disney [Christmas Project]</title>
+    </head>
+    <body>
+        <header>
+            <h1>Lista de personajes de Disney</h1>
+            <div>
+                <span>Disable/Enable Infinite scroll mode: </span>
+                <label class="switch">
+                    <input id="scroll-mode" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span id="current-scroll-mode"></span>
+            </div>
+        </header>
+        <main id="characters">
+
+        </main>
+        <footer>
+            <button id="show-more-button">Mostrar mas</button>
+            <div class="credits">
+                <p>Credits: Jose Antonio Duarte Pérez (DainWs)<br/>Github: <a href="https://github.com/DainWs">https://github.com/DainWs</a></p>
+            </div>
+        </footer>
+        <div id="modal-dialog">
+            <span id="modal-close">&times;</span>
+            <div class="modal-content">
+                <header>
+                    <h1><span id="character-name"></span></h1>
+                </header>
+                <figure class="character-figure">
+                    <img id="character-image" src="" alt="">
+                </figure>
+                <div id="detail-list">
+    
+                </div>
+                <footer>
+                    <p><i><strong>Para m&aacute;s informaci&oacute;n, vease el </strong></i><a id="character-fandom">Fandom (wiki)</a></p>
+                </footer>
+            </div>
+            
+        </div>
+    </body>
+</html>

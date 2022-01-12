@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/index.css?t=5"/>
+        <script type="Module" src="./js/index.js"></script>
+    </head>
+    <body>
+        <aside>
+            <section>
+                <header>
+                    <h2>Libros no leidos</h2>
+                </header>
+                <ul id="booksNotReaded"></ul>
+            </section>
+            <section>
+                <header>
+                    <h2>Libros leidos</h2>
+                </header>
+                <ul id="booksReaded"></ul>
+            </section>
+        </aside>
+        <section class="current-book">
+            <header>
+                <h1>Libro actual</h1>
+            </header>
+            <article>
+                T&iacute;tulo del libro: <span id="book-title"></span><br/>
+                Generos: <span id="book-genre"></span><br/>
+                Autor: <span id="book-author"></span><br/>
+                <form action="#" method="POST">
+                    <input id="finish-book-btn" type="button" value="Leer este libro"/>
+                    <span id="finish-book-btn-tooltip" class="tooltip hidden">No quedan libros para leer.</span>
+                </form>
+            </article>
+        </section>
+        <section class="form-libro">
+            <header>
+                <h1>Formulario para a&ntilde;adir libros</h1>
+            </header>
+
+            <form action="#" method="POST">
+                <label for="form-book-title">Titulo</label><br/>
+                <input id="form-book-title" type="text" name="book-title" value="" required/><br/>
+                <label for="form-book-genre">Genero</label><br/>
+                <input id="form-book-genre" type="text" name="book-genre" value="" required/><br/>
+                <label for="form-book-author">Autor</label><br/>
+                <input id="form-book-author" type="text" name="book-author" value="" required/>
+                <br/>
+                <input id="form-book-isreaded" type="checkbox" name="book-isreaded" value=""/>
+                <label for="form-book-isreaded">Este libro ha sido leido</label>
+                <br/>
+                <label class="on-book-readed" for="form-book-readdate">Fecha en la que el libro ha sido leido</label><br/>
+                <input class="on-book-readed" id="form-book-readdate" type="date" name="book-readdate" value=""/>
+                <br/>
+                <div class="relative">
+                    <input id="add-book-btn" type="button" value="A&ntilde;adir libro"/>
+                    <span id="add-book-btn-tooltip" class="tooltip hidden">Para agregar un libro, indique un nombre.</span>
+                </div>
+            </form>
+        </section>
+    </body>
+</html>

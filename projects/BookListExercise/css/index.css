@@ -1,0 +1,158 @@
+body { 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: relative;
+    width: 60vw;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 14px 0;
+}
+
+aside {
+    width: 250px;
+    height: calc(100% - 28px);
+    position: absolute;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+aside section {
+    height: 45%;
+}
+
+aside section header {
+    height: 15%;
+}
+
+aside section header h2 {
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 2px solid dimgray;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 0;
+    padding: 8px;
+    font-size: 12pt;
+    background-color: dimgray;
+    color: white;
+}
+
+aside section ul {
+    height: calc(100% - 15%);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 15px;
+    border: 2px solid dimgray;
+    border-radius: 0 0 4px 4px;
+    
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+}
+
+aside section ul > * {
+    margin: 2px 0;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+body > section {
+    margin-left: 270px;
+}
+
+section.form-libro {
+    margin-top: 15px;
+}
+
+body > section header h1 {
+    margin: 0;
+    border: 2px solid dimgray;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 0;
+    padding: 8px;
+    font-size: 12pt;
+    background-color: dimgray;
+    color: white;
+}
+
+form {
+    position: relative;
+}
+
+form .tooltip {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    background: white;
+    border: 2px solid red;
+    border-radius: 5px;
+}
+
+form .relative .tooltip {
+    bottom: unset;
+    top: -110%;
+}
+
+.relative {
+    position: relative;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+body > section.form-libro form, body > section article {
+    padding: 10px;
+    border: 2px solid dimgray;
+    border-radius: 0 0 4px 4px;
+}
+
+body > section.form-libro input {
+    font-size: 11pt;
+} 
+
+body > section.form-libro input[type=text],
+body > section.form-libro input[type=date] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+body > section input[type=button] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0 0 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+body > section input[type=button]:hover {
+    background-color: #45a049;
+}
+
+body > section.form-libro .on-book-readed {
+    visibility: hidden;
+}
+
+body > section.form-libro #form-book-isreaded:checked ~ .on-book-readed {
+    visibility: visible;
+}
