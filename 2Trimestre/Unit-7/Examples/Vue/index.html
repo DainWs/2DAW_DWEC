@@ -10,9 +10,12 @@
             Counter: {{ counter }}
             <button v-on:click="increment">Incrementar</button>
             <br/>
+            <input type="text" v-model="nuevoNombre"/>
+            <button v-on:click="add">add</button>
             <ul>
                 <li v-for="nombre in alumnos">{{nombre}}</li>
             </ul>
+            {{nuevoNombre}}
         </div>
     </body>
 </html>
