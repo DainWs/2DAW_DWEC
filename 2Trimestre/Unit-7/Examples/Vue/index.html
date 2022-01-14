@@ -6,8 +6,13 @@
         <script src="assets/js/index.js"></script>
     </head>
     <body id="content">
-        <div id="counter">
+        <div id="aplicacionVue">
             Counter: {{ counter }}
+            <button v-on:click="increment">Incrementar</button>
+            <br/>
+            <ul>
+                <li v-for="nombre in alumnos">{{nombre}}</li>
+            </ul>
         </div>
     </body>
 </html>
