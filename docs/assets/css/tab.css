@@ -11,7 +11,7 @@ body {
     white-space: nowrap;
     max-height: 65px;
 }
-#tab button {
+#tab button, #tab a {
     display: inline-block;
     color: white;
     background-color: transparent;
@@ -21,7 +21,7 @@ body {
     text-decoration: none;
     height: 48px;
 }
-#tab button:hover {
+#tab button:hover, #tab a:hover {
     background-color: #777;
 }
 /* Style the tab content */
