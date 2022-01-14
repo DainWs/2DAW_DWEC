@@ -1,4 +1,4 @@
-const Counter = {
+const s = {
     data() {
         return {
             counter: 0,
@@ -18,5 +18,5 @@ const Counter = {
     }
 }
 window.onload = () => {
-    Vue.createApp(Counter).mount('#aplicacionVue');
+    Vue.createApp(s).mount('#aplicacionVue');
 }

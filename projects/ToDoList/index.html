@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="assets/js/index.js"></script>
+    </head>
+    <body id="content">
+        <div id="todolist">
+            <div>
+                <input type="text" v-model="nuevaTarea" placeholder="Nueva Tarea"/>
+                <button v-on:click="addTarea">A&ntilde;adir Tarea</button>
+            </div>
+            <div class="todo-list">
+                <div v-if="tareas.length > 0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2">Lista de tareas</th>
+                            </tr>
+                            <tr>
+                                <th>Nombre Tarea</th>
+                                <th>Fecha de creaci&oacute;n</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="tarea in tareas">
+                                <td>{{tarea.nombre}}</td>
+                                <td>{{tarea.fecha.getHours()}}:{{tarea.fecha.getMinutes()}}:{{tarea.fecha.getSeconds()}} {{tarea.fecha.getDate()}}/{{tarea.fecha.getMonth()+1}}/{{tarea.fecha.getFullYear()}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <span>Tienes {{tareas.length}} tareas.</span>
+            </div>
+            
+        </div>
+    </body>
+</html>
