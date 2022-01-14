@@ -2,7 +2,7 @@ const Counter = {
     data() {
         return {
             counter: 0,
-            alumnos: ['jose', 'javier'],
+            alumnos: [],
             nuevoNombre: ''
         }
     },
@@ -13,6 +13,7 @@ const Counter = {
         add() {
             this.alumnos.push(this.nuevoNombre);
             this.nuevoNombre = '';
+            console.log(this.alumnos);
         }
     }
 }

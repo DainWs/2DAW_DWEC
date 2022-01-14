@@ -12,10 +12,12 @@
             <br/>
             <input type="text" v-model="nuevoNombre"/>
             <button v-on:click="add">add</button>
-            <ul>
-                <li v-for="nombre in alumnos">{{nombre}}</li>
-            </ul>
-            {{nuevoNombre}}
+            <div v-if="alumnos.length > 0">
+                <h1>Lista de alumnos</h1>
+                <ul>
+                    <li v-for="nombre in alumnos">{{nombre}}</li>
+                </ul>
+            </div>
         </div>
     </body>
 </html>
