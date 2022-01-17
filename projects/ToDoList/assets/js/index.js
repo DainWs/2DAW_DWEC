@@ -1,6 +1,7 @@
 const ToDoList = {
     data() {
         return {
+            searchedTarea: '',
             nuevaTarea: '',
             tareas: []
         }
@@ -25,7 +26,10 @@ const ToDoList = {
     },
     computed: {
         completedTask() {
-            return Array.from(this.tareas).filter((value) => value.isCompleted).length;
+            return Array.from(this.tareas).filter((task) => task.isCompleted).length;
+        },
+        tareasFiltradas() {
+            return Array.from(this.tareas).filter((task) => task.nombre.includes(this.searchedTarea));
         }
     }
 }

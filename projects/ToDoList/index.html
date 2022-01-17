@@ -9,6 +9,9 @@
     <body id="content">
         <div id="todolist">
             <div>
+                <input type="text" v-model="searchedTarea" placeholder="Search task"/>
+            </div>
+            <div>
                 <input type="text" v-model="nuevaTarea" placeholder="Nueva Tarea"/>
                 <button v-on:click="addTarea">A&ntilde;adir Tarea</button>
             </div>
@@ -27,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="tarea in tareas">
+                            <tr v-for="tarea in tareasFiltradas">
                                 <td>{{tarea.nombre}}</td>
                                 <td>{{formattedFecha(tarea.fecha)}}</td>
                                 <td>{{isTaskCompletedText(tarea)}}</td>
