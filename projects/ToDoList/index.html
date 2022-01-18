@@ -36,6 +36,7 @@
                                 <td>{{isTaskCompletedText(tarea)}}</td>
                                 <td>
                                     <button v-on:click="turnCompleteState(tarea)">{{getButtonText(tarea)}}</button>
+                                    <button v-on:click="remove(tarea)">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>

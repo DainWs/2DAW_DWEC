@@ -23,6 +23,9 @@ const ToDoList = {
         isTaskCompletedText(tarea) {
             return (tarea.isCompleted) ? 'Completo' : 'Incompleto' ;
         },
+        remove(tarea) {
+            this.tareas.splice(this.tareas.indexOf(tarea), 1);
+        }
     },
     computed: {
         completedTask() {
