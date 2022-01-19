@@ -1,0 +1,145 @@
+#todolist_search,
+#todolist_list {
+    margin: auto;
+    border: 1pt solid gainsboro;
+    border-radius: 5pt;
+    width: 40vw;
+}
+
+#todolist_search {
+    margin-bottom: 5vh;
+}
+
+.todolist_search--task,
+.todolist_list--actions,
+.task {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 3rem;
+}
+
+.todolist_search--task {
+    border: 1pt solid gainsboro; 
+    border-radius: 5pt;
+    padding: 1rem;
+    
+    width: 100%;
+}
+.task { border: 0 solid gainsboro; }
+
+#todolist_list > * {
+    height: 3rem;
+    line-height: 3rem;
+}
+
+#todolist_list > *:first-child,
+#todolist_list > *:last-child { border: 0 solid gainsboro; }
+#todolist_list > *:first-child { border-bottom-width: 1pt; }
+#todolist_list > *:last-child { border-top-width: 1pt; }
+
+input[type=text] {
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5pt;
+    outline: none;
+
+    font-size: 1rem;
+}
+
+/* Search */
+#search-task {
+    padding: 1rem;
+    width: 100%;
+}
+
+/* New task */
+.todolist_list--new-task {
+    box-shadow: 0px 2px 6px 0px gainsboro;
+}
+
+.todolist_list--new-task input[type=text] {
+    height: 100%;
+}
+
+/* List */
+.todolist_list--tasks {
+    height: unset !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* this will change */
+.task:nth-child(even) {border-width: 1pt 0;}
+.task:first-of-type {border-top: 0;}
+.task:last-of-type {border-bottom: 0;}
+
+.task .task-name {
+    flex-grow: 1;
+
+    text-align: left;
+}
+
+.task .task-name {
+    width: unset;
+    flex-grow: 1;
+
+    text-align: left;
+}
+
+.task-status,
+.task-action {
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.task-action {
+    color: gainsboro;
+    font-size: 2rem;
+}
+
+.task-action:hover {
+    cursor: pointer;
+
+    color: gray;
+    background-color: gainsboro;
+}
+
+.task-action:active {
+    color: gainsboro;
+    background-color: gray;
+}
+
+
+.todolist_list--actions {
+    padding: 1rem;
+
+    color: #858383;
+}
+
+.todolist_list--actions > div {
+    display: flex;
+}
+
+.todolist_list--actions .clickable {
+    font-weight: bold;
+}
+
+.todolist_list--actions .clickable:hover {
+    cursor: pointer;
+
+    color: black;
+}
+
+.todolist_list--actions input[type=radio] {
+    visibility: hidden;
+}
+
+.todolist_list--actions input:checked + .clickable {
+    color: deepskyblue;
+}

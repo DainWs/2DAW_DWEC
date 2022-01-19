@@ -1,153 +1,53 @@
+<!-- Css -->
+<style>
+  @import '../assets/css/tasklist.css';
+</style>
+
+<!-- JS -->
+<script src="../assets/js/tasklist.js"></script>
+
+<!-- Template -->
 <template>
   <div id="todolist">
-    <div>
-      <input type="text" v-model="searchedTarea" placeholder="Search task" />
+    <div id="todolist_search">
+      <input class="todolist_search--task" type="text" v-model="searchedTaskName" placeholder="Search task" />
     </div>
-    <div>
-      <input type="text" v-model="nuevaTarea" placeholder="Nueva Tarea" />
-      <button v-on:click="addTarea">A&ntilde;adir Tarea</button>
-    </div>
-    <div class="todo-list" v-if="tareas.length > 0">
-        <div class="tasks-list">
-            <div v-for="tarea in tareasFiltradas" :key="tarea.nombre" class="task">
-                <label :for="'tarea-'+tarea.nombre">
-                    <input :id="'tarea-'+tarea.nombre" type='checkbox' :checked="tarea.isCompleted" @change='updateTaskState(tarea)'>
-                </label>
-                <span class="task-name">{{tarea.nombre}}</span>
-                <span class="task-remove" v-on:click="remove(tarea)">&times;</span>
-            </div>
+    
+    <div id="todolist_list">
+      <header class="todolist_list--new-task task">
+        <label for="new-task--state" class="task-status">
+          <input id="new-task--state" type='checkbox' v-model="newTaskState">
+        </label>
+        <input class="task-name" type="text" v-model="newTask" placeholder="Nueva Tarea" title="Press 'Enter' to make the task" />
+        <span class="task-action" v-on:click="addTarea">+</span>
+      </header>
+
+      <div class="todolist_list--tasks" v-if="tareas.length > 0">
+        <div v-for="task in filtredTask" :key="task.nombre" class="task">
+          <label :for="'tarea_'+task.nombre" class="task-status">
+            <input :id="'tarea_'+task.nombre" type='checkbox' :checked="task.isCompleted" @change='updateTaskState(task)'>
+          </label>
+          <span class="task-name">{{task.nombre}}</span>
+          <span class="task-action" v-on:click="remove(task)">&times;</span>
         </div>
-        <button v-on:click="removeCompletedTasks()">Completar tareas seleccionadas</button>
-        <span>Tienes {{ completedTask }} tareas completadas de {{ tareas.length }} tareas.</span>
+      </div>
+
+      <footer class="todolist_list--actions">
+        <span>{{ completedTask }} Items left</span>
+
+        <div>
+          <input type="radio" id="all" value="All" v-model="filteredStatus" checked>
+          <label class="clickable" for="all">All</label>
+
+          <input type="radio" id="active" value="Active" v-model="filteredStatus">
+          <label class="clickable" for="active">Active</label>
+
+          <input type="radio" id="completed" value="Completed" v-model="filteredStatus">
+          <label class="clickable" for="completed">Completed</label>
+        </div>
+
+        <span class="clickable" v-on:click="removeCompletedTasks()">Clear Completed</span>
+      </footer>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "TaskList",
-  data() {
-    return {
-      searchedTarea: "",
-      nuevaTarea: "",
-      tareas: [],
-      tareasCompletadas: [],
-    };
-  },
-  methods: {
-    addTarea() {
-      this.tareas.push({
-        nombre: this.nuevaTarea,
-        fecha: new Date(),
-        isCompleted: false,
-      });
-      this.nuevaTarea = "";
-    },
-    formattedFecha(fecha) {
-      return `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()} ${fecha.getDate()}/${
-        fecha.getMonth() + 1
-      }/${fecha.getFullYear()}`;
-    },
-    turnCompleteState(tarea) {
-      tarea.isCompleted = !tarea.isCompleted;
-    },
-    getButtonText(tarea) {
-      return tarea.isCompleted ? "Cancelar" : "Completar";
-    },
-    isTaskCompletedText(tarea) {
-      return tarea.isCompleted ? "Completo" : "Incompleto";
-    },
-    updateTaskState(tarea) {
-        this.turnCompleteState(tarea);
-        if (tarea.isCompleted) {
-            this.tareasCompletadas.push(tarea);
-        } else {
-            this.tareasCompletadas.splice(this.tareasCompletadas.indexOf(tarea), 1);
-        }
-    },
-    remove(tarea) {
-        this.tareas.splice(this.tareas.indexOf(tarea), 1);
-    },
-    removeCompletedTasks() {
-        this.tareas = this.tareas.filter(
-            (task) => !this.tareasCompletadas.includes(task));
-    }
-  },
-  computed: {
-    completedTask() {
-      return Array.from(this.tareas).filter((task) => task.isCompleted).length;
-    },
-    tareasFiltradas() {
-      return Array.from(this.tareas).filter((task) =>
-        task.nombre.includes(this.searchedTarea)
-      );
-    },
-  },
-};
-</script>
-
-<style>
-
-.todo-list {
-    border: 1pt solid gainsboro;
-    border-radius: 10pt;
-    margin: 0 20vw;
-}
-
-.tasks-list {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.tasks-list .task {
-    height: 3rem;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    border: 0 solid gainsboro;
-}
-
-/* this will change */
-.tasks-list .task:nth-child(even) {border-width: 1pt 0;}
-.tasks-list .task:first-of-type {border-top: 0;}
-.tasks-list .task:last-of-type {border-bottom: 0;}
-
-.tasks-list .task .task-name {
-    flex-grow: 1;
-
-    text-align: left;
-}
-
-.tasks-list .task > * {
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
-}
-
-.tasks-list .task .task-name {
-    width: unset;
-    flex-grow: 1;
-
-    text-align: left;
-}
-
-.tasks-list .task .task-remove {
-    color: gainsboro;
-    font-size: 2rem;
-}
-
-.tasks-list .task .task-remove:hover {
-    cursor: pointer;
-
-    color: gray;
-    background-color: gainsboro;
-}
-
-.tasks-list .task .task-remove:active {
-    color: gainsboro;
-    background-color: gray;
-}
-</style>
