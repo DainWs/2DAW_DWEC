@@ -19,6 +19,7 @@
           <input id="new-task--state" type='checkbox' v-model="newTaskState">
         </label>
         <input class="task-name" type="text" v-model="newTask" placeholder="Nueva Tarea" title="Press 'Enter' to make the task" />
+        <span :class="priorityClasses" v-on:click="nextPriority()">{{newTaskPriority.nombre}}</span>
         <span class="task-action" v-on:click="addTarea">+</span>
       </header>
 
