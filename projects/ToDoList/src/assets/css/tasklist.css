@@ -1,9 +1,16 @@
+.title {
+    font-size: 3rem;
+}
+
 #todolist_search,
 #todolist_list {
     margin: auto;
     border: 1pt solid gainsboro;
     border-radius: 5pt;
+    min-width: max-content;
     width: 40vw;
+
+    background-color: white;
 }
 
 #todolist_search {
@@ -29,7 +36,9 @@
     
     width: 100%;
 }
-.task { border: 0 solid gainsboro; }
+.task {
+    border: 0 solid gainsboro;
+}
 
 #todolist_list > * {
     height: 3rem;
@@ -80,27 +89,34 @@ input[type=text] {
 
 .task .task-name {
     flex-grow: 1;
-
     text-align: left;
 }
 
 .task .task-name {
     width: unset;
     flex-grow: 1;
-
     text-align: left;
 }
 
 .task-status,
-.task-action {
+.task-action,
+.task-priority {
     width: 3rem;
     height: 3rem;
     line-height: 3rem;
 }
 
+.task-priority {
+    color: gray;
+    box-sizing: border-box;
+}
+
 .task-action {
     color: gainsboro;
     font-size: 2rem;
+
+    background-color: white;
+    transition: ease-in-out 0.3s background-color;
 }
 
 .task-action:hover {
@@ -113,28 +129,60 @@ input[type=text] {
 .task-action:active {
     color: gainsboro;
     background-color: gray;
+
+    border-top: 0;
+    transition: ease-in-out 0.7s border-top;
 }
 
-.baja-prioridad {
+.task-priority:hover {
+    cursor: pointer;
+    border-top: 1rem solid;
+}
+
+.task-priority:active {
+    cursor: pointer;
+    overflow-y: hidden;
+
+    border-top: 2.5rem solid;
+}
+
+.completed {
+    color: red;
+    text-decoration: line-through;
+}
+
+.baja-prioridad { 
+    color: black;
     background-color: #BBE6D6;
 }
 
 .media-prioridad {
+    color: white;
     background-color: #FFA500;
 }
 
 .alta-prioridad {
+    color: white;
     background-color: #8B0000;
 }
 
+.task-priority.baja-prioridad:hover { border-top-color: #FFA500; }
+.task-priority.media-prioridad:hover { border-top-color: #8B0000; }
+.task-priority.alta-prioridad:hover { border-top-color: #BBE6D6; }
+
 .todolist_list--actions {
     padding: 1rem;
-
     color: #858383;
 }
 
 .todolist_list--actions > div {
+    margin: 0 5vw;
     display: flex;
+    flex-grow: 1;
+}
+
+.todolist_list--actions > div > div {
+    padding: 0 0.5rem;
 }
 
 .todolist_list--actions .clickable {
@@ -143,14 +191,34 @@ input[type=text] {
 
 .todolist_list--actions .clickable:hover {
     cursor: pointer;
-
     color: black;
 }
 
 .todolist_list--actions input[type=radio] {
-    visibility: hidden;
+    display: none;
 }
 
 .todolist_list--actions input:checked + .clickable {
     color: deepskyblue;
+}
+
+.rounded > input{
+    width: 50%;
+    height: 50%;
+    
+    background-color: white;
+    transition: ease-in-out 0.25s background-color;
+
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.rounded > input:checked {
+    background-color: deepskyblue;
+    transition: ease-in-out 0.25s background-color;
 }

@@ -1,104 +1,63 @@
-const PRIORITIES = [
-    { id: 0, nombre: 'Baja', extraClass: 'baja-prioridad' },
-    { id: 1, nombre: 'Media', extraClass: 'media-prioridad' },
-    { id: 2, nombre: 'Alta', extraClass: 'alta-prioridad' }
-]
+import { StorageManager } from './services/Storage.js';
+import Task from '../../components/Task.vue';
+import TaskForm from '../../components/TaskForm.vue';
 
 export default {
     name: "TaskList",
+    components: {
+        TaskForm,
+        Task
+    },
     data() {
         return {
             searchedTaskName: "",
             filteredStatus: "All",
-            tareas: [],
-            tareasCompletadas: [],
-            newTask: "",
-            newTaskState: false,
-            newTaskPriority: PRIORITIES[0]
+            tareas: []
         };
     },
+    mounted() {
+       this.load();
+    },
     methods: {
-        addTarea() {
-            this.tareas.push({
-                nombre: this.newTask,
-                fecha: new Date(),
-                isCompleted: this.newTaskState,
-                priority: this.newTaskPriority
-            });
-            this.newTask = "";
+        addTast(task) {
+            this.tareas.push(task);
+            this.save();
         },
-        nextPriority(task = undefined) {
-            console.log(PRIORITIES);
-            console.log(task);
-            let selectedID = 0;
-            if (task != undefined) {
-                selectedID = task.priority.id;
-            } else {
-                selectedID = this.newTaskPriority.id;
-            }
-
-            let newId = undefined;
-            switch (selectedID) {
-                case 0:
-                case 1:
-                    newId = selectedID + 1;
-                    break;
-                default:
-                    newId = 0;
-                    break;
-            }
-
-            if (task != undefined) {
-                task.priority = PRIORITIES[newId];
-            } else {
-                this.newTaskPriority = PRIORITIES[newId];
-            }
-        },
-        formattedFecha(fecha) {
-            return `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()} ${fecha.getDate()}/${fecha.getMonth() + 1
-                }/${fecha.getFullYear()}`;
-        },
-        turnCompleteState(tarea) {
-            tarea.isCompleted = !tarea.isCompleted;
-        },
-        updateTaskState(tarea) {
-            this.turnCompleteState(tarea);
-            if (tarea.isCompleted) {
-                this.tareasCompletadas.push(tarea);
-            } else {
-                this.tareasCompletadas.splice(this.tareasCompletadas.indexOf(tarea), 1);
-            }
-        },
-        remove(tarea) {
+        removeTask(tarea) {
             this.tareas.splice(this.tareas.indexOf(tarea), 1);
+            this.save();
         },
         removeCompletedTasks() {
-            this.tareas = this.tareas.filter(
-                (task) => !this.tareasCompletadas.includes(task));
+            this.tareas = this.tareas.filter( (task) => !task.isCompleted );
+            this.save();
+        },
+        load() {
+            this.tareas = StorageManager.getTasks();
+        },
+        save() {
+            StorageManager.saveTasks(this.tareas);
         }
     },
     computed: {
-        priorityClasses() {
-            return 'task-action ' + this.newTaskPriority.extraClass;
-        },
         completedTask() {
-            return Array.from(this.tareas).filter((task) => task.isCompleted).length;
+            return Array.from(this.tareas).filter( (task) => !task.isCompleted ).length;
         },
         filtredTask() {
-            return Array.from(this.tareas).filter((task) => {
+            let filteredList = Array.from(this.tareas).filter((task) => {
                     let result = true;
-                    switch (this.filteredStatus) {
-                        case 'Active':
-                            if (task.isCompleted) result = false;
-                            break;
-                        case 'Completed':
-                            if (!task.isCompleted) result = false;
-                            break;
+                    if (this.filteredStatus != 'All') {
+                        if (this.filteredStatus == 'Active') {
+                            result = !task.isCompleted;
+                        } else if (this.filteredStatus == 'Completed') {
+                            result = task.isCompleted;
+                        }
                     }
-
                     return result && task.nombre.includes(this.searchedTaskName);
                 }
             );
+            return Array
+                .from(filteredList)
+                .sort((taskA, taskB) => taskB.priority.id - taskA.priority.id);
         },
     },
 };
