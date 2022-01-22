@@ -20,7 +20,8 @@ export default {
     },
     methods: {
         addTast(task) {
-            this.tareas.push(task);
+            task.id = this.tareas.length; 
+            this.tareas.splice(0, 0, task);
             this.save();
         },
         removeTask(tarea) {

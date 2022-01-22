@@ -21,11 +21,13 @@
       <TaskForm v-on:addTask="addTast"/>
 
       <div class="todolist_list--tasks" v-if="tareas.length > 0">
-        <Task v-for="task in filtredTask" 
-          :key="task.nombre" 
-          :task="task" 
-          @taskChange="save"
-          @removeTask="removeTask"/>
+        <transition-group name="list">
+          <Task v-for="task in filtredTask" 
+            :key="task.id" 
+            :task="task" 
+            @taskChange="save"
+            @removeTask="removeTask"/>
+        </transition-group>
       </div>
 
       <footer class="todolist_list--actions">
