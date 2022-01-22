@@ -1,7 +1,7 @@
 # 2DAW_DWEC
 All Web Development Client Environment (WDCE or DWEC) exercices of 2DAW
 
-For a better experience, you can see the [documentation](https://dainws.github.io/2DAW_DWEC)
+For a better experience, you can see the [documentation](https://dainws.github.io/2DAW_DWEC/docs)
 
 The documentation was made with **Phantom by HTML5 UP**.
 
