@@ -3,13 +3,9 @@
     <header>
       <img alt="Vue logo" src="./assets/logo.png">
       <nav id="nav">
-        <router-link to="/">Home</router-link> | 
-        <router-link :to="'/hello/'+this.name">Hello</router-link>
+        <router-link to="/">Home</router-link>
       </nav>
     </header>
-    <div>
-      <input type="text" v-model="name"/>
-    </div>
     <router-view/>
   </div>
 </template>
@@ -17,12 +13,7 @@
 <script>
 
 export default {
-  name: 'App',
-  data() {
-    return {
-      name: ''
-    };
-  }
+  name: 'App'
 }
 </script>
 
