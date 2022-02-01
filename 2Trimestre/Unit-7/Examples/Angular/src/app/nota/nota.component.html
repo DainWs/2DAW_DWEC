@@ -1,0 +1,8 @@
+<p>nota works! {{title}}</p>
+<input [(ngModel)]="newName">
+<button (click)="alta()">Dar de alta</button>
+<ul>
+    <li *ngFor="let item of nombres">
+        <span>{{item}}</span>
+    </li>
+</ul>
