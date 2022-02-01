@@ -1,0 +1,41 @@
+<div id="todolist">
+    <div>
+      <h1 class="title">ToDo Lists</h1>
+    </div>
+
+    <div id="todolist_search">
+      <input class="todolist_search--task" type="text" [(ngModel)]="searchedTaskName" placeholder="Search task" />
+    </div>
+    
+    <div id="todolist_list">
+      <TaskForm (addTask)="addTast($event)"/>
+
+      <div class="todolist_list--tasks" *ngIf="tareas.length > 0">
+        <Task *ngFor="let task of filtredTask"
+            attr.task="task" 
+            (taskChange)="save($event)"
+            (removeTask)="removeTask($event)"/>
+      </div>
+
+      <footer class="todolist_list--actions">
+        <span>{{ completedTask }} Items left</span>
+
+        <div>
+          <div>
+            <input type="radio" id="all" value="All" [(ngModel)]="filteredStatus" checked>
+            <label class="clickable" for="all">All</label>
+          </div>
+          <div>
+            <input type="radio" id="active" value="Active" [(ngModel)]="filteredStatus">
+            <label class="clickable" for="active">Active</label>
+          </div>
+          <div>
+            <input type="radio" id="completed" value="Completed" [(ngModel)]="filteredStatus">
+            <label class="clickable" for="completed">Completed</label>
+          </div>
+        </div>
+
+        <span class="clickable" (click)="removeCompletedTasks($event)">Clear Completed</span>
+      </footer>
+    </div>
+  </div>
