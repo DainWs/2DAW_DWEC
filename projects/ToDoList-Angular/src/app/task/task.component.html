@@ -1,1 +1,8 @@
-<p>task works!</p>
+<div class="task" attr.title="titleFecha" attr.id="task.getFecha()">
+    <label attr.for="'tarea_'+task.getNombre()" class="task-status rounded">
+        <input attr.id="'tarea_'+task.getNombre()" type='checkbox' attr.checked="task.isCompleted()" (change)='updateTaskState'>
+    </label>
+    <span class={{nameClasses()}}>{{task.getNombre()}}</span>
+    <span class={{priorityClasses()}} (click)="nextPriority()">{{task.getPriority().getNombre()}}</span>
+    <span class="task-action" (click)="remove()">&times;</span>
+</div>

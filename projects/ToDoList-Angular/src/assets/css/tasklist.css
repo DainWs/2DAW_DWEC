@@ -1,0 +1,317 @@
+* { margin: 0; }
+
+.title {
+    font-size: 5vh;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+input[type=text] {
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    border-radius: 5pt;
+    
+    font-size: 1.5rem;
+}
+
+/* Animations */
+.list-enter-active, .list-leave-active {
+    transition: all 0.5s;
+}
+
+.list-enter-active, .list-leave-to {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.list-enter-to, .list-leave {
+    opacity: 1;
+    overflow: unset;
+    height: 2.4rem;
+}
+
+/* To Do Lists */
+#todolist {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+    /* Footer */
+    #todolist > footer {
+        width: 100%;
+    }
+
+    #todolist_search,
+    #todolist_list {
+        margin: auto;
+        border: 1pt solid gainsboro;
+        border-radius: 5pt;
+        width: 80vw;
+
+        background-color: white;
+    }
+
+    /* Search section */
+    #todolist_search {
+        margin-bottom: 5vh;
+    }
+
+        .todolist_search--task,
+        .todolist_list--actions,
+        .task {
+            box-sizing: border-box;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            height: 3rem;
+        }
+
+        .todolist_search--task {
+            border: 1pt solid gainsboro; 
+            border-radius: 5pt;
+            padding: 1rem;
+            
+            width: 100%;
+        }
+
+    /* List section */
+    #todolist_list {
+        width: 80%;
+    }
+
+        #todolist_list > * {
+            height: 3rem;
+            line-height: 3rem;
+        }
+
+        #todolist_list > *:first-child,
+        #todolist_list > *:last-child { border: 0 solid gainsboro; }
+        #todolist_list > *:first-child { border-bottom-width: 1pt; }
+        #todolist_list > *:last-child { border-top-width: 1pt; }
+
+            /* Search */
+            #search-task {
+                padding: 1rem;
+                width: 100%;
+            }
+
+            /* New task */
+            .todolist_list--new-task { box-shadow: 0px 2px 6px 0px gainsboro; }
+            .todolist_list--new-task input[type=text] { height: 100%; }
+
+            /* List */
+            .todolist_list--tasks {
+                height: unset !important;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+        
+                /* Tasks */
+                .task { 
+                    border: 0 solid gainsboro; 
+
+                    overflow: hidden;
+                    white-space: pre;
+                    text-overflow: ellipsis;
+                }
+                .task:nth-child(even) {border-width: 1pt 0;}
+                .task:first-of-type {border-top: 0;}
+                .task:last-of-type {border-bottom: 0;}
+
+                    .task-name {
+                        width: 100%;
+                        flex-grow: 1;
+                        
+                        overflow: hidden;
+                        text-align: left;
+                        text-overflow: ellipsis;
+                        font-size: 1rem;
+                    }
+
+                        .task-name.completed {
+                            color: red;
+                            text-decoration: line-through;
+                        }
+                
+                    .task-status,
+                    .task-action,
+                    .task-priority {
+                        min-width: 3rem;
+                        height: 3rem;
+                        line-height: 3rem;
+                    }
+
+                        .task-status.rounded > input[type=radio],
+                        .task-status.rounded > input[type=radio]:checked {
+                            transition: ease-in-out 0.25s background-color;
+                        }
+
+                        .task-status.rounded > input[type=radio] {
+                            outline: none;
+                            border: 1px solid #ddd;
+                            border-radius: 50%;
+                            width: 50%;
+                            height: 50%;
+                            
+                            background-color: white;
+                        
+                            appearance: none;
+                            -webkit-appearance: none;
+                            vertical-align: middle;
+                            
+                            cursor: pointer;
+                        }
+
+                        .task-status.rounded > input[type=radio]:checked {
+                            background-color: deepskyblue;
+                        }
+                
+                    .task-priority {
+                        color: gray;
+                        box-sizing: border-box;
+                    }
+
+                        .task-priority:hover {
+                            cursor: pointer;
+                            border-top: 1rem solid;
+                        }
+                        
+                        .task-priority:active {
+                            cursor: pointer;
+                            overflow-y: hidden;
+                        
+                            border-top: 2.5rem solid;
+                        }
+
+                        .task-priority.baja-prioridad { 
+                            color: black;
+                            background-color: #BBE6D6;
+                        }
+                        
+                        .task-priority.media-prioridad {
+                            color: white;
+                            background-color: #FFA500;
+                        }
+                        
+                        .task-priority.alta-prioridad {
+                            color: white;
+                            background-color: #8B0000;
+                        }
+
+                        .task-priority.baja-prioridad:hover { border-top-color: #FFA500; }
+                        .task-priority.media-prioridad:hover { border-top-color: #8B0000; }
+                        .task-priority.alta-prioridad:hover { border-top-color: #BBE6D6; }
+                
+                    .task-action {
+                        color: gainsboro;
+                        font-size: 5vh;
+                    
+                        background-color: white;
+                        transition: ease-in-out 0.3s background-color;
+                    }
+                
+                        .task-action:hover {
+                            cursor: pointer;
+                        
+                            color: gray;
+                            background-color: gainsboro;
+                        }
+                
+                        .task-action:active {
+                            color: gainsboro;
+                            background-color: gray;
+                        
+                            border-top: 0;
+                            transition: ease-in-out 0.7s border-top;
+                        }
+            
+            /* Actions */
+            .todolist_list--actions {
+                flex-direction: column;
+                padding: 0;
+                height: auto;
+                
+                
+                color: #858383;
+            }
+
+                .todolist_list--actions > div {
+                    margin: 0 5vw;
+                    display: flex;
+                }
+
+                    .todolist_list--actions > div > div { padding: 0 0.5rem; }
+
+                .todolist_list--actions .clickable { font-weight: bold; }
+                .todolist_list--actions .clickable:hover {
+                    cursor: pointer;
+                    color: black;
+                }
+
+                .todolist_list--actions input[type=radio] { display: none; }
+                .todolist_list--actions input:checked + .clickable { color: deepskyblue; }
+
+@media only screen and (max-width: 500px) {
+    .title {
+        margin: 0;
+    }
+
+    #todolist_search,
+    #todolist_list {
+        width: 90vw;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    #todolist_search {
+        margin-bottom: 1rem;
+    }
+
+    #todolist_list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        #todolist_list,
+        .todolist_list--tasks {
+            flex-grow: 1;
+        }
+
+            .task-name,
+            input[type=text] {
+                font-size: 5vw;
+            }
+
+            .task-priority:hover {
+                border: none;
+            }
+
+            #todolist_list > .todolist_list--actions {
+                height: auto;
+            }
+}
+
+@media only screen and (min-width: 500px) {
+    #todolist {
+        align-items: normal;
+    }
+
+        #todolist_search,
+        #todolist_list {
+            min-width: max-content;
+        }
+
+            #todolist_list > .todolist_list--actions {
+                flex-direction: row;
+                padding: 1rem;
+                height: 3rem;
+            }
+}

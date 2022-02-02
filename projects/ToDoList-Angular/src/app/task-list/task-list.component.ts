@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Event } from '@angular/router';
 import { Priorities } from 'src/assets/js/Priorities';
 import { Task } from 'src/assets/js/Task';
 import { StorageManager } from '../../assets/js/Storage';
@@ -24,7 +25,8 @@ export class TaskListComponent implements OnInit {
     this.tasks = StorageManager.getTasks();
   }
 
-  public addTast(task: Task): void {
+  public addTask(task: Task): void {
+    console.log(task);
     task.setId(this.tasks.length); 
     this.tasks.splice(0, 0, task);
     this.save();
@@ -44,11 +46,11 @@ export class TaskListComponent implements OnInit {
     StorageManager.saveTasks(this.tasks);
   }
 
-  completedTask() {
+  public completedTask(): number {
     return Array.from(this.tasks).filter( (task: Task) => !task.isCompleted() ).length;
   }
 
-  filtredTask() {
+  public filtredTask(): Array<Task> {
     let filteredList: Array<Task> = Array.from(this.tasks).filter((task: Task) => {
       let result: boolean = true;
       if (this.filteredStatus != 'All') {

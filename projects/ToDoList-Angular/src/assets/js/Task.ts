@@ -1,9 +1,9 @@
 import { Priorities } from "./Priorities";
 
 class Task {
-    private id: Number;
+    private id: number;
     private nombre: string;
-    private fecha: Number;
+    private fecha: number;
     private completed: boolean;
     private priority: Priorities;
 
@@ -15,11 +15,11 @@ class Task {
         this.priority = Priorities.BAJA;
     }
 
-    public setId(id: Number) {
+    public setId(id: number) {
         this.id = id;
     }
 
-    public getId(): Number {
+    public getId(): number {
         return this.id;
     }
 
@@ -31,11 +31,11 @@ class Task {
         return this.nombre;
     }
 
-    public setFecha(fecha: Number) {
+    public setFecha(fecha: number) {
         this.fecha = fecha;
     }
 
-    public getFecha(): Number {
+    public getFecha(): number {
         return this.fecha;
     }
 

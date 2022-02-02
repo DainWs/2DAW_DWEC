@@ -1,1 +1,8 @@
-<p>task-form works!</p>
+<header class="todolist_list--new-task task">
+    <label for="new-task--state" class="task-status rounded">
+        <input id="new-task--state" type='checkbox' [(ngModel)]="taskState">
+    </label>
+    <input class="task-name" type="text" [(ngModel)]="taskName" placeholder="Nueva Tarea" title="Press 'Enter' to make the task" />
+    <span [class]='taskName'(click)="nextPriority()">{{taskPriority.getNombre()}}</span>
+    <span class="task-action" (click)="create()">+</span>
+</header>

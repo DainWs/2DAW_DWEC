@@ -8,17 +8,18 @@
     </div>
     
     <div id="todolist_list">
-      <TaskForm (addTask)="addTast($event)"/>
+      <taskForm (taskCreate)="addTask($event)"></taskForm>
 
-      <div class="todolist_list--tasks" *ngIf="tareas.length > 0">
-        <Task *ngFor="let task of filtredTask"
-            attr.task="task" 
-            (taskChange)="save($event)"
-            (removeTask)="removeTask($event)"/>
+      <div class="todolist_list--tasks" *ngIf="tasks.length > 0">
+        <task *ngFor="let task of filtredTask()"
+          attr.task="task" 
+          (taskChange)="save()"
+          (removeTask)="removeTask($event)">
+        </task>
       </div>
 
       <footer class="todolist_list--actions">
-        <span>{{ completedTask }} Items left</span>
+        <span>{{ completedTask() }} Items left</span>
 
         <div>
           <div>
@@ -35,7 +36,7 @@
           </div>
         </div>
 
-        <span class="clickable" (click)="removeCompletedTasks($event)">Clear Completed</span>
+        <span class="clickable" (click)="removeCompletedTasks()">Clear Completed</span>
       </footer>
     </div>
   </div>
