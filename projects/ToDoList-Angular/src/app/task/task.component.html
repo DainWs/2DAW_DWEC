@@ -1,6 +1,6 @@
 <div class="task" attr.title="titleFecha" attr.id="task.getFecha()">
     <label [for]="'tarea_'+task.getNombre()" class="task-status rounded">
-        <input [id]="'tarea_'+task.getNombre()" type='checkbox' [checked]="task.isCompleted()" (change)='updateTaskState'>
+        <input [id]="'tarea_'+task.getNombre()" type='checkbox' [checked]="task.isCompleted()" (change)='updateTaskState()'>
     </label>
     <span [ngClass]="nameClasses()">{{task.getNombre()}}</span>
     <span [ngClass]="priorityClasses()" (click)="nextPriority()">{{task.getPriority().getNombre()}}</span>

@@ -33,6 +33,7 @@ export class TaskComponent {
 
   public updateTaskState(): void {
     this.task.setCompleted(!this.task.isCompleted());
+    console.log(this.task);
     this.taskChange.emit(this.task);
   }
 
