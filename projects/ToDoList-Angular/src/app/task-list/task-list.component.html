@@ -12,7 +12,7 @@
 
       <div class="todolist_list--tasks" *ngIf="tasks.length > 0">
         <task *ngFor="let task of filtredTask()"
-          attr.task="task" 
+          [task]="task" 
           (taskChange)="save()"
           (removeTask)="removeTask($event)">
         </task>

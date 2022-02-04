@@ -145,14 +145,15 @@ input[type=text] {
                         min-width: 3rem;
                         height: 3rem;
                         line-height: 3rem;
+                        text-align: center;
                     }
 
-                        .task-status.rounded > input[type=radio],
-                        .task-status.rounded > input[type=radio]:checked {
+                        .task-status.rounded > input[type=checkbox],
+                        .task-status.rounded > input[type=checkbox]:checked {
                             transition: ease-in-out 0.25s background-color;
                         }
 
-                        .task-status.rounded > input[type=radio] {
+                        .task-status.rounded > input[type=checkbox] {
                             outline: none;
                             border: 1px solid #ddd;
                             border-radius: 50%;
@@ -168,7 +169,7 @@ input[type=text] {
                             cursor: pointer;
                         }
 
-                        .task-status.rounded > input[type=radio]:checked {
+                        .task-status.rounded > input[type=checkbox]:checked {
                             background-color: deepskyblue;
                         }
                 

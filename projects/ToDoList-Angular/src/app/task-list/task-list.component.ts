@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Event } from '@angular/router';
 import { Priorities } from 'src/assets/js/Priorities';
 import { Task } from 'src/assets/js/Task';
 import { StorageManager } from '../../assets/js/Storage';
 
 @Component({
   selector: 'task-list',
-  templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.sass']
+  templateUrl: './task-list.component.html'
 })
 export class TaskListComponent implements OnInit {
 
@@ -26,7 +24,6 @@ export class TaskListComponent implements OnInit {
   }
 
   public addTask(task: Task): void {
-    console.log(task);
     task.setId(this.tasks.length); 
     this.tasks.splice(0, 0, task);
     this.save();

@@ -7,12 +7,16 @@ class Task {
     private completed: boolean;
     private priority: Priorities;
 
-    constructor() {
-        this.id = 0;
-        this.nombre = '';
-        this.fecha = new Date().getTime();
-        this.completed = false;
-        this.priority = Priorities.BAJA;
+    constructor(task: any = {id: 0, nombre: '', fecha: new Date().getTime(), completed: false, priority: Priorities.BAJA}) {
+        this.id = task.id;
+        this.nombre = task.nombre;
+        this.fecha = task.fecha;
+        this.completed = task.completed;
+        if (task.priority instanceof Priorities) {
+            this.priority = task.priority;
+        } else {
+            this.priority = Priorities.getByID(task.priority.id);
+        }
     }
 
     public setId(id: number) {

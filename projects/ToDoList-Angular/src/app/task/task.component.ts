@@ -4,8 +4,7 @@ import { Task } from 'src/assets/js/Task';
 
 @Component({
   selector: 'task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.sass']
+  templateUrl: './task.component.html'
 })
 export class TaskComponent {
 
@@ -13,7 +12,7 @@ export class TaskComponent {
   @Output() taskChange: EventEmitter<any> = new EventEmitter();
   @Output() removeTask: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   public nextPriority(): void {
     let priority = this.task.getPriority();
@@ -27,7 +26,8 @@ export class TaskComponent {
         newPriority = Priorities.BAJA;
         break;
     }
-    this.task.setPriority(priority);
+    
+    this.task.setPriority(newPriority);
     this.taskChange.emit(this.task);
   }
 

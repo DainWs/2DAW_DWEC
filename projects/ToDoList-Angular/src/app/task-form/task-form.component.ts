@@ -4,8 +4,7 @@ import { Task } from 'src/assets/js/Task';
 
 @Component({
   selector: 'taskForm',
-  templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.sass']
+  templateUrl: './task-form.component.html'
 })
 export class TaskFormComponent {
   
