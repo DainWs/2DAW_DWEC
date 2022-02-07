@@ -1,12 +1,27 @@
 import React from 'react';
-import DBManagerInstance from '../services/DatabaseManager';
+import Product from '../models/Product';
+import { DBManagerInstance, registre } from '../services/DatabaseManager';
 import { ProductComponent } from './models/ProductComponent';
+
+var productInstance;
 
 class ProductList extends React.Component {
     constructor() {
         super();
         this.nameFiltre = '';
-        this.products = DBManagerInstance.getProducts();
+        this.products = [];
+
+        productInstance = this;
+        registre(function() { productInstance.update() });
+    }
+
+    update() {
+        let productGenericObjects = DBManagerInstance.getProducts();
+        this.products = [];
+        for (let genericObject in productGenericObjects) {
+            this.products.push(new Product(genericObject));
+        }
+        console.log(this.products);
     }
 
     onChangeFilter() {
@@ -25,17 +40,17 @@ class ProductList extends React.Component {
 
     render() {
         return (
-            <div class="featured-items">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="section-heading">
-                            <div class="line-dec"></div>
+            <div className="featured-items">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="section-heading">
+                            <div className="line-dec"></div>
                             <h1>Featured Items</h1>
                             </div>
                         </div>
-                    <div class="col-md-12">
-                        <div class="owl-carousel owl-theme">
+                    <div className="col-md-12">
+                        <div className="owl-carousel owl-theme">
                             {this.getFilteredList().map((product, index) => <ProductComponent key={index} product={product}></ProductComponent>)}
                         </div>
                     </div>

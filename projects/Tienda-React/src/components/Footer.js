@@ -5,12 +5,12 @@ class Footer  extends React.Component {
     render() {
         return (
             <footer>
-                <div class="footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12"><br/></div>
-                            <div class="col-md-12">
-                                <div class="footer-menu">
+                <div className="footer">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12"><br/></div>
+                            <div className="col-md-12">
+                                <div className="footer-menu">
                                     <ul>
                                         <li><a href="#">Home</a></li>
                                         <li><a href="#">Help</a></li>
@@ -20,24 +20,24 @@ class Footer  extends React.Component {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="social-icons">
+                            <div className="col-md-12">
+                                <div className="social-icons">
                                     <ul>
-                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                                        <li><a href="#"><i className="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i className="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i className="fa fa-linkedin"></i></a></li>
+                                        <li><a href="#"><i className="fa fa-rss"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="sub-footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright-text">
+                <div className="sub-footer">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="copyright-text">
                                 <p>Copyright &copy; 2022 {APP_CONFIG.name} - Design: <a rel="nofollow" href="https://www.facebook.com/tooplate">Tooplate</a></p>
                                 </div>
                             </div>

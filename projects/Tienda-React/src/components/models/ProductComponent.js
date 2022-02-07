@@ -21,7 +21,7 @@ class ProductComponent extends React.Component {
     render() {
         return (
             <a href="single-product.html">
-                <div class="featured-item">
+                <div className="featured-item">
                     <img src={this.getImageURL()} alt={this.product.name}/>
                     <h4>{this.product.name}</h4>
                     <h6>{this.product.price}</h6>

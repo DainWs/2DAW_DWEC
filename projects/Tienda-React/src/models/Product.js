@@ -1,5 +1,9 @@
 class Product {
-    constructor() {}
+    constructor(genericObject) {
+        this.name = genericObject.name;
+        this.price = genericObject.price;
+        this.category = genericObject.category;
+    }
 
     setName(name) {
         this.name = name;

@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
 
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBbmF2oI-nXnKS4-zMGc5VtaTU_GwIES2E",
-  authDomain: "fir-example-ce204.firebaseapp.com",
-  projectId: "fir-example-ce204",
-  storageBucket: "fir-example-ce204.appspot.com",
-  messagingSenderId: "647796472851",
-  appId: "1:647796472851:web:ed2044ac883ebb43fa93e6"
+  apiKey: "AIzaSyDhmSXBLfGy6C_koJWKC1Na4nKZDseed1Q",
+  authDomain: "chinospaco-tienda-react.firebaseapp.com",
+  projectId: "chinospaco-tienda-react",
+  storageBucket: "chinospaco-tienda-react.appspot.com",
+  messagingSenderId: "225912283025",
+  appId: "1:225912283025:web:d8927e7b1fa15f0bf78430"
 };
 
 const FIREBASE_APP = initializeApp(FIREBASE_CONFIG);
