@@ -1,13 +1,24 @@
-import Categories from "./Categories";
-
 class Product {
-    constructor(name = '', category = Categories.TEXTILES) {
+    constructor() {}
+
+    setName(name) {
         this.name = name;
-        this.category = category;
     }
 
     getName() {
         return this.name;
+    }
+
+    setPrice(price) {
+        this.price = price;
+    }
+
+    getPrice() {
+        return this.price;
+    }
+
+    setCategory(category) {
+        this.category = category;
     }
 
     getCategory() {

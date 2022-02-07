@@ -8,23 +8,25 @@ class ProductComponent extends React.Component {
     constructor(properties) {
         super();
         this.product = properties.product;
-        this.name = this.product.name;
     }
 
     onClick() {
-        console.log(`You clicked on ${this.name} product.`);
+        console.log(`You clicked on ${this.product.name} product.`);
+    }
+
+    getImageURL() {
+        return "%PUBLIC_URL%/assets/images/"+this.product.name+".jpg";
     }
 
     render() {
         return (
-            <div class="col-lg-3 col-sm-6 col-md-3" onClick={this.onClick}>
-                <a href="productpage.html">
-                    <div class="box-img">
-                        <h4>{this.name}</h4>
-                        <img src={getImageFor} alt="" />
-                    </div>
-                </a>
-            </div>
+            <a href="single-product.html">
+                <div class="featured-item">
+                    <img src={this.getImageURL()} alt={this.product.name}/>
+                    <h4>{this.product.name}</h4>
+                    <h6>{this.product.price}</h6>
+                </div>
+            </a>
         );
     }
 }
