@@ -1,4 +1,4 @@
-import { getDatabase, set, ref, onValue, get, child } from "firebase/database";
+import { getDatabase, set, ref, onValue, get, push, child } from "firebase/database";
 import { FIREBASE_APP } from "./Firebase";
 class DatabaseManager {
     constructor() {
@@ -19,10 +19,10 @@ class DatabaseManager {
     }
 
     setProduct(product) {
-        if (product.id == undefined) {
-            product.id = `${product.name}_` + new Date().getTime();
-        }
         let db = getDatabase();
+        if (product.id == undefined) {
+            product.id = push(child(ref(db), 'products')).key;
+        }
         set(ref(db, `products/${product.id}`), product).then((v) => {
             console.log('completed');
         });
