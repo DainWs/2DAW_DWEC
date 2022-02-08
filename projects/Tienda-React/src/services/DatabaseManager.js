@@ -15,14 +15,13 @@ class DatabaseManager {
     }
 
     update(newValues) {
-        this.products = newValues;
+        this.products = Object.values(newValues);
     }
 
     setProduct(product) {
         if (product.id == undefined) {
             product.id = `${product.name}_` + new Date().getTime();
         }
-        console.log(product);
         let db = getDatabase();
         set(ref(db, `products/${product.id}`), product).then((v) => {
             console.log('completed');
@@ -30,9 +29,6 @@ class DatabaseManager {
     }
 
     getProducts() {
-        
-          
-        console.log(this.products);
         return this.products;
     }
 }

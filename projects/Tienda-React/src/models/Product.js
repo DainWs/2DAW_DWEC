@@ -1,5 +1,6 @@
 class Product {
     constructor(genericObject) {
+        this.id = genericObject.id;
         this.name = genericObject.name;
         this.price = genericObject.price;
         this.category = genericObject.category;
