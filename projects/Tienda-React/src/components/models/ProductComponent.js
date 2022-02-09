@@ -1,15 +1,13 @@
 import React from 'react';
 import { StorageManagerInstance } from '../../services/StorageManager';
 
-var instance;
-
 class ProductComponent extends React.Component {
     constructor(properties) {
         super();
         this.product = properties.product;
         this.state = { imageUrl: '/assets/images/loading.gif', isLoaded: false };
 
-        instance = this;
+        //TODO solve this
         StorageManagerInstance.getProductImageURL(this.product.id, function(url) {
             instance.setState({
                 imageUrl: url,
