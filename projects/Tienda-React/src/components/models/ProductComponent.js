@@ -7,12 +7,13 @@ class ProductComponent extends React.Component {
     constructor(properties) {
         super();
         this.product = properties.product;
-        this.state = { imageUrl: '/assets/images/loading.gif' };
+        this.state = { imageUrl: '/assets/images/loading.gif', isLoaded: false };
 
         instance = this;
         StorageManagerInstance.getProductImageURL(this.product.id, function(url) {
             instance.setState({
-                imageUrl: url
+                imageUrl: url,
+                isLoaded: true
             });
         });
     }
@@ -23,13 +24,17 @@ class ProductComponent extends React.Component {
 
     render() {
         return (
-            <a href="single-product.html">
-                <div className="featured-item">
-                    <img src={this.state.imageUrl} alt={this.product.getName()}/>
-                    <h4>{this.product.getName()}</h4>
-                    <h6>{this.product.getPrice()}</h6>
-                </div>
-            </a>
+            <div className='item'>
+                <a href="single-product.html">
+                    <div className="featured-item">
+                        <figure>
+                            <img src={this.state.imageUrl} className={(this.state.imageUrl) ? 'isLoaded' : ''} alt={this.product.getName()}/>
+                        </figure>
+                        <h4>{this.product.getName()}</h4>
+                        <h6>{this.product.getPrice()}</h6>
+                    </div>
+                </a>
+            </div>
         );
     }
 }

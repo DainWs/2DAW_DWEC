@@ -164,7 +164,9 @@ a {
 	margin-top: 15px;
 	margin-bottom: 20px;
 }
-
+.owl-carousel .owl-item {
+	height: 100%;
+}
 /* Featured Style */
 .featured-items {
 	margin-bottom: 70px;
@@ -174,14 +176,35 @@ a {
 	border: 1px solid #eee;
 	padding: 20px;
 	transition: all 0.5s;
+
+	display: flex;
+	flex-direction: column;
 }
 .featured-item:hover {
 	opacity: 0.9;
 }
+.featured-item figure {
+	position: relative;
+	flex-grow: 1;
+	margin: 0;
+	width: 100%;
+	overflow-x: hidden;
+}
+.featured-item figure:before {
+	content: "";
+	float: left;
+	padding-top: 100%;
+}
 .featured-item img {
 	width: 100%;
 }
+.featured-item .isLoaded {
+	object-fit: none;
+}
 .featured-item h4 {
+	white-space: pre;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 	font-size: 17px;
 	font-weight: 700;
 	color: #1e1e1e;
@@ -196,6 +219,9 @@ a {
 	font-size: 15px;
 	font-weight: 700;
 	margin-bottom: 0px;
+}
+.owl-item .active {
+	height: 100%;
 }
 .owl-theme .owl-dots {
 	text-align: center;

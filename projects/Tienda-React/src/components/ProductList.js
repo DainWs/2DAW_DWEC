@@ -1,4 +1,7 @@
 import React from 'react';
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Product from '../models/Product';
 import { DBManagerInstance, registre } from '../services/DatabaseManager';
 import { ProductComponent } from './models/ProductComponent';
@@ -53,9 +56,9 @@ class ProductList extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-12">
-                            <div className="owl-carousel owl-theme">
+                            <OwlCarousel className='owl-theme' loop margin={10}>
                                 {this.state.products}
-                            </div>
+                            </OwlCarousel>
                         </div>
                     </div>
                 </div>
