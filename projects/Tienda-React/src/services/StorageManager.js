@@ -1,5 +1,5 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { FIREBASE_APP } from "./Firebase";
+import { FIREBASE_APP } from "./FirebaseApp";
 class StorageManager {
     constructor() {
         if (FIREBASE_APP) {
@@ -7,13 +7,9 @@ class StorageManager {
         }
     }
 
-    getProductImageURL(productID, callback) {
-        let reference = ref(this.storage, `products/${productID}.jpg`)
-        getDownloadURL(reference)
-            .then(callback)
-            .catch((error) => {
-                console.log(error);
-            });
+    getImagePromiseURL(productID) {
+        let reference = ref(this.storage, `products/${productID}.jpg`);
+        return getDownloadURL(reference);
     }
 
     uploadProductImage() {

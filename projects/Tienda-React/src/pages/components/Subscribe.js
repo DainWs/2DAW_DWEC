@@ -1,27 +1,10 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import React from 'react';
+import { login } from '../../services/SessionManager';
 
 class Subscribe  extends React.Component {
     constructor() {
         super();
         this.email = 'Your Email...';
-    }
-
-    onLogin() {
-        let auth = getAuth();
-        auth.languageCode = 'it';
-        let provider = new GoogleAuthProvider();
-    
-        signInWithPopup(auth, provider).then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-        
-            console.log('Successfully registered!');
-            console.log(user);
-        }).catch((error) => {
-            console.log(error);
-        });
     }
 
     render() {
@@ -43,7 +26,7 @@ class Subscribe  extends React.Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <fieldset>
-                                                    <button type='button' id="form-submit" className="button" onClick={this.onLogin}>Subscribe Now!</button>
+                                                    <button type='button' id="form-submit" className="button" onClick={login}>Subscribe Now!</button>
                                                 </fieldset>
                                             </div>
                                         </div>

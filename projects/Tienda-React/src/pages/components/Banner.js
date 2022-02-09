@@ -1,6 +1,4 @@
 import React from 'react';
-import Product from '../models/Product';
-import { DBManagerInstance } from '../services/DatabaseManager';
 
 class Banner  extends React.Component {
     render() {

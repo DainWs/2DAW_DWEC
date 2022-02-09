@@ -1,5 +1,5 @@
 import { getDatabase, set, ref, onValue, get, push, child } from "firebase/database";
-import { FIREBASE_APP } from "./Firebase";
+import { FIREBASE_APP } from "./FirebaseApp";
 class DatabaseManager {
     constructor() {
         if (FIREBASE_APP) {

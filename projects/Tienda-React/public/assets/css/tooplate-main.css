@@ -188,7 +188,7 @@ a {
 	flex-grow: 1;
 	margin: 0;
 	width: 100%;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 .featured-item figure:before {
 	content: "";
@@ -197,9 +197,6 @@ a {
 }
 .featured-item img {
 	width: 100%;
-}
-.featured-item .isLoaded {
-	object-fit: none;
 }
 .featured-item h4 {
 	white-space: pre;

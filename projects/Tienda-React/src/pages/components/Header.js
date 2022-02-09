@@ -1,5 +1,5 @@
 import React from 'react';
-import APP_CONFIG from '../AppConfig';
+import APP_CONFIG from '../../AppConfig';
 
 class Header  extends React.Component {
     render() {

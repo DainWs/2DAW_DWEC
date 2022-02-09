@@ -1,8 +1,8 @@
-import Header from "./components/Header";
-import Banner from "./components/Banner";
-import { ProductList } from "./components/ProductList";
-import Subscribe from "./components/Subscribe";
-import Footer from "./components/Footer";
+import Header from "./pages/components/Header";
+import Banner from "./pages/components/Banner";
+import { ProductList } from "./pages/components/ProductList";
+import Subscribe from "./pages/components/Subscribe";
+import Footer from "./pages/components/Footer";
 
 function App() {
   return (
