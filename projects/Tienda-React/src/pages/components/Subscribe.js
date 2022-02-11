@@ -1,13 +1,77 @@
 import React from 'react';
-import { login } from '../../services/SessionManager';
+import { SessionManagerInstance } from '../../services/SessionManager';
 
+var instance = null;
 class Subscribe  extends React.Component {
     constructor() {
         super();
+        instance = this;
         this.email = 'Your Email...';
+        this.isSubscribed = (SessionManagerInstance.getUserUID() != null);
+        this.state = {
+            isSubscribed: this.isSubscribed
+        };
+    }
+
+    onSubscribe() {
+        SessionManagerInstance.login(function(wasSuccessfully) {
+            instance.setState({
+                isSubscribed: wasSuccessfully
+            });
+        });
+    }
+
+    onUnsubscribe() {
+        SessionManagerInstance.logout(function(wasSuccessfully) {
+            instance.setState({
+                isSubscribed: !wasSuccessfully
+            });
+        })
     }
 
     render() {
+        let result = (<div></div>);
+        if (this.state.isSubscribed) {
+            result = this.getSubscribedHTML();
+        } else {
+            result = this.getUnSubscribedHTML();
+        }
+        return result;
+    }
+
+    getSubscribedHTML() {
+        let user = SessionManagerInstance.getUser();
+        console.log(user);
+        return (
+            <div className="subscribe-form">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <img src={user.photoURL} className="img-fluid rounded-3" style={{borderRadius: "25px"}}/>
+                        </div>
+                        <div className="col-md-8 offset-md-2">
+                            <div className="main-content">
+                                <p>{user.displayName}<br/>{user.email}</p>
+                                <div className="container">
+                                    <form id="subscribe" action="" method="get">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <fieldset>
+                                                    <button type='button' id="form-submit" className="button" onClick={this.onUnsubscribe}>Unsubscribe</button>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    getUnSubscribedHTML() {
         return (
             <div className="subscribe-form">
                 <div className="container">
@@ -26,7 +90,7 @@ class Subscribe  extends React.Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <fieldset>
-                                                    <button type='button' id="form-submit" className="button" onClick={login}>Subscribe Now!</button>
+                                                    <button type='button' id="form-submit" className="button" onClick={this.onSubscribe}>Subscribe Now!</button>
                                                 </fieldset>
                                             </div>
                                         </div>

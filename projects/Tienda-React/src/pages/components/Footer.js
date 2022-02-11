@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import APP_CONFIG from '../../AppConfig';
 
 class Footer  extends React.Component {
@@ -12,11 +13,8 @@ class Footer  extends React.Component {
                             <div className="col-md-12">
                                 <div className="footer-menu">
                                     <ul>
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">Help</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                        <li><a href="#">How It Works ?</a></li>
-                                        <li><a href="#">Contact Us</a></li>
+                                        <li><Link to="/home">Home</Link></li>
+                                        <li><Link to="/carrito">Carrito</Link></li>
                                     </ul>
                                 </div>
                             </div>

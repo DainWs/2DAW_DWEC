@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import APP_CONFIG from '../../AppConfig';
 
 class Header  extends React.Component {
@@ -15,18 +16,12 @@ class Header  extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="index.html">Home
+                                <Link className="nav-link" to="/home">Home
                                     <span className="sr-only">(current)</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="products.html">Products</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="about.html">About Us</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="contact.html">Contact Us</a>
+                                <Link className="nav-link" to="/carrito">Carrito</Link>
                             </li>
                         </ul>
                     </div>

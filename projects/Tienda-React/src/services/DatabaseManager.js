@@ -31,6 +31,16 @@ class DatabaseManager {
     getProducts() {
         return this.products;
     }
+
+    setOrder(order) {
+        let db = getDatabase();
+        if (order.id == undefined) {
+            order.id = push(child(ref(db), `orders/${order.getUserID()}`)).key;
+        }
+        set(ref(db, `orders/${order.getUserID()}/${order.id}`), order).then((v) => {
+            console.log('completed');
+        });
+    }
 }
 export const DBManagerInstance = new DatabaseManager();
 
