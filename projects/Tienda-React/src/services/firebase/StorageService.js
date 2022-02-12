@@ -1,6 +1,6 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { FIREBASE_APP } from "./FirebaseApp";
-class StorageManager {
+class StorageService {
     constructor() {
         if (FIREBASE_APP) {
             this.storage = getStorage(FIREBASE_APP, "gs://chinospaco-tienda-react.appspot.com");
@@ -9,11 +9,15 @@ class StorageManager {
 
     getImagePromiseURL(productID) {
         let reference = ref(this.storage, `products/${productID}.jpg`);
-        return getDownloadURL(reference);
+        
+        return getDownloadURL(reference)
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     uploadProductImage() {
         //Not supported
     }
 }
-export const StorageManagerInstance = new StorageManager();
+export const storageService = new StorageService();

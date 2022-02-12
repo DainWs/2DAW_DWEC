@@ -1,33 +1,37 @@
 import React from 'react';
-import { StorageManagerInstance } from '../../../services/StorageManager';
+import { storageService } from '../../../services/firebase/StorageService';
+import { useNavigate, withRouter } from "react-router";
+import { Link } from 'react-router-dom';
 
 class ProductComponent extends React.Component {
     constructor(properties) {
         super();
+        this.isObjectMounted = false;
         this.product = properties.product;
         this.state = { imageUrl: '/assets/images/loading.gif' };
     }
 
-    onClick() {
-        console.log(`You clicked on ${this.product.getName()} product.`);
+    componentDidMount() {
+        this.isObjectMounted = true;
+        var instance = this;
+        storageService.getImagePromiseURL(this.product.id)
+            .then(function(url) {
+                if (instance.isObjectMounted) {
+                    instance.setState({
+                        imageUrl: url
+                    });
+                }
+            });
+    }
+
+    componentWillUnmount() {
+        this.isObjectMounted = false;
     }
 
     render() {
-        //TODO solve this
-        var instance = this;
-        StorageManagerInstance.getImagePromiseURL(this.product.id)
-            .then(function(url) {
-                instance.setState({
-                    imageUrl: url
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        
         return (
             <div className='item'>
-                <a href="single-product.html">
+                <Link to={'/product/'+this.product.id}>
                     <div className="featured-item">
                         <figure>
                             <img src={this.state.imageUrl} alt={this.product.getName()}/>
@@ -35,10 +39,10 @@ class ProductComponent extends React.Component {
                         <h4>{this.product.getName()}</h4>
                         <h6>{this.product.getPrice()}</h6>
                     </div>
-                </a>
+                </Link>
             </div>
         );
     }
 }
 
-export { ProductComponent }
+export default ProductComponent;

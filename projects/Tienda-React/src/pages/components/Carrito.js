@@ -1,12 +1,12 @@
 import React from 'react';
-import { DBManagerInstance } from '../../services/DatabaseManager';
-import { SessionManagerInstance } from '../../services/SessionManager';
+import { dbService } from '../../services/firebase/DatabaseService';
+import { localStorageService } from '../../services/LocalStorageService';
 import { ProductCarritoComponent } from './models/ProductCarritoComponent';
 
 class Carrito extends React.Component {
     constructor() {
         super();
-        this.order = SessionManagerInstance.getCarrito();
+        this.order = localStorageService.loadOrder();
         this.state = {
             orderLines: this.processOrderLines(this.order.getOrders())
         };
@@ -23,9 +23,9 @@ class Carrito extends React.Component {
     }
 
     onBuy() {
-        DBManagerInstance.setOrder(this.order);
-        SessionManagerInstance.clearCarrito();
-        this.order = SessionManagerInstance.getCarrito();
+        dbService.setOrder(this.order);
+        localStorageService.clearCarrito();
+        this.order = localStorageService.loadOrder();
         this.update();
     }
 
@@ -45,7 +45,7 @@ class Carrito extends React.Component {
             </ProductCarritoComponent>;
         });
     }
-
+    
     render() {
         let buyHTML = (
             <div className="card">
@@ -65,7 +65,7 @@ class Carrito extends React.Component {
         }
 
         return (
-            <section className="h-100" style={{background: "#eee"}}>
+            <section style={{background: "#eee"}}>
                 <div className="container h-100 py-5">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-10">

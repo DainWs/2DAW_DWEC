@@ -1,8 +1,9 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
-import Order from '../models/Order';
-import Carrito from '../pages/components/Carrito';
+import Order from '../../models/Order';
+import User from '../../models/User';
+import { localStorageService } from '../LocalStorageService';
 
-class SessionManager {
+class AuthService {
     login(onCompleteCallback = function() {}) {
         let auth = getAuth();
         auth.languageCode = 'it';
@@ -10,10 +11,10 @@ class SessionManager {
         
         signInWithPopup(auth, provider)
             .then((result) => {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                localStorage.setItem('userToken', credential.accessToken);
-                localStorage.setItem('userUID', result.user.uid);
-                localStorage.setItem('user', JSON.stringify(result.user));
+                //const credential = GoogleAuthProvider.credentialFromResult(result);
+                let user = new User(result.user, result.user.stsTokenManager.expirationTime);
+                console.log(result.user);
+                localStorageService.saveUser(user);
                 console.log('Successfully registered!');
                 onCompleteCallback(true);
             }).catch((error) => {
@@ -26,26 +27,14 @@ class SessionManager {
         let auth = getAuth();
         signOut(auth)
             .then((result) => {
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('userUID');
-                localStorage.removeItem('user');
+                console.log(result);
+                localStorageService.deleteUser();
+                console.log('Successfully logout!');
                 onCompleteCallback(true);
             }).catch((error) => {
                 console.log(error);
                 onCompleteCallback(false);
             });
-    }
-
-    getUserToken() {
-        return localStorage.getItem('userToken');
-    }
-    
-    getUserUID() {
-        return localStorage.getItem('userUID');
-    }
-
-    getUser() {
-        return JSON.parse(localStorage.getItem('user'));
     }
 
     getCarrito() {
@@ -72,5 +61,4 @@ class SessionManager {
         localStorage.setItem('carrito', JSON.stringify(order));
     }
 }
-const SessionManagerInstance = new SessionManager();
-export {SessionManagerInstance};
+export const authService = new AuthService();

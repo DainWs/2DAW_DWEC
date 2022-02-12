@@ -5,7 +5,9 @@ Tooplate 2114 Pixie
 https://www.tooplate.com/view/2114-pixie
 
 */
-
+.single-product {
+	margin-bottom: 20vh;
+}
 body {
 	font-family: 'Roboto', sans-serif;
 	transition: all 0.5s;
@@ -99,7 +101,7 @@ a {
 	text-transform: uppercase;
 	font-size: 15px;
 	font-weight: 700;
-	color: #1e1e1e;
+	color: #3a8bcd;
 	transition: all 0.5s;
 }
 .navbar-dark .navbar-nav .nav-link:hover,
@@ -108,6 +110,23 @@ a {
 .navbar-dark .navbar-nav .nav-link.show,
 .navbar-dark .navbar-nav .show>.nav-link {
 	color: #3a8bcd;
+}
+.navbar-dark .navbar-nav .nav-link:focus,
+.nav-link:focus {
+	color: #3a8bcd;
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.nav-link:hover {
+	color: #3a8bcd7e;
+	display: flex;
+	flex-direction: column;
+}
+.nav-link.active {
+	border-bottom: 2px solid #3a8bcd;
+}
+.nav-link.active:focus,
+.nav-link.active:hover {
+	border-bottom: 2px solid #3a8bcd7e;
 }
 .navbar:after {
 	width: 100%;
@@ -134,9 +153,11 @@ a {
 	line-height: 30px;
 	font-family: 'FontAwesome';
 }
+.App {
+	margin-top: 50px;
+}
 /* Banner Style */
 .banner {
-	margin-top: 50px;
 	background-image: url(../images/banner-bg.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -713,7 +734,7 @@ a {
 
 /* Responsive Style */
 @media (max-width: 991px) {
-
+	.App,
 	.banner {
 		border-top: none;
 		margin-top: 0px;

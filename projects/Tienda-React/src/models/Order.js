@@ -1,7 +1,8 @@
 import OrderLine from "./OrderLine";
 class Order {
-    constructor(genericObject = {userUID: '', orderLines: [], date: new Date()}) {
-        this.id = `${genericObject.userUID}-${genericObject.date.getTime()}`;
+    constructor(genericObject = {userUID: '', orderLines: [], date: Date.now()}) {
+        console.log(genericObject.date);
+        this.id = `${genericObject.userUID}-${genericObject.date}`;
         this.userUID = genericObject.userUID;
         this.date = genericObject.date;
         this.orderLines = [];
@@ -18,11 +19,22 @@ class Order {
         this.orderLines[orderLine.id] = orderLine;
     }
 
+    hasProduct(product) {
+        let tempOrderLine = new OrderLine();
+        tempOrderLine.setPedidoId(this.id);
+        tempOrderLine.setProduct(product);
+        return this.hasOrderLine(tempOrderLine);
+    }
+
     addOrderLine(orderLine) {
         if (!orderLine instanceof OrderLine) {
             orderLine = new OrderLine(orderLine);
         }
         this.orderLines[orderLine.id] = orderLine;
+    }
+
+    hasOrderLine(orderLine) {
+        return (this.orderLines[orderLine.id] != null)
     }
 
     updateOrderLine(orderLine) {

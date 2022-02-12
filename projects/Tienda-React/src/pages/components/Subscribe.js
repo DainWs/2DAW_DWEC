@@ -1,5 +1,6 @@
 import React from 'react';
-import { SessionManagerInstance } from '../../services/SessionManager';
+import { authService } from '../../services/firebase/AuthService';
+import { localStorageService } from '../../services/LocalStorageService';
 
 var instance = null;
 class Subscribe  extends React.Component {
@@ -7,14 +8,14 @@ class Subscribe  extends React.Component {
         super();
         instance = this;
         this.email = 'Your Email...';
-        this.isSubscribed = (SessionManagerInstance.getUserUID() != null);
+        this.isSubscribed = (localStorageService.loadUserUID() != null);
         this.state = {
             isSubscribed: this.isSubscribed
         };
     }
 
     onSubscribe() {
-        SessionManagerInstance.login(function(wasSuccessfully) {
+        authService.login(function(wasSuccessfully) {
             instance.setState({
                 isSubscribed: wasSuccessfully
             });
@@ -22,7 +23,7 @@ class Subscribe  extends React.Component {
     }
 
     onUnsubscribe() {
-        SessionManagerInstance.logout(function(wasSuccessfully) {
+        authService.logout(function(wasSuccessfully) {
             instance.setState({
                 isSubscribed: !wasSuccessfully
             });
@@ -40,18 +41,18 @@ class Subscribe  extends React.Component {
     }
 
     getSubscribedHTML() {
-        let user = SessionManagerInstance.getUser();
+        let user = localStorageService.loadUser();
         console.log(user);
         return (
             <div className="subscribe-form">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <img src={user.photoURL} className="img-fluid rounded-3" style={{borderRadius: "25px"}}/>
+                            <img src={user.getPhotoURL()} className="img-fluid rounded-3" style={{borderRadius: "25px"}}/>
                         </div>
                         <div className="col-md-8 offset-md-2">
                             <div className="main-content">
-                                <p>{user.displayName}<br/>{user.email}</p>
+                                <p>{user.getName()}<br/>{user.getEmail()}</p>
                                 <div className="container">
                                     <form id="subscribe" action="" method="get">
                                         <div className="row">

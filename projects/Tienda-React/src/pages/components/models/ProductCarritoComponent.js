@@ -1,5 +1,5 @@
 import React from 'react';
-import { StorageManagerInstance } from '../../../services/StorageManager';
+import { storageService } from '../../../services/firebase/StorageService';
 
 class ProductCarritoComponent extends React.Component {
 
@@ -11,10 +11,12 @@ class ProductCarritoComponent extends React.Component {
             numUnits: this.orderLine.getUnits(),
             totalProductPrice: this.orderLine.getTotalPrice()
         };
+        this.isObjectMounted = false;
     }
 
     onClick() {
         console.log(`You clicked on ${this.product.getName()} product.`);
+        this.props.history.push(`/product/${this.product.id}`);
     }
 
     removeUnit() {
@@ -40,19 +42,24 @@ class ProductCarritoComponent extends React.Component {
         });
     }
 
-    render() {
-        //TODO solve this
+    componentDidMount() {
+        this.isObjectMounted = true;
         var instance = this;
-        StorageManagerInstance.getImagePromiseURL(this.product.id)
+        storageService.getImagePromiseURL(this.product.id)
             .then(function(url) {
-                instance.setState({
-                    imageUrl: url
-                });
-            })
-            .catch((error) => {
-                console.log(error);
+                if (instance.isObjectMounted) {
+                    instance.setState({
+                        imageUrl: url
+                    });
+                }
             });
-        
+    }
+
+    componentWillUnmount() {
+        this.isObjectMounted = false;
+    }
+
+    render() {
         return (
             <div className="card rounded-3 mb-4">
                 <div className="card-body p-4">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import APP_CONFIG from '../../AppConfig';
 
 class Header  extends React.Component {
@@ -15,13 +15,11 @@ class Header  extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
-                            <li className="nav-item active">
-                                <Link className="nav-link" to="/home">Home
-                                    <span className="sr-only">(current)</span>
-                                </Link>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" activeclassname="active" to="/home">Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/carrito">Carrito</Link>
+                                <NavLink className="nav-link" activeclassname="active" to="/carrito">Carrito</NavLink>
                             </li>
                         </ul>
                     </div>
