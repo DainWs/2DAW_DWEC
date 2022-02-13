@@ -97,7 +97,7 @@ class ProductDetail extends React.Component {
                                 <h4>{this.state.product.getName()}</h4>
                                 <h6>{this.state.product.getPrice()}</h6>
                                 <p>{this.state.product.getDescription()}</p>
-                                <span>{this.state.product.getStock()} left on stock</span>
+                                <p>{this.state.product.getStock()} left on stock</p>
                                 {shoppingCarFormHTML}
                                 <div className="down-content">
                                     <div className="categories">
