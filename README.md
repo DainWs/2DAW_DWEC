@@ -10,6 +10,14 @@ The documentation was made with **Phantom by HTML5 UP**.
 - [Here](https://developer.here.com/)
 ### Events
 - [Hammer](http://hammerjs.github.io/)
+### Libraries
+- [JQuery](https://jquery.com/)
+
+## Used Frameworks
+- [VueJs](https://vuejs.org/)
+- [Vue-Cli](https://cli.vuejs.org/)
+- [Angular](https://angular.io/)
+- [React](https://es.reactjs.org/)
 
 ## Desarrollo Web en Entornos Cliente
 
@@ -27,6 +35,13 @@ Módulo Desarrollo Web en Entornos Cliente del CFGS Desarrollo de Aplicaciones W
 - Unit 9. JavaScript Frameworks II
 
 ### Projectos
-- [Unit 3. RockPaperScissors](https://github.com/DainWs/2DAW_DWEC/tree/master/1Trimestre/Unit-3/Projects/RockPaperScissors)
+You can see all of then in **[project/](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/)** folder.
+- [Unit 3. RockPaperScissors](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/RockPaperScissors)
+- [Unit 4. SVGGame](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/SVGGame)
+- [Unit 5. BookListExercise](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/BookListExercise)
+- [Unit 6. ChristmasProject](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/ChristmasProject)
+- [Unit 7. ToDoList-vue](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/ToDoList-vue)
+- [Unit 7. ToDoList-Angular](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/ToDoList-Angular)
+- [Unit 7. Tienda-React](https://github.com/DainWs/2DAW_DWEC/tree/master/Projects/Tienda-React)
 
 > Author: [Jose A. Piñero Berbel](https://github.com/jpineroberbel) - [Exercises repository](https://github.com/jpineroberbel/Desarrollo-Web-en-Entornos-Cliente)
