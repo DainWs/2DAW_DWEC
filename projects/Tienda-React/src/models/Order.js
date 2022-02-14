@@ -6,7 +6,7 @@ class Order {
         this.userUID = genericObject.userUID;
         this.date = genericObject.date;
         this.orderLines = [];
-        for (let orderLine in genericObject.orderLines) {
+        for (let orderLine of genericObject.orderLines) {
             this.addOrderLine(orderLine);
         }
     }
@@ -27,14 +27,20 @@ class Order {
     }
 
     addOrderLine(orderLine) {
-        if (!orderLine instanceof OrderLine) {
+        if (!(orderLine instanceof OrderLine)) {
             orderLine = new OrderLine(orderLine);
         }
-        this.orderLines[orderLine.id] = orderLine;
+        
+        if (this.hasOrderLine(orderLine)) {
+            orderLine.id = this.orderLines.push(orderLine);
+        }
     }
 
     hasOrderLine(orderLine) {
-        return (this.orderLines[orderLine.id] != null)
+        let coincidences = this.orderLines.find( 
+            (value) => value.equalsProduct(orderLine) 
+        );
+        return (coincidences == undefined)
     }
 
     updateOrderLine(orderLine) {
@@ -59,7 +65,7 @@ class Order {
 
     setUserUID(userUID) {
         this.userUID = userUID;
-        this.id = `${userUID}-${this.date.getTime()}`;
+        this.id = `${userUID}-${this.date}`;
     }
 
     getUserID() {

@@ -1,10 +1,14 @@
 import Product from "./Product";
 class OrderLine {
     constructor(genericObject = {pedidoId: null, product: new Product(), units: 1}) {
-        this.id = `${genericObject.pedidoId}-${genericObject.product.id}` ;
+        this.id = -1;
         this.pedidoId = genericObject.pedidoId;
         this.product = genericObject.product;
         this.units = genericObject.units;
+
+        if (!(this.product instanceof Product)) {
+            this.product = new Product(this.product);
+        }
     }
 
     setPedidoId(pedidoId) {
@@ -45,6 +49,10 @@ class OrderLine {
 
     getTotalPrice() {
         return this.product.getPrice() * this.units;
+    }
+
+    equalsProduct(orderLine) {
+        return this.product.id == orderLine.product.id;
     }
 }
 export default OrderLine;

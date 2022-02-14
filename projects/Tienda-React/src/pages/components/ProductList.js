@@ -9,16 +9,16 @@ var instance;
 class ProductList extends React.Component {
     constructor() {
         super();
+        this.isComponentMounted = false;
         this.products = [];
         this.state = { products: [] };
-
+        this.update();
         instance = this;
     }
 
     update() {
         console.log('Update List');
         this.products = dbService.getProducts();
-        console.log(this.products);
         let procesedProducts = [];
         for (const product of this.products) {
             procesedProducts.push(
@@ -26,20 +26,21 @@ class ProductList extends React.Component {
             );
         }
 
-        console.log(procesedProducts);
-
-        this.setState({
-            products: procesedProducts
-        });
-        return "hola";
+        if (this.isComponentMounted) {
+            this.setState({ products: procesedProducts });
+        } else {
+            this.state = { products: procesedProducts };
+        }
     }
 
     componentDidMount() {
+        this.isComponentMounted = true;
         dbService.registre(ProductList.name, function () { instance.update() });
         this.update();
     }
 
     componentWillUnmount() {
+        this.isComponentMounted = false;
         dbService.unregistre(ProductList.name);
     }
 

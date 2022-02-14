@@ -4,11 +4,11 @@ import { dbService } from "../../services/firebase/DatabaseService";
 import { localStorageService } from "../../services/LocalStorageService";
 import { storageService } from '../../services/firebase/StorageService';
 
+var instance;
 class ProductDetail extends React.Component {
     constructor(properties) {
         super();
         let product = dbService.getProduct(properties.productId);
-
         this.order = localStorageService.loadOrder();
         this.state = { 
             product: product, 
@@ -17,6 +17,8 @@ class ProductDetail extends React.Component {
             imageUrl: '/assets/images/loading.gif'
         };
         this.isObjectMounted = false;
+
+        instance = this;
     }
 
     addToShoppingCar() {
@@ -34,9 +36,12 @@ class ProductDetail extends React.Component {
         }
     }
 
+    onUnitsChageHook(e) {
+        instance.setState({numUnits: e.target.value});
+    }
+
     componentDidMount() {
         this.isObjectMounted = true;
-        var instance = this;
         storageService.getImagePromiseURL(this.state.product.id)
             .then(function(url) {
                 if (instance.isObjectMounted) {
@@ -52,10 +57,11 @@ class ProductDetail extends React.Component {
     }
 
     render() {
+        const numUnits = this.state.numUnits;
         let shoppingCarFormHTML = (
             <form action="" method="get">
                 <label htmlFor="quantity">Quantity:</label>
-                <input name="quantity" type="number" className="quantity-text" id="quantity" min="0" max={this.state.product.getStock()} value={this.state.numUnits}/>
+                <input name="quantity" type="number" className="quantity-text" id="quantity" min="0" max={this.state.product.getStock()} value={numUnits} onChange={this.onUnitsChageHook}/>
                 <button type='button' onClick={() => {this.addToShoppingCar()}} className="button">Order Now!</button>
             </form>
         );
@@ -66,8 +72,8 @@ class ProductDetail extends React.Component {
             );
         }
 
-        console.log(this.state.isInShoppingCar);
-        if (this.state.isInShoppingCar) {
+        let isInShoppingCar = this.order.hasProduct(this.state.product);
+        if (!isInShoppingCar) {
             shoppingCarFormHTML = (
                 <span style={{color: "green"}}>You have already this product in you shopping car.</span>
             );

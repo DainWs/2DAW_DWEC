@@ -36,29 +36,5 @@ class AuthService {
                 onCompleteCallback(false);
             });
     }
-
-    getCarrito() {
-        let order = localStorage.getItem('carrito');
-        if (order == null) {
-            order = new Order()
-        } else {
-            order = new Order(order);
-        }
-
-        let token = this.getUserUID();
-        if (token != null) {
-            order.setUserUID(token);
-        }
-        return order;
-    }
-
-    clearCarrito() {
-        let order = new Order();
-        let token = this.getUserUID();
-        if (token != null) {
-            order.setUserUID(token);
-        }
-        localStorage.setItem('carrito', JSON.stringify(order));
-    }
 }
 export const authService = new AuthService();

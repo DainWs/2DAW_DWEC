@@ -45,14 +45,13 @@ class DatabaseService {
     }
 
     registre(componentClass, callback) {
+        console.log(`Registering ${componentClass}`);
         callbacks[componentClass] = callback;
-        console.log('registre');
-        console.log(componentClass);
     }
     
     unregistre(componentClass) {
+        console.log(`Unregistering ${componentClass}`);
         delete callbacks[componentClass];
-        console.log(componentClass);
     }
 }
 export const dbService = new DatabaseService();
