@@ -6,6 +6,7 @@ For a better experience, you can see the [documentation](https://dainws.github.i
 The documentation was made with **Phantom by HTML5 UP**.
 
 ## Used Libraries
+You can found libraries in **[libs/](https://github.com/DainWs/2DAW_DWEC/tree/master/libs/)** folder.
 ### Geography
 - [Here](https://developer.here.com/)
 ### Events
