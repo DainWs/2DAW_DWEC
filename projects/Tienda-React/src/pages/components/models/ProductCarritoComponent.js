@@ -16,24 +16,20 @@ class ProductCarritoComponent extends React.Component {
         this.isObjectMounted = false;
     }
 
-    onClick() {
-        this.props.history.push(`/product/${this.product.id}`);
+    removeUnit(instance) {
+        instance.orderLine.removeUnit();
+        instance.update();
+        instance.props.onChange(instance.orderLine);
     }
 
-    removeUnit() {
-        this.orderLine.removeUnit();
-        this.update();
-        this.props.onChange(this.orderLine);
+    addUnit(instance) {
+        instance.orderLine.addUnit();
+        instance.update();
+        instance.props.onChange(instance.orderLine);
     }
 
-    addUnit() {
-        this.orderLine.addUnit();
-        this.update();
-        this.props.onChange(this.orderLine);
-    }
-
-    delete() {
-        this.props.onRemove(this.orderLine);
+    delete(instance) {
+        instance.props.onRemove(instance.orderLine);
     }
 
     update() {
@@ -72,13 +68,13 @@ class ProductCarritoComponent extends React.Component {
                             <p className="lead fw-normal mb-2">{this.product.getName()}</p>
                         </Link>
                         <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
-                            <button className="btn btn-link px-2" onClick={this.removeUnit}>
+                            <button className="btn btn-link px-2" onClick={() => {this.removeUnit(this)}}>
                                 <i className="fas fa-minus"></i>
                             </button>
 
                             <span className="form-control form-control-sm" style={{textAlign: "center"}}>{this.state.numUnits}</span>
 
-                            <button className="btn btn-link px-2" onClick={this.addUnit}>
+                            <button className="btn btn-link px-2" onClick={() => {this.addUnit(this)}}>
                                 <i className="fas fa-plus"></i>
                             </button>
                         </div>
@@ -86,7 +82,7 @@ class ProductCarritoComponent extends React.Component {
                             <h5 className="mb-0" style={{textAlign: "right"}}>${this.state.totalProductPrice}</h5>
                         </div>
                         <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                            <a onClick={this.delete} className="text-danger">
+                            <a onClick={() => {this.delete(this)}} className="text-danger">
                                 <i className="fas fa-trash fa-lg"></i>
                             </a>
                         </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { authService } from '../../services/firebase/AuthService';
 import { dbService } from '../../services/firebase/DatabaseService';
 import { localStorageService } from '../../services/LocalStorageService';
 import { ProductCarritoComponent } from './models/ProductCarritoComponent';
@@ -40,9 +39,9 @@ class Carrito extends React.Component {
     }
 
     update() {
-        this.setState({
-            orderLines: this.processOrderLines(this.order.getOrders())
-        });
+        localStorageService.saveOrder(this.order);
+        let updatedOrderLines = this.processOrderLines(this.order.getOrders());
+        this.setState({ orderLines: updatedOrderLines });
     }
 
     processOrderLines(ordersLines) {
@@ -50,8 +49,8 @@ class Carrito extends React.Component {
             return <ProductCarritoComponent 
                 key={index} 
                 orderLine={orderLine} 
-                onChange={this.onOrderLineChange} 
-                onRemove={this.onOrderLineRemove}>
+                onChange={(event) => {this.onOrderLineChange(event)}} 
+                onRemove={(event) => {this.onOrderLineRemove(event)}}>
             </ProductCarritoComponent>;
         });
     }

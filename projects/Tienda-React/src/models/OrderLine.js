@@ -1,7 +1,7 @@
 import Product from "./Product";
 class OrderLine {
-    constructor(genericObject = {pedidoId: null, product: new Product(), units: 1}) {
-        this.id = -1;
+    constructor(genericObject = {id: null, pedidoId: null, product: new Product(), units: 1}) {
+        this.id = genericObject.id;
         this.pedidoId = genericObject.pedidoId;
         this.product = genericObject.product;
         this.units = genericObject.units;
@@ -12,7 +12,6 @@ class OrderLine {
     }
 
     setPedidoId(pedidoId) {
-        this.id = `${pedidoId}-${this.product.id}` ;
         this.pedidoId = pedidoId;
     }
 
@@ -21,7 +20,6 @@ class OrderLine {
     }
 
     setProduct(product) {
-        this.id = `${this.pedidoId}-${product.id}` ;
         this.product = product;
     }
 
@@ -51,8 +49,8 @@ class OrderLine {
         return this.product.getPrice() * this.units;
     }
 
-    equalsProduct(orderLine) {
-        return this.product.id == orderLine.product.id;
+    equalsProduct(product) {
+        return this.product.id == product.id;
     }
 }
 export default OrderLine;

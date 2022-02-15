@@ -299,8 +299,11 @@ a {
 	color: #fff;
 	outline: none;
 }
-.subscribe-form .main-content form button:focus {
-	color: #fff!important;
+.navbar-dark .navbar-brand:focus:not(:hover) {
+	color: #3a8bcd !important;
+}
+.navbar-dark .navbar-brand:active {
+	background-color: #2574b4 !important;
 }
 .subscribe-form .main-content form button {
 	width: 100%;

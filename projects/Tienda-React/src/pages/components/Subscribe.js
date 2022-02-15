@@ -16,17 +16,13 @@ class Subscribe  extends React.Component {
 
     onSubscribe() {
         authService.login(function(wasSuccessfully) {
-            instance.setState({
-                isSubscribed: wasSuccessfully
-            });
+            instance.setState({ isSubscribed: wasSuccessfully });
         });
     }
 
     onUnsubscribe() {
         authService.logout(function(wasSuccessfully) {
-            instance.setState({
-                isSubscribed: !wasSuccessfully
-            });
+            instance.setState({ isSubscribed: !wasSuccessfully });
         })
     }
 
@@ -42,7 +38,6 @@ class Subscribe  extends React.Component {
 
     getSubscribedHTML() {
         let user = localStorageService.loadUser();
-        console.log(user);
         return (
             <div className="subscribe-form">
                 <div className="container">
@@ -80,7 +75,7 @@ class Subscribe  extends React.Component {
                         <div className="col-md-12">
                             <div className="section-heading">
                                 <div className="line-dec"></div>
-                                <h1>Subscribe on PIXIE now!</h1>
+                                <h1>Subscribe on <u>Chinos Paco</u> now!</h1>
                             </div>
                         </div>
                         <div className="col-md-8 offset-md-2">

@@ -17,10 +17,9 @@ class ProductList extends React.Component {
     }
 
     update() {
-        console.log('Update List');
         this.products = dbService.getProducts();
         let procesedProducts = [];
-        for (const product of this.products) {
+        for (var product of this.products) {
             procesedProducts.push(
                 <ProductComponent key={product.id} product={product}></ProductComponent>
             );
@@ -58,7 +57,7 @@ class ProductList extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-12">
-                            <OwlCarousel className='owl-theme' loop margin={10}>
+                            <OwlCarousel className='owl-theme' margin={10}>
                                 {this.state.products}
                             </OwlCarousel>
                         </div>

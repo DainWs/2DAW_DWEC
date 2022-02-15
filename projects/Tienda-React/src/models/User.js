@@ -4,7 +4,6 @@ class User {
         this.displayName = genericObject.displayName;
         this.email = genericObject.email;
         this.photoURL = genericObject.photoURL;
-        console.log(genericObject);
         this.expirationTime = expirationTime;
     }
 

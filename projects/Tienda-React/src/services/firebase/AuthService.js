@@ -13,7 +13,6 @@ class AuthService {
             .then((result) => {
                 //const credential = GoogleAuthProvider.credentialFromResult(result);
                 let user = new User(result.user, result.user.stsTokenManager.expirationTime);
-                console.log(result.user);
                 localStorageService.saveUser(user);
                 console.log('Successfully registered!');
                 onCompleteCallback(true);
@@ -27,7 +26,6 @@ class AuthService {
         let auth = getAuth();
         signOut(auth)
             .then((result) => {
-                console.log(result);
                 localStorageService.deleteUser();
                 console.log('Successfully logout!');
                 onCompleteCallback(true);

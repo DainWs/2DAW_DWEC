@@ -4,7 +4,6 @@ import { dbService } from "../../services/firebase/DatabaseService";
 import { localStorageService } from "../../services/LocalStorageService";
 import { storageService } from '../../services/firebase/StorageService';
 
-var instance;
 class ProductDetail extends React.Component {
     constructor(properties) {
         super();
@@ -17,37 +16,34 @@ class ProductDetail extends React.Component {
             imageUrl: '/assets/images/loading.gif'
         };
         this.isObjectMounted = false;
-
-        instance = this;
     }
 
     addToShoppingCar() {
-        let newOrderLine = new OrderLine();
-        newOrderLine.setPedidoId(this.order.id);
-        newOrderLine.setProduct(this.state.product);
-        newOrderLine.setUnits(this.state.numUnits);
-        this.order.addOrderLine(newOrderLine);
-        localStorageService.saveOrder(this.order);
-
         if (!this.state.isInShoppingCar) {
+            let newOrderLine = new OrderLine();
+            newOrderLine.setPedidoId(this.order.id);
+            newOrderLine.setProduct(this.state.product);
+            newOrderLine.setUnits(this.state.numUnits);
+            this.order.addOrderLine(newOrderLine);
+            localStorageService.saveOrder(this.order);
+
             this.setState({
-                isInShoppingCar: this.order.hasOrderLine(newOrderLine)
+                isInShoppingCar: this.order.hasProduct(this.state.product)
             })
         }
     }
 
     onUnitsChageHook(e) {
-        instance.setState({numUnits: e.target.value});
+        this.setState({ numUnits: e.target.value });
     }
 
     componentDidMount() {
         this.isObjectMounted = true;
+        var instance = this;
         storageService.getImagePromiseURL(this.state.product.id)
             .then(function(url) {
                 if (instance.isObjectMounted) {
-                    instance.setState({
-                        imageUrl: url
-                    });
+                    instance.setState({ imageUrl: url });
                 }
             });
     }
@@ -57,28 +53,7 @@ class ProductDetail extends React.Component {
     }
 
     render() {
-        const numUnits = this.state.numUnits;
-        let shoppingCarFormHTML = (
-            <form action="" method="get">
-                <label htmlFor="quantity">Quantity:</label>
-                <input name="quantity" type="number" className="quantity-text" id="quantity" min="0" max={this.state.product.getStock()} value={numUnits} onChange={this.onUnitsChageHook}/>
-                <button type='button' onClick={() => {this.addToShoppingCar()}} className="button">Order Now!</button>
-            </form>
-        );
-
-        if (this.state.product.getStock() <= 0) {
-            shoppingCarFormHTML = (
-               <span style={{color: "red"}}>No more stock available.</span>
-            );
-        }
-
-        let isInShoppingCar = this.order.hasProduct(this.state.product);
-        if (!isInShoppingCar) {
-            shoppingCarFormHTML = (
-                <span style={{color: "green"}}>You have already this product in you shopping car.</span>
-            );
-        }
-
+        let shoppingCarFormHTML = this.getShoppingCarFormHTML();
         return (
             <div className="single-product">
                 <div className="container">
@@ -116,6 +91,35 @@ class ProductDetail extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    getShoppingCarFormHTML() {
+        let result = (
+            <form action="" method="get">
+                <label htmlFor="quantity">Quantity:</label>
+                <input id="quantity"
+                    type="number" 
+                    className="quantity-text"  
+                    min="0" 
+                    max={this.state.product.getStock()} 
+                    value={this.state.numUnits} 
+                    onChange={(event) => {this.onUnitsChageHook(event)}}/>
+                <button type='button' 
+                    onClick={(event) => {this.addToShoppingCar(event)}} 
+                    className="button">Order Now!</button>
+            </form>
+        );
+
+        if (this.state.product.getStock() <= 0) {
+            let text = "No more stock available.";
+            result = <span style={{color: "red"}}>{text}</span>;
+        }
+
+        if (this.state.isInShoppingCar) {
+            let text = "You have already this product in you shopping car.";
+            result = <span style={{color: "green"}}>{text}</span>;
+        }
+        return result;
     }
 }
 export default ProductDetail;

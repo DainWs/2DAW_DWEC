@@ -1,8 +1,7 @@
 import OrderLine from "./OrderLine";
 class Order {
     constructor(genericObject = {userUID: '', orderLines: [], date: Date.now()}) {
-        console.log(genericObject.date);
-        this.id = `${genericObject.userUID}-${genericObject.date}`;
+        this.id = genericObject.date;
         this.userUID = genericObject.userUID;
         this.date = genericObject.date;
         this.orderLines = [];
@@ -20,10 +19,10 @@ class Order {
     }
 
     hasProduct(product) {
-        let tempOrderLine = new OrderLine();
-        tempOrderLine.setPedidoId(this.id);
-        tempOrderLine.setProduct(product);
-        return this.hasOrderLine(tempOrderLine);
+        let coincidences = this.orderLines.find( 
+            (value) => value.equalsProduct(product)
+        );
+        return !(coincidences == undefined);
     }
 
     addOrderLine(orderLine) {
@@ -31,16 +30,13 @@ class Order {
             orderLine = new OrderLine(orderLine);
         }
         
-        if (this.hasOrderLine(orderLine)) {
-            orderLine.id = this.orderLines.push(orderLine);
+        if (!this.hasOrderLine(orderLine)) {
+            orderLine.id = (this.orderLines.push(orderLine) - 1);
         }
     }
 
     hasOrderLine(orderLine) {
-        let coincidences = this.orderLines.find( 
-            (value) => value.equalsProduct(orderLine) 
-        );
-        return (coincidences == undefined)
+        return this.hasProduct(orderLine.getProduct());
     }
 
     updateOrderLine(orderLine) {
@@ -52,7 +48,7 @@ class Order {
     }
 
     removeOrderLine(orderLineId) {
-        delete this.orderLines[orderLineId];
+        this.orderLines.splice(orderLineId, 1);
     }
 
     getTotalPrice() {
@@ -65,7 +61,6 @@ class Order {
 
     setUserUID(userUID) {
         this.userUID = userUID;
-        this.id = `${userUID}-${this.date}`;
     }
 
     getUserID() {
