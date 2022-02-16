@@ -63,15 +63,6 @@ class Carrito extends React.Component {
                 </div>
             </div>
         )
-        
-        let lenght = this.state.orderLines.length;
-        if (lenght == undefined || lenght < 1) {
-            buyHTML = (
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h4 className="fw-normal mb-0 text-black">You dont have products.</h4>
-                </div>
-            );
-        }
 
         if (!this.state.isLogged) {
             buyHTML = (
@@ -85,6 +76,15 @@ class Carrito extends React.Component {
                         <h5 className="fw-normal mb-0 text-red">You must be subscribed to be able to buy.</h5>
                     </div>
                 </>
+            );
+        }
+
+        let lenght = this.state.orderLines.length;
+        if (lenght == undefined || lenght < 1) {
+            buyHTML = (
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h4 className="fw-normal mb-0 text-black">You dont have products.</h4>
+                </div>
             );
         }
 
