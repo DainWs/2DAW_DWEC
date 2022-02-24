@@ -13,9 +13,9 @@ class LoginPage extends React.Component {
   onLogin() {
     let credentials = {};
     // TODO this uid will be changed for provided server uid
-    credentials.uid = new Date().getTime();
+    credentials.uid = this.state.username;
     credentials.displayName = this.state.username;
-    let loginResult = OAuthService.loginWith(JSON.stringify(credentials), this.state.rememberMe);
+    let loginResult = OAuthService.loginWith(JSON.stringify(credentials));
     if (loginResult) {
         this.props.loginComplete();
     }
@@ -24,12 +24,6 @@ class LoginPage extends React.Component {
   onUsernameChange(event) {
     this.setState({
         username: event.target.value
-    });
-  }
-
-  onRememberMeChange() {
-    this.setState({
-        rememberMe: !this.state.rememberMe
     });
   }
 
@@ -48,7 +42,6 @@ class LoginPage extends React.Component {
                                     <input type="text" id="username" className="form-control" value={this.state.username} onChange={(event) => {this.onUsernameChange(event)}}/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="remember-me" className="text-info"><span>Remember me</span> <span><input id="remember-me" type="checkbox" checked={this.state.rememberMe} onChange={() => {this.onRememberMeChange()}}/></span></label><br/>
                                     <input type="button" className="btn btn-info btn-md" value="Log in" onClick={() => {this.onLogin()}}/>
                                 </div>
                             </form>

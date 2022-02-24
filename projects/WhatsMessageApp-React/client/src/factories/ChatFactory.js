@@ -9,8 +9,7 @@ class ChatFactory {
 
     makeNewChat(userOne, userTwo) {
         let genericObject = {};
-        genericObject.userOneUid = userOne.getUid();
-        genericObject.userTwoUid = userTwo.getUid();
+        genericObject.id = [ userOne.getUid(), userTwo.getUid() ];
         genericObject.messages = [];
         return new Chat(genericObject);
     }

@@ -1,6 +1,12 @@
 import React from 'react';
 import ChatFactory from '../../factories/ChatFactory';
+import Chat from '../../models/Chat';
+import Message from '../../models/Message';
 import OAuthService from '../../services/LocalOAuthService';
+import { socketController } from '../../services/socket/SocketController';
+import { socketDataManager } from '../../services/socket/SocketDataManager';
+import { ChatEvent, updateChat } from '../../services/socket/SocketEvents';
+import { socketObserver } from '../../services/socket/SocketObserver';
 import MessageModel from './models/MessageModel';
 
 class ChatView extends React.Component {
@@ -11,7 +17,7 @@ class ChatView extends React.Component {
         this.myUser = OAuthService.getLoggedUser();
         this.heUser = properties.user;
         this.chat = new ChatFactory().makeNewChat(this.myUser, this.heUser);
-        
+        console.log(this.chat);
         this.state = {
             newMessage: "",
             messages: this.chat.getMessages()
@@ -20,19 +26,27 @@ class ChatView extends React.Component {
     }
 
     update() {
-        let procesedMessages = [];
-        for (var message of this.chat.getMessages()) {
-            let isMine = (message.getUserUid() == this.myUser.getUid());
-            let ownerOfMessage = (isMine) ? this.myUser : this.heUser;
-            procesedMessages.push(
-                <MessageModel key={message.getId()} isMine={isMine} user={ownerOfMessage} message={message.getMessage()}></MessageModel>
-            );
-        }
+        console.log(socketDataManager.getData(updateChat));
+        let newChat = new Chat(socketDataManager.getData(updateChat));
+        console.log(newChat);
+        console.log(this.chat);
+        if (this.chat.equals(newChat)) {
+            this.chat = newChat;
+            console.log(this.chat);
+            let procesedMessages = [];
+            for (var message of this.chat.getMessages()) {
+                let isMine = (message.getUserUid() == this.myUser.getUid());
+                let ownerOfMessage = (isMine) ? this.myUser : this.heUser;
+                procesedMessages.push(
+                    <MessageModel key={message.getId()} isMine={isMine} user={ownerOfMessage} message={message.getMessage()}></MessageModel>
+                );
+            }
 
-        if (this.isComponentMounted) {
-            this.setState({ messages: procesedMessages });
-        } else {
-            this.state = { newMessage: "", messages: procesedMessages };
+            if (this.isComponentMounted) {
+                this.setState({ messages: procesedMessages });
+            } else {
+                this.state = { newMessage: "", messages: procesedMessages };
+            }
         }
     }
     
@@ -43,13 +57,19 @@ class ChatView extends React.Component {
     }
 
     sendMessage() {
-        this.chat.addMessage(this.myUser.getUid(), this.state.newMessage);
-        this.update();
-        //TODO send message
+        console.log(this.chat);
+        let messageObj = new Message();
+        messageObj.setUserUid(this.myUser.getUid());
+        messageObj.setMessage(this.state.newMessage);
+        socketController.sendMessage(this.chat, messageObj);
     }
 
     componentDidMount() {
         this.isComponentMounted = true;
+        var instance = this;
+        socketObserver.subscribe(updateChat, 'ChatView', function() {instance.update()});
+        console.log(this.chat);
+        socketController.getChat(this.chat.getId());
         //TODO registre this to a observer
         //dbService.registre(ProductList.name, function () { instance.update() });
         this.update();
@@ -57,6 +77,7 @@ class ChatView extends React.Component {
 
     componentWillUnmount() {
         this.isComponentMounted = false;
+        socketObserver.unsubscribe(updateChat, 'ChatView');
         //TODO unregistre this from a observer
         //dbService.unregistre(ProductList.name);
     }

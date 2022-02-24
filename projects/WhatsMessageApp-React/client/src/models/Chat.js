@@ -1,23 +1,18 @@
 import Message from "./Message";
 
 class Chat {
-    constructor(genericObject = {userOneUid: null, userTwoUid: null, messages: []}) {
-        this.id = `${genericObject.userOneUid}-${genericObject.userTwoUid}`;
-        this.userOneUid = genericObject.userOneUid;
-        this.userTwoUid = genericObject.userTwoUid;
-        this.messages = genericObject.messages;
+    constructor(genericObject = {id: [], messages: []}) {
+        this.id = genericObject.id;
+        this.messages = [];
+        console.log(genericObject);
+        for(let i in genericObject.messages) {
+            let messageGenericObject = genericObject.messages[i];
+            this.messages[i] = new Message(messageGenericObject);
+        }
     }
 
     getId() {
         return this.id;
-    }
-
-    getUserOneUid() {
-        return this.userOneUid;
-    }
-
-    getUserTwoUid() {
-        return this.userTwoUid;
     }
 
     getMessages() {
@@ -31,9 +26,14 @@ class Chat {
         let newId = this.messages.push(messageObj);
         messageObj.setId(newId);
     }
-
-    belongsTo(user) {
-        return (this.id.includes(user.getUid()));
+    
+    equals(chat) {
+        let myChatId = this.id.sort();
+        console.log(myChatId);
+        let heChatId = chat.id.sort();
+        console.log(heChatId);
+        const arrayEquals = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+        return arrayEquals(myChatId, heChatId);
     }
 }
 export default Chat;

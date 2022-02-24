@@ -1,5 +1,6 @@
 import UserFactory from "../factories/UserFactory";
 import { localStorageService } from "./LocalStorageService";
+import { socketController } from "./socket/SocketController";
 
 class LocalOAuthService {
     constructor() {
@@ -11,10 +12,9 @@ class LocalOAuthService {
             
             //TODO Express connection here
             this.loggedUser = new UserFactory().makeUser(credentials);
+            socketController.setUser();
             
-            if (remember) {
-                localStorageService.saveUser(this.loggedUser);
-            }
+            localStorageService.saveUser(this.loggedUser);
         }
         return (this.loggedUser != null);
     }

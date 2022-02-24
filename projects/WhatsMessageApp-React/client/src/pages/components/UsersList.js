@@ -1,6 +1,9 @@
 import React from 'react';
 import UserFactory from '../../factories/UserFactory';
-import { socketManager, UserListChanged, UsersConnectedReceived } from '../../services/socket/SocketManager';
+import { socketController } from '../../services/socket/SocketController';
+import { socketDataManager } from '../../services/socket/SocketDataManager';
+import { updateUsers, UserListEvent, UsersConnectedReceived } from '../../services/socket/SocketEvents';
+import { socketObserver } from '../../services/socket/SocketObserver';
 import UserModel from './models/UserModel';
 
 class UsersList extends React.Component {
@@ -16,19 +19,25 @@ class UsersList extends React.Component {
     }
 
     update() {
+        /*
         let credentials = {};
         // TODO this uid will be changed for provided server uid
         credentials.uid = new Date().getTime();
         credentials.displayName = 'DainWsBot';
         let userTmp = new UserFactory().parseObject(credentials);
-        
-        this.users = socketManager.getData(UsersConnectedReceived);
-        this.users.push(userTmp);
+        */
+        this.users = socketDataManager.getData(updateUsers);
+        if (this.users == undefined || this.users == null) {
+            this.users = [];
+        }
+
+        console.log(this.users);
+        //this.users.push(userTmp);
         console.log(this.users);
         let procesedUsers = [];
         for (var userGeneric of this.users) {
             let user = new UserFactory().parseObject(userGeneric);
-            if (user.getName().includes(this.filtre)) {
+            if (user.displayName.includes(this.filtre)) {
                 procesedUsers.push(
                     <UserModel key={user.getUid()} user={user} showChat={(user) => {this.showUserChat(user)}}></UserModel>
                 );
@@ -54,14 +63,14 @@ class UsersList extends React.Component {
     componentDidMount() {
         this.isComponentMounted = true;
         var instance = this;
-        socketManager.subscribe('UsersList', UserListChanged, function() {instance.update()});
-        socketManager.subscribe('UsersList', UsersConnectedReceived, function() {instance.update();});
+        socketObserver.subscribe(updateUsers, 'UsersList', function() {instance.update()});
+        socketController.getUsers();
         this.update();
     }
 
     componentWillUnmount() {
         this.isComponentMounted = false;
-        socketManager.unsubscribe('UsersList', UserListChanged);
+        socketObserver.unsubscribe(updateUsers, 'UsersList');
     }
 
     render() {
