@@ -1,6 +1,6 @@
 import UserFactory from "../factories/UserFactory";
 import { localStorageService } from "./LocalStorageService";
-import { socketController } from "./socket/SocketController";
+import { SocketController } from "./socket/SocketController";
 
 class LocalOAuthService {
     constructor() {
@@ -10,8 +10,8 @@ class LocalOAuthService {
     loginWith(credentials) {
         if (this.loggedUser == null) {
             
-            this.loggedUser = new UserFactory().makeUser(credentials);
-            socketController.setUser();
+            this.loggedUser = new UserFactory().parseJSONUser(credentials);
+            SocketController.setUser();
             
             localStorageService.saveUser(this.loggedUser);
         }
@@ -25,6 +25,10 @@ class LocalOAuthService {
 
     getLoggedUser() {
         return this.loggedUser;
+    }
+
+    getLoggedUserId() {
+        return this.loggedUser.getId();
     }
 }
 const OAuthService = new LocalOAuthService();

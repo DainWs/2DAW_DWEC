@@ -1,251 +1,5 @@
-/*class ChatsManager {
-    constructor() {
-        this.chats = [];
-    }
-
-    registre(chat) {
-        this.chats[chat.id] = chat;
-    }
-
-    unregistre(chat) {
-        this.chats.splice(chat.id, 1);
-    }
-
-    search(idParts) {
-        let result = null;
-        let filteredChats = this.chats.filter(
-            (chat, chatid) => {
-                console.log(idParts);
-                console.log(idParts.values());
-                let result = true;
-                for (const idPart of idParts) {
-                    result &= chatid.includes(idPart);
-                }
-                return result;
-            });
-        
-        console.log(filteredChats);
-        if (count(filteredChats) > 0) {
-            result = filteredChats.pop();
-        }
-        return result;
-    }
-
-    getChats() {
-        return this.chats;
-    }
-
-    get(chatId) {
-        return this.chats[chatId];
-    }
-
-    sendMessage(chatid, message) {
-        message.id = this.chats[chatid].messages.push(message);
-        chatsObserver.notify('ChatEvent', this.chats[chatid]);
-    }
-}
-const chatsManager = new ChatsManager();
-
-class ChatsObserver {
-    constructor() {
-        this.subscriptions = [];
-    }
-
-    subscribe(client, chatid) {
-        if (this.subscriptions[chatid] == undefined) {
-            this.subscriptions[chatid] = [];
-        }
-
-        this.subscriptions[chatid][client.id] = client;
-    }
-
-    unsubscribe(client, chatid) {
-        this.subscriptions[chatid]
-            .splice(client.id, 1);
-    }
-
-    notify(event, chat) {
-        this.subscriptions[chat.id]
-            .forEach( (client) => { client.emit(event, chat) } );
-    }
-}
-const chatsObserver = new ChatsObserver();
-
-class ClientObserver {
-    constructor() {
-        this.chats = [];
-        this.clients = [];
-    }
-
-    subscribe(client) {
-        console.log(`Client log-in: [${client.id}|${client.user.displayName}]`);
-        this.clients[client.id] = client;
-        this.notifyAll('UserListEvent', this.getSubscribers());
-    }
-
-    unsubscribe(id) {
-        console.log(`Client log-out: [${id}]`);
-        this.clients.splice(id, 1);
-        this.notifyAll('UserListEvent', this.getSubscribers());
-    }
-
-    notifyAll(event, data) {
-        this.clients.forEach( ( client ) => { client.emit(event, data) } );
-    }
-
-    notifyOne(clientId, event, data) {
-        this.clients[clientId].emit(event, data);
-    }
-
-    getSubscribers() {
-        let result = [];
-        for (let client of this.clients) {
-            result[client.id] = client.user;
-        }
-        return result;
-    }
-
-    clientSubscribeToChat(client, chat) {
-        let founded = false;
-        for (let chatUid in this.chats) {
-            console.log(chatUid);
-            let firstUserMatch = chatUid.includes(chat.userOneUid);
-            let secondUserMatch = chatUid.includes(chat.userTwoUid);
-            if (firstUserMatch && secondUserMatch) {
-                this.chats[chatUid].subscribers[client.id] = client;
-                founded = true;
-            }
-        }
-
-        if (!founded) {
-            this.chats[chat.id] = chat;
-            this.chats[chat.id].subscribers[client.id] = client;
-        }
-    }
-
-    clientUnsubscribeFromChat(client, chat) {
-        for (let chatUid in this.chats) {
-            console.log(chatUid);
-            let firstUserMatch = chatUid.includes(chat.userOneUid);
-            let secondUserMatch = chatUid.includes(chat.userTwoUid);
-            if (firstUserMatch && secondUserMatch) {
-                this.chats[chatUid].subscribers.splice(client.id, 1);
-            }
-        }
-    }
-}
-
-const clientObserver = new ClientObserver();
-
-
-class ClientManager {
-    constructor() {
-        this.clients = [];
-    }
-
-    registre(client) {
-        console.log(`Client log-in: [${client.id}|${client.user.displayName}]`);
-        this.clients[client.id] = client;
-        io.emit('UserListEvent', this.getClients());
-    }
-
-    unregistre(id) {
-        console.log(`Client log-out: [${id}]`);
-        this.clients.splice(id, 1);
-        io.emit('UserListEvent', this.getClients());
-    }
-
-    getClient() {
-
-    }
-
-    getClients() {
-        let result = [];
-        for (let client of this.clients) {
-            result[client.id] = client.user;
-        }
-        return result;
-    }
-
-    clientSubscribeToChat(client, chat) {
-        let founded = false;
-        for (let chatUid in this.chats) {
-            console.log(chatUid);
-            let firstUserMatch = chatUid.includes(chat.userOneUid);
-            let secondUserMatch = chatUid.includes(chat.userTwoUid);
-            if (firstUserMatch && secondUserMatch) {
-                this.chats[chatUid].subscribers[client.id] = client;
-                founded = true;
-            }
-        }
-
-        if (!founded) {
-            this.chats[chat.id] = chat;
-            this.chats[chat.id].subscribers[client.id] = client;
-        }
-    }
-
-    clientUnsubscribeFromChat(client, chat) {
-        for (let chatUid in this.chats) {
-            console.log(chatUid);
-            let firstUserMatch = chatUid.includes(chat.userOneUid);
-            let secondUserMatch = chatUid.includes(chat.userTwoUid);
-            if (firstUserMatch && secondUserMatch) {
-                this.chats[chatUid].subscribers.splice(client.id, 1);
-            }
-        }
-    }
-}
-
-class Client {
-    constructor(socket) {
-        this.socket = socket;
-        this.addListeners();
-    }
-
-    getData() {
-        return this.user;
-    }
-
-    addListeners() {
-        this.socket.on('UserData', (data) => { this.onUserDataReceived(data) });
-        this.socket.on('ConnectToChat', (data) => { this.onConnectToChat(data) });
-    }
-
-    emit(event, data) {
-        this.socket.emit(event, data);
-    }
-
-    updateChat() {
-        let chat = chatsManager.get(this.chatId);
-        console.log(`update chat: ${chat}`);
-        this.socket.emit('ChatEvent', chat);
-    }
-
-    onUserDataReceived(data) {
-        this.id = data.uid;
-        this.user = data;
-        console.log(this.id);
-        clientObserver.registre(this);
-        
-        this.socket.broadcast.emit('UserListEvent', this.user);
-    }
-
-    onConnectToChat(data) {
-        if (this.chatId) {
-            chatsObserver.unsubscribe(this, this.chatId);
-        }
-
-        let chat = chatsManager.search(data);
-        if (chat != null) {
-            this.chatId = chat.id;
-            chatsObserver.subscribe(this, chat.id);
-        }
-        this.updateChat();
-    }
-}
-*/
 const express = require('express');
+const fs = require("fs"); 
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -254,8 +8,14 @@ const io = new Server(server);
 
 app.use(express.static(__dirname + '/client/build'));
 
+
 app.get('/', (req, res) => {
-    res.sendFile('/index.html');
+    let file = '/index.html';
+    if (fs.existsSync('/index.html')) {
+        res.sendFile('/index.html');
+    } else {
+        res.send('<h1>Not found</h1>');   
+    }
 });
 
 io.on('connection', onConnect);
@@ -299,7 +59,7 @@ function onConnect(socket) {
         console.log(chatIdParts);
         let chat = CHAT_LIST[chatIdParts];
 
-        this.emit('updateChat', chat);
+        io.emit('updateChat', getFormatedList(CHAT_LIST));
     });
 
     socket.on('sendMessage', (data) => {
@@ -313,7 +73,7 @@ function onConnect(socket) {
         if (chat != null) {
             let message = data.message;
 
-            if (chat.messages == undefined) {
+            if (chat.messages == undefined || chat.messages == null) {
                 chat.messages = [];
             }
 
@@ -325,7 +85,7 @@ function onConnect(socket) {
             CHAT_LIST[chat.id] = chat;
             console.log(chat);
             console.log(JSON.stringify(chat));
-            this.emit('updateChat', chat);
+            io.emit('updateChat', getFormatedList(CHAT_LIST));
         }
     });
 

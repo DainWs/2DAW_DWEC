@@ -1,11 +1,15 @@
 import User from "../models/User";
 
 class UserFactory {
-    parseObject(userGenericObject) {
-        return new User(userGenericObject);
+    getUser() {
+        return new User();
     }
 
-    makeUser(userJSON) {
+    parseUser(genericObject) {
+        return new User(genericObject);
+    }
+
+    parseJSONUser(userJSON) {
         let genericObject = JSON.parse(userJSON);
         return (genericObject) ? new User(genericObject) : null;
     }

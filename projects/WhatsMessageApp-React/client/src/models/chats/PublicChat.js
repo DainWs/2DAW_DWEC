@@ -6,7 +6,7 @@ class PublicChat extends Chat {
         this.setMessages(genericObject.messages);
     }
 
-    belongsTo(user) {
+    belongsTo(users) {
         return true;
     }
 }

@@ -15,7 +15,7 @@ class Layout extends React.Component {
 
   render() {
     let user = OAuthService.getLoggedUser();
-    return (user && user.getUid()) ? this.getNormalView() : this.getLoginFormView();
+    return (user && user.getId()) ? this.getNormalView() : this.getLoginFormView();
   }
 
   getLoginFormView() {

@@ -2,7 +2,7 @@ import UserFactory from "../factories/UserFactory";
 
 class LocalStorageService {
     saveUser(user) {
-        localStorage.setItem('userUid', user.getUid());
+        localStorage.setItem('userUid', user.getId());
         localStorage.setItem('user', JSON.stringify(user));
     }
 
@@ -13,7 +13,7 @@ class LocalStorageService {
 
     loadUser() {
         let userJSON = localStorage.getItem('user');
-        return new UserFactory().makeUser(userJSON);
+        return new UserFactory().parseJSONUser(userJSON);
     }
 
     loadUserUID() {

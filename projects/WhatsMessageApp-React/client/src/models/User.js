@@ -1,25 +1,72 @@
+const AllowedImagesId = new Map();
+AllowedImagesId.set(1, 'Image One');
+AllowedImagesId.set(2, 'Image Two');
+AllowedImagesId.set(3, 'Image Three');
+AllowedImagesId.set(4, 'Image Four');
+AllowedImagesId.set(5, 'Image Five');
+AllowedImagesId.set(6, 'Image Six');
+
+const AllowedStatesId = new Map();
+AllowedStatesId.set(1, 'Connected');
+AllowedStatesId.set(2, 'Disconnected');
+
 class User {
-    constructor(genericObject = {uid: null, displayName: null, pendingMessages: 0, imageId: 1}) {
-        this.uid = genericObject.uid;
-        this.displayName = genericObject.displayName;
-        this.pendingMessages = genericObject.pendingMessages ?? 0;
-        this.imageId = genericObject.imageId;
+    constructor(genericObject = {id: null, name: '', pendingMessages: [], imageId: AllowedImagesId.keys()[1], state: AllowedStatesId.get(2)}) {
+        this.id = (genericObject.id) ? genericObject.id : new Date().getTime();
+        this.name = (genericObject.name) ? genericObject.name : `User_${new Date().getTime()}`;
+
+        this.state = AllowedStatesId.keys()[2];
+        this.setState(genericObject.state);
+
+        this.imageId = AllowedImagesId.keys()[1];
+        this.setImageId(genericObject.imageId);
+
+        this.pendingMessages = [];
+        this.setPendingMessages(genericObject.pendingMessages);
     }
 
-    getUid() {
-        return this.uid;
+    getId() {
+        return this.id;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    getPendingMessages() {
+        return this.pendingMessages;
+    }
+
+    setPendingMessages(pendingMessages) {
+        if (Array.isArray(pendingMessages)) {
+            this.pendingMessages = pendingMessages;
+        }
     }
 
     getImageId() {
         return this.imageId;
     }
 
-    getName() {
-        return this.displayName;
+    setImageId(imageId) {
+        console.log(imageId);
+        if (AllowedImagesId.has(imageId)) {
+            this.imageId = imageId;
+        }
     }
 
-    getPendingMessages() {
-        return this.pendingMessages;
+    getState() {
+        return this.state;
+    }
+
+    setState(newState) {
+        if (AllowedStatesId.has(newState)) {
+            this.state = newState;
+        }
+    }
+
+    equals(otherUser) {
+        return (this.id === otherUser.id);
     }
 }
 export default User;
+export { AllowedImagesId, AllowedStatesId };

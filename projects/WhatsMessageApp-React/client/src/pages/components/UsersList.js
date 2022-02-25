@@ -1,9 +1,9 @@
 import React from 'react';
 import UserFactory from '../../factories/UserFactory';
-import { socketController } from '../../services/socket/SocketController';
-import { socketDataManager } from '../../services/socket/SocketDataManager';
-import { updateUsers, UserListEvent, UsersConnectedReceived } from '../../services/socket/SocketEvents';
-import { socketObserver } from '../../services/socket/SocketObserver';
+import { UserProvider } from '../../services/providers/UsersProvider';
+import { SocketController } from '../../services/socket/SocketController';
+import { updateUsers } from '../../services/socket/SocketEvents';
+import { SocketObserver } from '../../services/socket/SocketObserver';
 import UserModel from './models/UserModel';
 
 class UsersList extends React.Component {
@@ -19,17 +19,21 @@ class UsersList extends React.Component {
     }
 
     update() {
-        this.users = socketDataManager.getData(updateUsers);
+        this.users = UserProvider.provide();
         if (this.users == undefined || this.users == null) {
             this.users = [];
         }
 
         let procesedUsers = [];
-        for (var userGeneric of this.users) {
-            let user = new UserFactory().parseObject(userGeneric);
-            if (user.displayName.includes(this.filtre)) {
+        
+        for (var userKey of this.users.keys()) {
+            let userGeneric = this.users.get(userKey);
+            console.log(userGeneric);
+            let user = new UserFactory().parseUser(userGeneric);
+            console.log(user);
+            if (user.name.includes(this.filtre)) {
                 procesedUsers.push(
-                    <UserModel key={user.getUid()} user={user} showChat={(user) => {this.showUserChat(user)}}></UserModel>
+                    <UserModel key={user.getId()} user={user} showChat={(user) => {this.showUserChat(user)}}></UserModel>
                 );
             }
         }
@@ -53,19 +57,19 @@ class UsersList extends React.Component {
     componentDidMount() {
         this.isComponentMounted = true;
         var instance = this;
-        socketObserver.subscribe(updateUsers, 'UsersList', function() {instance.update()});
-        socketController.getUsers();
+        SocketObserver.subscribe(updateUsers, 'UsersList', function() {instance.update()});
+        SocketController.getUsers();
         this.update();
     }
 
     componentWillUnmount() {
         this.isComponentMounted = false;
-        socketObserver.unsubscribe(updateUsers, 'UsersList');
+        SocketObserver.unsubscribe(updateUsers, 'UsersList');
     }
 
     render() {
         return (
-            <div className="col-12 col-lg-5 col-xl-3 border-right" style={{backgroundColor: "#f0f2f5"}}>
+            <div className="p-0 col-12 col-lg-5 col-xl-3 border-right" style={{backgroundColor: "#f0f2f5"}}>
 
                 <div className="px-4 d-none d-md-block">
                     <div className="d-flex align-items-center">

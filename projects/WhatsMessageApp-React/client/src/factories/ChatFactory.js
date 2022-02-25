@@ -1,17 +1,29 @@
-import Chat from "../models/Chat";
-import OAuthService from "../services/LocalOAuthService";
+import PrivateChat from "../models/chats/PrivateChat";
+import PublicChat from "../models/chats/PublicChat";
 
 class ChatFactory {
-    makeChat(chatJSON) {
-        let genericObject = JSON.parse(chatJSON);
-        return (genericObject) ? new Chat(genericObject) : null;
+    parseChat(chat) {
+        return (chat.participants == undefined) 
+            ? this.parsePublicChat(chat) 
+            : this.parsePrivateChat(chat);
     }
 
-    makeNewChat(userOne, userTwo) {
-        let genericObject = {};
-        genericObject.id = [ userOne.getUid(), userTwo.getUid() ];
-        genericObject.messages = [];
-        return new Chat(genericObject);
+    getPublicChat() {
+        return new PublicChat();
+    }
+
+    parsePublicChat(genericObject) {
+        return new PublicChat(genericObject);
+    }
+
+    getPrivateChat(...participants) {
+        let chat = new PrivateChat();
+        chat.setParticipants(participants);
+        return chat;
+    }
+
+    parsePrivateChat(genericObject) {
+        return new PrivateChat(genericObject);
     }
 }
 export default ChatFactory;

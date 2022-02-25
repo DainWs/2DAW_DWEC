@@ -28,4 +28,5 @@ class SocketObserver {
         }
     }
 }
-export const socketObserver = new SocketObserver();
+const instance = new SocketObserver();
+export { instance as SocketObserver };

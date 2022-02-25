@@ -1,7 +1,12 @@
 import Message from "../models/Message";
 
 class MessageFactory {
+    getMessage() {
+        return new Message();
+    }
+
     parseMessages(messages) {
+        console.log(messages);
         let parsedMessages = [];
         if (Array.isArray(messages)) {
             for (const key in messages) {

@@ -1,8 +1,9 @@
 import { io } from "socket.io-client";
 import OAuthService from "../LocalOAuthService";
-import { socketDataManager } from "./SocketDataManager";
+import { DataProviderManager } from "../providers/DataProviderManager";
+import SocketDataProviderContext from "./SocketDataProviderContext";
 import { Connect, getChat, getUsers, sendMessage, setUser, updateChat, updateUsers } from "./SocketEvents";
-import { socketObserver } from "./SocketObserver";
+import { SocketObserver } from "./SocketObserver";
 
 var socket = io();
 
@@ -14,44 +15,38 @@ class SocketController {
         let user = OAuthService.getLoggedUser();
         console.log(user);
         socket.emit(setUser, user);
-        socketObserver.notify(Connect);
+        SocketObserver.notify(Connect);
     }
 
     updateUsers(data) {
-        console.log('recivido');
+        console.log('Update Users event handled.');
         console.log(data);
 
-        if (data == null) {
-            data = [];
+        if (data) {
+            console.log("Passed");
+            let context = new SocketDataProviderContext();   
+            context.setProviderClass(updateUsers);
+            context.setData(data);
+
+            DataProviderManager.manage(context);
+            SocketObserver.notify(updateUsers);
         }
-
-        let loggedUser = OAuthService.getLoggedUser();
-        var distintList = new Set();
-        distintList.add(loggedUser.getUid());
-        
-        const filteredArr = data.filter(object => {
-            let result = !(distintList.has(object.uid))
-            distintList.add(object.uid);
-            return result && loggedUser.getUid();
-        });
-
-        console.log(distintList);
-        console.log(filteredArr);
-
-        socketDataManager.setData(updateUsers, Array.from(filteredArr));
-        socketObserver.notify(updateUsers);
     }
 
     updateChat(data) {
-        console.log('recivido');
+        console.log('Update Chat event handled.');
         console.log(data);
         
-        if (data == null) {
-            data = {id: [], messages: []};
-        }
+        if (data) {
+            console.log("Passed");
 
-        socketDataManager.setData(updateChat, data);
-        socketObserver.notify(updateChat);
+            let context = new SocketDataProviderContext();   
+            context.setProviderClass(updateChat);
+            context.setData(data);
+
+            DataProviderManager.manage(context);
+            SocketObserver.notify(updateChat);
+        }
     }
 
     /** Throwed events methods **/
@@ -72,8 +67,9 @@ class SocketController {
         socket.emit(sendMessage, {chat: chat, message: message});
     }
 }
-export const socketController = new SocketController();
+const instance = new SocketController();
+export { instance as SocketController };
 
-socket.on(Connect, socketController.onConnect);
-socket.on(updateUsers, socketController.updateUsers);
-socket.on(updateChat, socketController.updateChat);
+socket.on(Connect, instance.onConnect);
+socket.on(updateUsers, instance.updateUsers);
+socket.on(updateChat, instance.updateChat);

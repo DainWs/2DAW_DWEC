@@ -1,6 +1,7 @@
+import MessageFactory from "../../factories/MessagesFactory";
 class Chat {
     constructor(id) {
-        this.id = id;
+        this.id = (id) ? id : new Date().getTime();
         this.messages = [];
     }
 
@@ -13,10 +14,10 @@ class Chat {
     }
 
     setMessages(messages) {
-        this.messages = new MessagesFactory().parseMessages(messages);
+        this.messages = new MessageFactory().parseMessages(messages);
     }
 
-    belongsTo(user) {
+    belongsTo(users) {
         return false;
     }
     
