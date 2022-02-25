@@ -19,21 +19,11 @@ class UsersList extends React.Component {
     }
 
     update() {
-        /*
-        let credentials = {};
-        // TODO this uid will be changed for provided server uid
-        credentials.uid = new Date().getTime();
-        credentials.displayName = 'DainWsBot';
-        let userTmp = new UserFactory().parseObject(credentials);
-        */
         this.users = socketDataManager.getData(updateUsers);
         if (this.users == undefined || this.users == null) {
             this.users = [];
         }
 
-        console.log(this.users);
-        //this.users.push(userTmp);
-        console.log(this.users);
         let procesedUsers = [];
         for (var userGeneric of this.users) {
             let user = new UserFactory().parseObject(userGeneric);
@@ -75,8 +65,8 @@ class UsersList extends React.Component {
 
     render() {
         return (
-            <div className="col-12 col-lg-5 col-xl-3 border-right">
-                
+            <div className="col-12 col-lg-5 col-xl-3 border-right" style={{backgroundColor: "#f0f2f5"}}>
+
                 <div className="px-4 d-none d-md-block">
                     <div className="d-flex align-items-center">
                         <div className="flex-grow-1">

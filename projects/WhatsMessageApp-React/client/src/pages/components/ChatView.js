@@ -62,24 +62,20 @@ class ChatView extends React.Component {
         messageObj.setUserUid(this.myUser.getUid());
         messageObj.setMessage(this.state.newMessage);
         socketController.sendMessage(this.chat, messageObj);
+        this.setState({ newMessage: '' });
     }
 
     componentDidMount() {
         this.isComponentMounted = true;
         var instance = this;
         socketObserver.subscribe(updateChat, 'ChatView', function() {instance.update()});
-        console.log(this.chat);
         socketController.getChat(this.chat.getId());
-        //TODO registre this to a observer
-        //dbService.registre(ProductList.name, function () { instance.update() });
         this.update();
     }
 
     componentWillUnmount() {
         this.isComponentMounted = false;
         socketObserver.unsubscribe(updateChat, 'ChatView');
-        //TODO unregistre this from a observer
-        //dbService.unregistre(ProductList.name);
     }
 
     render() {

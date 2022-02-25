@@ -14,7 +14,7 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div className="card"  style={{height: "94vh"}}>
+      <div className="card" style={{height: "94vh", overflow: "hidden", backgroundImage: "url('assets/images/background.png')"}}>
         <div className="row g-0 h-100">
           <UsersList showUserChat={(user) => {this.onShowUserChat(user)}}></UsersList>
           {this.getChat()}

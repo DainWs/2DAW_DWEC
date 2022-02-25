@@ -7,10 +7,9 @@ class LocalOAuthService {
         this.loggedUser = localStorageService.loadUser();
     }
 
-    loginWith(credentials, remember = false) {
+    loginWith(credentials) {
         if (this.loggedUser == null) {
             
-            //TODO Express connection here
             this.loggedUser = new UserFactory().makeUser(credentials);
             socketController.setUser();
             
