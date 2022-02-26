@@ -1,3 +1,4 @@
+import { sortParticipants } from "../../factories/ChatFactory";
 import Chat from "./Chat";
 
 class PrivateChat extends Chat {
@@ -18,28 +19,20 @@ class PrivateChat extends Chat {
         return this.participants;
     }
 
+    hasParticipant(participantId) {
+        let finded = this.participants.find((id) => id == participantId);
+        console.log('hasParticipant');
+        console.log(finded);
+        return (finded);
+    }
+
     belongsTo(otherParticipants) {
         let result = false;
         console.log('belongs to');
         if (Array.isArray(otherParticipants)) {
-            let myParticipants = this.participants.sort((p1, p2) => { 
-                let result = (p1.id < p2.id) ? -1 : 0 ;
-                return (result == 0 && (p1.id > p2.id)) ? 1 : 0 ;
-            });
-            console.log(myParticipants);
-
-            let heParticipants = otherParticipants.sort((p1, p2) => { 
-                let result = (p1.id < p2.id) ? -1 : 0 ;
-                return (result == 0 && (p1.id > p2.id)) ? 1 : 0 ;
-            });
-            console.log(heParticipants);
-
-            result = (JSON.stringify(myParticipants) === JSON.stringify(heParticipants));
-            console.log(result);
-        } else {
-            let wasFound = this.participants.find((id) => id === otherParticipants);
-            result = (wasFound != null);
-            console.log(result);
+            let myParticipants = JSON.stringify(this.participants);
+            let heParticipants = JSON.stringify(sortParticipants(otherParticipants));
+            result = myParticipants === heParticipants;
         }
         return result;
     }

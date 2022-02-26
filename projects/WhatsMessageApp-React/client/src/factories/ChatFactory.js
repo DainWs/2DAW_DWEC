@@ -18,7 +18,7 @@ class ChatFactory {
 
     getPrivateChat(...participants) {
         let chat = new PrivateChat();
-        chat.setParticipants(participants);
+        chat.setParticipants(sortParticipants(participants));
         return chat;
     }
 
@@ -27,3 +27,17 @@ class ChatFactory {
     }
 }
 export default ChatFactory;
+
+function sortParticipants(participants) {
+    return participants.sort((p1, p2) => { 
+        let result = 0 ;
+        if (p1 < p2) {
+            result = -1;
+        } else if (p1 > p2) {
+            result = 1;
+        }
+        return result;
+    });
+}
+
+export { sortParticipants };

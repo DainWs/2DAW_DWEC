@@ -3,8 +3,7 @@ import ChatFactory from '../../factories/ChatFactory';
 import Chat from '../../models/chats/Chat';
 import Message from '../../models/Message';
 import OAuthService from '../../services/LocalOAuthService';
-import { ChatProvider } from '../../services/providers/ChatProvider';
-import { getChatWhereParticipantsAre } from '../../services/query/Queries';
+import { getChat } from '../../services/query/Queries';
 import { SocketController } from '../../services/socket/SocketController';
 import { updateChat } from '../../services/socket/SocketEvents';
 import { SocketObserver } from '../../services/socket/SocketObserver';
@@ -15,9 +14,8 @@ class ChatView extends React.Component {
         super();
         this.isComponentMounted = false;
 
-        this.myUser = OAuthService.getLoggedUser();
-        this.heUser = properties.user;
-        this.chat = new ChatFactory().getPrivateChat(this.myUser, this.heUser);
+        this.chat = properties.chat;
+        this.title = properties.title;
         this.state = {
             newMessage: "",
             messages: this.chat.getMessages(),
@@ -28,29 +26,30 @@ class ChatView extends React.Component {
     }
 
     update() {
-        let newChat = getChatWhereParticipantsAre(this.myUser.getId(), this.heUser.getId());
-        if (newChat == null) {
-            newChat = new ChatFactory().getPrivateChat(this.myUser.getId(), this.heUser.getId());
+        let newChat = getChat(this.chat);
+        if (newChat != null) {
+            this.chat = newChat;
         }
+
+        if (!(this.chat instanceof Chat)) {
+            this.chat = new ChatFactory().parseChat(this.chat);
+        }
+
         console.log(newChat);
         console.log(this.chat);
-        if (this.chat.equals(newChat)) {
-            this.chat = newChat;
-            console.log(this.chat);
-            let procesedMessages = [];
-            for (var message of this.chat.getMessages()) {
-                let isMine = (message.getUserUid() == this.myUser.getId());
-                let ownerOfMessage = (isMine) ? this.myUser : this.heUser;
-                procesedMessages.push(
-                    <MessageModel key={message.getId()} isMine={isMine} user={ownerOfMessage} message={message.getMessage()}></MessageModel>
-                );
-            }
+        let loggedUser = OAuthService.getLoggedUser();
+        let procesedMessages = [];
+        for (var message of this.chat.getMessages()) {
+            let isMine = (message.getUserUid() == loggedUser.getId());
+            procesedMessages.push(
+                <MessageModel key={message.getId()} isMine={isMine} message={message}></MessageModel>
+            );
+        }
 
-            if (this.isComponentMounted) {
-                this.setState({ messages: procesedMessages });
-            } else {
-                this.state = { newMessage: "", messages: procesedMessages };
-            }
+        if (this.isComponentMounted) {
+            this.setState({ messages: procesedMessages });
+        } else {
+            this.state = { newMessage: "", messages: procesedMessages };
         }
     }
     
@@ -62,11 +61,12 @@ class ChatView extends React.Component {
 
     sendMessage() {
         console.log(this.chat);
-        let messageObj = new Message();
-        messageObj.setUserUid(this.myUser.getId());
-        messageObj.setMessage(this.state.newMessage);
-        messageObj.setAttachment(this.state.document);
-        SocketController.sendMessage(this.chat, messageObj);
+        let loggedUser = OAuthService.getLoggedUser();
+        let message = new Message();
+        message.setUserUid(loggedUser.getId());
+        message.setMessage(this.state.newMessage);
+        message.setAttachment(this.state.document);
+        SocketController.sendMessage(this.chat, message);
         this.setState({ 
             newMessage: '',
             document: null
@@ -75,9 +75,11 @@ class ChatView extends React.Component {
 
     onDragEnter(e) {
         e.preventDefault();
-        this.setState({
-            isDragingOver: true
-        });
+        if (e.dataTransfer.files.length > 0) {
+            this.setState({
+                isDragingOver: true
+            });
+        }
     }
 
     onDragLeave(e) {
@@ -87,28 +89,48 @@ class ChatView extends React.Component {
         });
     }
 
+    /** Supports Multi-Files upload */
     onDrop(e) {
         e.preventDefault();
         e.stopPropagation();
-        const files = e.dataTransfer.files;
-        console.log(files);
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(files[0]);
-
-        reader.onloadend = function (e) {
-            this.setState({
-                document: [reader.result],
-                isDragingOver: false
+        if (e.dataTransfer.files.length > 0) {
+            const filesUpload = e.dataTransfer.files;
+            
+            var instance = this;
+            var files = [];
+            Array.from(filesUpload).forEach((document, index) => {
+                var reader = new FileReader();
+                reader.readAsDataURL(document);
+                reader.onloadend = function (e) {
+                    let file = {};
+                    file.name = document.name;
+                    file.type = document.type;
+                    file.size = document.size;
+                    file.src = reader.result;
+                    files.push(file);
+                    
+                    if (index == (filesUpload.length - 1)) {
+                        this.setState({
+                            document: files,
+                            isDragingOver: false
+                        });
+                    }
+                }.bind(instance);
             });
-        }.bind(this);
-        console.log(url);
+        }
+    }
+
+    removeDocuments() {
+        this.setState({
+            document: null
+        })
     }
 
     componentDidMount() {
         this.isComponentMounted = true;
         var instance = this;
         SocketObserver.subscribe(updateChat, 'ChatView', function() {instance.update()});
-        SocketController.getChat(this.chat.getId());
+        SocketController.getChats();
         this.update();
     }
 
@@ -121,12 +143,12 @@ class ChatView extends React.Component {
         let dragingOverClases = (this.state.isDragingOver) ? 'drop-zone flex-column justify-content-center align-items-center drog-active' : 'drop-zone flex-column justify-content-center align-items-center';
         let document = <></>;
         if (this.state.document != null) {
-            if ((this.state.document[0].includes("data:image"))) {
-                document = this.getImageView();
+            let firstDocument = this.state.document[0];
+            if (firstDocument.type.includes("image")) {
+                document = this.getImageView(firstDocument.src);
             } else {
                 document = this.getDocumentView();
             }
-            console.log(this.state.document);
         }
         return (
             <>
@@ -136,7 +158,7 @@ class ChatView extends React.Component {
                             <div style={{width: "40", height: "40"}}><i className="fa fa-solid fa-user rounded-circle mr-1"></i></div>
                         </div>
                         <div className="flex-grow-1 pl-3">
-                            <strong>{this.heUser.getName()}</strong>
+                            <strong>{this.title}</strong>
                         </div>
                     </div>
                 </div>
@@ -163,18 +185,20 @@ class ChatView extends React.Component {
         );
     }
 
-    getImageView() {
+    getImageView(image) {
         return (
-            <div className="d-flex flex-column justify-content-center align-items-center h-100" style={{background: "#ffffff9c", position: "absolute"}}>
-                <img src={this.state.document} style={{maxWidth: "90%", maxHeight: "90%"}}/>
+            <div className="d-flex flex-column justify-content-center align-items-center h-100 position-relative" style={{background: "#ffffff9c", position: "absolute"}}>
+                <img src={image} style={{maxWidth: "90%", maxHeight: "90%"}}/>
+                <button id="close" onClick={() => {this.removeDocuments()}}></button>
             </div>
         );
     }
 
     getDocumentView() {
         return (
-            <div className="d-flex flex-column justify-content-center align-items-center h-100 w-100" style={{background: "#ffffff9c", position: "absolute"}}>
+            <div className="d-flex flex-column justify-content-center align-items-center h-100 w-100 position-relative" style={{background: "#ffffff9c", position: "absolute"}}>
                 <i class="fa fa-solid fa-file" style={{fontSize: "8rem"}}></i>
+                <button id="close" onClick={() => {this.removeDocuments()}}></button>
             </div>
         );
     }

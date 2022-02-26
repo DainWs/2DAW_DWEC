@@ -7,8 +7,8 @@ AllowedImagesId.set(5, 'Image Five');
 AllowedImagesId.set(6, 'Image Six');
 
 const AllowedStatesId = new Map();
-AllowedStatesId.set(1, 'Connected');
-AllowedStatesId.set(2, 'Disconnected');
+AllowedStatesId.set(2, 'Connected');
+AllowedStatesId.set(1, 'Disconnected');
 
 class User {
     constructor(genericObject = {id: null, name: '', pendingMessages: [], imageId: AllowedImagesId.keys()[1], state: AllowedStatesId.get(2)}) {

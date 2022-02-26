@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import OAuthService from "../LocalOAuthService";
 import { DataProviderManager } from "../providers/DataProviderManager";
 import SocketDataProviderContext from "./SocketDataProviderContext";
-import { Connect, getChat, getUsers, sendMessage, setUser, updateChat, updateUsers } from "./SocketEvents";
+import { Connect, getChat, getChats, getUsers, removeUser, sendMessage, setChat, setUser, updateChat, updateUsers } from "./SocketEvents";
 import { SocketObserver } from "./SocketObserver";
 
 var socket = io();
@@ -55,12 +55,25 @@ class SocketController {
         socket.emit(setUser, user);
     }
 
+    removeUser() {
+        let user = OAuthService.getLoggedUser();
+        socket.emit(removeUser, user);
+    }
+
     getUsers() {
         socket.emit(getUsers);
     }
 
-    getChat(chatIdParts = []) {
-        socket.emit(getChat, chatIdParts);
+    setChat(chat) {
+        socket.emit(setChat, chat);
+    }
+
+    getChat(chat) {
+        socket.emit(getChat, chat);
+    }
+
+    getChats(chat) {
+        socket.emit(getChats, chat);
     }
 
     sendMessage(chat, message) {

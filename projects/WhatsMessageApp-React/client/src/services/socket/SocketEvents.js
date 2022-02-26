@@ -15,16 +15,21 @@ export { LISTEN_EVENTS };
 
 /** Throwed Events **/
 const setUser = 'setUser';
+const removeUser = 'removeUser';
 const getUsers = 'getUsers';
+const setChat = 'setChat';
 const getChat = 'getChat';
+const getChats = 'getChats';
 const sendMessage = 'sendMessage';
 
-export { setUser, getUsers, getChat, sendMessage };
+export { setUser, removeUser, getUsers, setChat, getChat, getChats, sendMessage };
 
 const THROWED_EVENTS = [
     setUser,
     getUsers,
-    getChat,
+    setChat, 
+    getChat, 
+    getChats,
     sendMessage
 ];
 

@@ -19,6 +19,7 @@ class LocalOAuthService {
     }
 
     logout() {
+        SocketController.removeUser();
         localStorageService.deleteUser();
         this.loggedUser = null;
     }

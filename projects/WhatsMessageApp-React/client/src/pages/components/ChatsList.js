@@ -1,15 +1,17 @@
 import React from 'react';
-import UserFactory from '../../factories/UserFactory';
 import { UserProvider } from '../../services/providers/UsersProvider';
+import { getPublicChats } from '../../services/query/Queries';
 import { SocketController } from '../../services/socket/SocketController';
 import { updateUsers } from '../../services/socket/SocketEvents';
 import { SocketObserver } from '../../services/socket/SocketObserver';
-import UserModel from './models/UserModel';
+import PrivateChatModel from './models/PrivateChatModel';
+import PublicChatModel from './models/PublicChatModel';
 
-class UsersList extends React.Component {
+class ChatsList extends React.Component {
     constructor() {
         super();
-        this.users = [];
+        this.users = new Map();
+        this.publicChats = new Map();
         this.filtre = '';
         this.isComponentMounted = false;
         this.state = {
@@ -19,24 +21,38 @@ class UsersList extends React.Component {
     }
 
     update() {
-        this.users = UserProvider.provide();
-        if (this.users == undefined || this.users == null) {
-            this.users = [];
-        }
-
-        let procesedUsers = [];
-        
-        for (var userKey of this.users.keys()) {
-            let userGeneric = this.users.get(userKey);
-            console.log(userGeneric);
-            let user = new UserFactory().parseUser(userGeneric);
-            console.log(user);
-            if (user.name.includes(this.filtre)) {
+        var procesedUsers = [];
+        this.publicChats = getPublicChats();
+        console.log(this.publicChats);
+        this.publicChats.forEach((chat) => {
+            if (chat.getName().includes(this.filtre)) {
                 procesedUsers.push(
-                    <UserModel key={user.getId()} user={user} showChat={(user) => {this.showUserChat(user)}}></UserModel>
+                    <PublicChatModel key={chat.getId()} chat={chat} showChat={(chat) => {this.showChat(chat)}}></PublicChatModel>
                 );
             }
-        }
+        });
+
+        var firstUsersList = []
+        var lastUsersList = []
+        this.users = UserProvider.provide();
+        this.users.forEach((user) => {
+            if (user.getName().includes(this.filtre)) {
+                if (user.getState() == 1) {
+                    firstUsersList.push(
+                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
+                    );
+                } else {
+                    lastUsersList.push(
+                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
+                    );
+                }
+            }
+        });
+
+        console.log(firstUsersList);
+        console.log(lastUsersList);
+        procesedUsers.push(firstUsersList);
+        procesedUsers.push(lastUsersList);
 
         if (this.isComponentMounted) {
             this.setState({ users: procesedUsers });
@@ -45,8 +61,8 @@ class UsersList extends React.Component {
         }
     }
 
-    showUserChat(user) {
-        this.props.showUserChat(user);
+    showChat(user) {
+        this.props.showChat(user);
     }
 
     onFiltreChange(event) {
@@ -87,4 +103,4 @@ class UsersList extends React.Component {
     }
 }
 
-export { UsersList }
+export { ChatsList }

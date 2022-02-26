@@ -17,7 +17,7 @@ class LoginPage extends React.Component {
         credentials.id = this.state.username;
         credentials.name = this.state.username;
         credentials.imageId = parseInt(this.state.selectedImage);
-        credentials.state = this.state.connectionState;
+        credentials.state = this.state.state;
         let loginResult = OAuthService.loginWith(JSON.stringify(credentials));
         if (loginResult) {
             this.props.loginComplete();

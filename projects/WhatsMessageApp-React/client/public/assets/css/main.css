@@ -43,3 +43,74 @@ input[type="radio"]:checked + label {
 .drop-zone.drog-active {
     display: flex;
 }
+
+.attachment {
+	color: gray;
+}
+
+img.attachment {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+img.attachment:hover {
+	border: 2px solid gray;
+	border-radius: 5px;
+}
+
+a.attachment:hover {
+	color: black;
+}
+
+a.attachment > div * {
+	text-decoration: none;
+}
+
+a.attachment > div .size {
+	color: rgb(220, 220, 220);
+}
+
+a.attachment:hover > div .size {
+	color: gray;
+}
+
+
+#close {
+	overflow: hidden;
+	position: absolute;
+    top: 0;
+    right: 0;
+	border: none;
+	padding: 0;
+	width: 2em; 
+    height: 2em;
+	border-radius: 50%;
+	background: transparent;
+	color: rgb(0, 168, 132);;
+	font: inherit;
+	text-indent: 100%;
+	cursor: pointer;
+}
+
+	#close:focus {
+		outline: solid 0 transparent;
+		box-shadow: 0 0 0 2px rgba(0, 168, 132, 0.5);
+	}
+	
+	#close:hover {
+		background: rgba(0, 168, 132, 0.11);
+	}
+	
+	#close:before, #close:after {
+		position: absolute;
+		top: 15%; 
+        right: calc(50% - 0.0625em);
+		width: .125em; 
+        height: 70%;
+		border-radius: .125em;
+		transform: rotate(45deg);
+		background: currentcolor;
+		content: ''
+	}
+	
+	#close:after { transform: rotate(-45deg); }
