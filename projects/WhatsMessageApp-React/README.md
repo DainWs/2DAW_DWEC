@@ -2,6 +2,8 @@
 **Project name:** WhatsMessageApp-React<br/>
 **Author:** [DainWs](https://github.com/DainWs)<br/>
 
+## Caracteristics
+
 ## How to start the server
 - `npm run start` to build the view and run the server
 
