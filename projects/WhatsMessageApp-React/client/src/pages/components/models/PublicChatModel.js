@@ -10,7 +10,8 @@ class PublicChatModel extends React.Component {
 
     showChat(instance) {
         let chat = instance.state.chat;
-        instance.props.showChat({chat: chat, title: chat.getName()});
+        console.log(chat);
+        instance.props.showChat(chat);
     }
 
     render() {
@@ -20,7 +21,6 @@ class PublicChatModel extends React.Component {
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
                     <div className="flex-grow-1 ml-3">
                         {this.state.chat.getName()}
-                        <div className="small"><span className="fas fa-circle chat-online"></span> Online</div>
                     </div>
                 </div>
             </a>

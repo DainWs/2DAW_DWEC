@@ -2,30 +2,27 @@ import { LISTEN_EVENTS } from "./SocketEvents";
 
 class SocketObserver {
     constructor() {
-        this.subscribers = [];
-        this.eventsLastestData = [];
+        this.subscribers = new Map();
         for (const event of LISTEN_EVENTS) {
-            this.subscribers[`${event}`] = [];
+            this.subscribers.set(`${event}`, new Map());
         }
     }
 
     subscribe(eventListName, className, callback) {
-        console.log(eventListName);
-        console.log(typeof(eventListName));
-        this.subscribers[''+eventListName][className] = callback;
+        this.subscribers.get(`${eventListName}`)
+            .set(className, callback);
     }
 
     unsubscribe(eventListName, className) {
-        this.subscribers[''+eventListName].splice(className, 1);
+        this.subscribers.get(`${eventListName}`)
+            .delete(className);
     }
 
-    notify(socketEvent) {
-        console.log(socketEvent);
-        let list = this.subscribers[`${socketEvent}`];
-        for (const key in list) {
-            console.log(list[key]);
-            list[key]();
-        }
+    notify(eventListName) {
+        this.subscribers.get(`${eventListName}`).forEach(callback => {
+            console.log(callback);
+            callback();
+        });
     }
 }
 const instance = new SocketObserver();

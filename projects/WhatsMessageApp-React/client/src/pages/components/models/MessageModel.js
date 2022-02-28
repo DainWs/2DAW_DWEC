@@ -1,6 +1,7 @@
 import React from 'react';
+import ClientMessage from '../../../models/messages/ClientMessage';
 import OAuthService from '../../../services/LocalOAuthService';
-import { getUsersOfMessage } from '../../../services/query/Queries';
+import { UserProvider } from '../../../services/providers/UserProvider';
 
 class MessageModel extends React.Component {
     constructor(properties) {
@@ -9,10 +10,39 @@ class MessageModel extends React.Component {
         this.message = properties.message;
         this.user = (this.isMine) 
             ? OAuthService.getLoggedUser() 
-            : getUsersOfMessage(this.message);
+            : UserProvider.provideUsersOfMessage(this.message);
     }
 
     render() {
+        let result = null;
+        if (this.message instanceof ClientMessage) {
+            result = this.getClientMessageHtmlView();
+        } else {
+            result = this.getServerMessageHtmlView();
+        }
+        return result;
+    }
+
+    getServerMessageHtmlView() {
+        return (
+            <div className="mb-2">
+                <div className="flex-shrink-1 rounded py-2 px-3 ml-3 mr-3" style={this.getServerMessageColor()}>
+                    <div className="d-flex flex-column">
+                        <p className="m-0" style={{textAlign: "center"}}>{this.message.getMessage()}</p>
+                        <p className="m-0" style={{textAlign: "center", fontSize: "0.7rem"}}>{this.getDate()}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    getServerMessageColor() {
+        return (this.message.getType() == 2) 
+            ? {background: "rgb(176 223 255)"}
+            : {background: "rgb(255 164 164)"};
+    }
+
+    getClientMessageHtmlView() {
         return (
             <div className={this.getMessageClass()}>
                 <div>
@@ -62,32 +92,31 @@ class MessageModel extends React.Component {
     }
 
     getAttachment() {
-        console.log(this.message.getAttachment());
-        var attachments = <></>;
-        if (this.message.getAttachment() !== null) {
-            attachments = [];
-            Array.from(this.message.getAttachment()).forEach((attachment) => {
-                console.log(attachment);
-                if (attachment.type.includes('image')) {
-                    attachments.push(
-                        <a className='d-flex my-1 attachment' href={attachment.src} download>
-                            <img className="attachment" src={attachment.src}/>
+        let attachments = this.message.getAttachments();
+        var result = <></>;
+        if (attachments.length > 0) {
+            result = [];
+            Array.from(attachments).forEach((attachment) => {
+                if (attachment.getType().includes('image')) {
+                    result.push(
+                        <a className='d-flex my-1 attachment' href={attachment.getSrc()} download>
+                            <img className="attachment" src={attachment.getSrc()}/>
                         </a>
                     );
                 } else {
-                    attachments.push(
-                        <a className='d-flex my-1 attachment' href={attachment.src} download>
+                    result.push(
+                        <a className='d-flex my-1 attachment' href={attachment.getSrc()} download>
                             <i class="fa fa-solid fa-file" style={{fontSize: "4rem"}}></i>
                             <div className="mx-2">
-                                <span>{attachment.name}</span><br/>
-                                <span className="size">{attachment.size} bytes</span>
+                                <span>{attachment.getName()}</span><br/>
+                                <span className="size">{attachment.getSize()} bytes</span>
                             </div>
                         </a>
                     );
                 }
             });
         }
-        return attachments;
+        return result;
     }
 }
 //<div style={{ width: "40", height: "40" }}><i className="fa fa-solid fa-user rounded-circle mr-1 ml-1"></i></div>

@@ -8,13 +8,16 @@ const io = new Server(server);
 
 app.use(express.static(__dirname + '/client/build'));
 
-
+/**
+ * Before send the index.html file, we check if it exists, 
+ * because if the server is compiling a new version, this file do not exist.
+ */
 app.get('/', (req, res) => {
     let file = '/index.html';
-    if (fs.existsSync('/index.html')) {
-        res.sendFile('/index.html');
+    if (fs.existsSync(file)) {
+        res.sendFile(file);
     } else {
-        res.send('<h1>Not found</h1>');   
+        res.send('<h1>Not found</h1><br/><p>Es posible que el servidor este cargando y compilando la pagina,<br/> vuelva a intentarlo en unos 5-10 segundos aproximados.</p>');   
     }
 });
 
@@ -24,16 +27,61 @@ server.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
-let CLIENTS = new Set();
+/** 
+ * CLIENTS Map is composed by
+ * Key: SocketId
+ * Value: LastUser
+ * 
+ * The purpose of this map is to control that if the client
+ * has not sent the removeUser() request before disconnecting,
+ * we try to disconnect it ourselves.
+ */
+let CLIENTS = new Map();
+
+/**
+ * A simple Map of users composed by
+ * Key: userId
+ * Value: user
+ * 
+ * This map is loaded from server localStorage
+ */
 var USERS_LIST = new Map();
+
+/**
+ * A simple Map of chats composed by
+ * Key: chatId
+ * Value: chat
+ * 
+ * This map is loaded from server localStorage
+ */
 var CHAT_LIST = new Map();
-CHAT_LIST.set(101, { id: 101, name: 'Global Chat', messages: [] });
+
+// This is the default Global Chat
+CHAT_LIST.set(101, { id: 101, name: 'Global Chat', messages: [], writingUsers: [] });
 
 function onConnect(socket) {
-    CLIENTS.add(socket.id);
+    CLIENTS.set(socket.id, {});
 
     socket.on('disconnect', function() {
         CLIENTS.delete(socket.id);
+    });
+
+    socket.on('connectChat', (user) => {
+        let chat = CHAT_LIST.get(101);
+        let serverMessage = {id: new Date().getTime(), message: null, type: user.state};
+        serverMessage.message = `${user.name} has connected`;
+        chat.messages.push(serverMessage);
+        CHAT_LIST.set(101, chat);
+        io.emit('updateChat', getFormatedMap(CHAT_LIST));
+    });
+
+    socket.on('disconnectChat', (user) => {
+        let chat = CHAT_LIST.get(101);
+        let serverMessage = {id: new Date().getTime(), message: null, type: user.state};
+        serverMessage.message = `${user.name} has disconnected`;
+        chat.messages.push(serverMessage);
+        CHAT_LIST.set(101, chat);
+        io.emit('updateChat', getFormatedMap(CHAT_LIST));
     });
 
     socket.on('setUser', (user) => {
@@ -42,7 +90,7 @@ function onConnect(socket) {
 
         if (user != null) {
             let oldUser = Array.from(USERS_LIST.values()).find((tmpUser) => tmpUser.name == user.name );
-            if (oldUser == undefined) {
+            if (oldUser === undefined) {
                 USERS_LIST.set(user.id, user);    
             } else {
                 user.id = oldUser.id;
@@ -71,21 +119,39 @@ function onConnect(socket) {
         console.log(chatData.id);
         console.log(chatData.participants);
         let chat = findChat(chatData);
-        if (chat == null) {
+        if (chat === null) {
             CHAT_LIST.set(chatData.id, chatData);
         }
         io.emit('updateChat', getFormatedMap(CHAT_LIST));
-    });
-
-    socket.on('getChat', (chatData) => {
-        console.log('getChat');
-        io.emit('updateChat', findChat(chatData));
     });
 
     socket.on('getChats', () => {
         console.log('getChats');
         console.log(CHAT_LIST);
         io.emit('updateChat', getFormatedMap(CHAT_LIST));
+    });
+
+    socket.on('writingMessage', (data) => {
+        console.log('writingMessage');
+        let chat = findChat(data.chat);
+
+        if (chat !== null) {
+            if (data.hasStarted) {
+                let founded = chat.writingUsers.find((writingUser) => writingUser.id === data.user.id);
+                if (founded === undefined) {
+                    chat.writingUsers.push({id: data.user.id, name: data.user.name});
+                    CHAT_LIST.set(chat.id, chat);
+                    io.emit('updateChat', getFormatedMap(CHAT_LIST));
+                }
+            } else {
+                let foundedIndex = chat.writingUsers.findIndex((writingUser) => writingUser.id === data.user.id);
+                if (foundedIndex !== undefined) {
+                    chat.writingUsers.splice(foundedIndex, 1);
+                    CHAT_LIST.set(chat.id, chat);
+                    io.emit('updateChat', getFormatedMap(CHAT_LIST));
+                }
+            }
+        }
     });
 
     socket.on('sendMessage', (data) => {
@@ -95,15 +161,20 @@ function onConnect(socket) {
         let chat = findChat(data.chat);
 
         console.log(chat);
-        if (chat != null) {
+        if (chat !== null) {
             let message = data.message;
 
-            if (chat.messages == undefined || chat.messages == null) {
+            if (chat.messages === undefined || chat.messages === null) {
                 chat.messages = [];
             }
 
+            console.log(chat);
             chat.messages.push(message);
-            console.log(chat.messages);
+
+            if (chat.writingUsers != undefined) {
+                let index = chat.writingUsers.findIndex((writingUser) => writingUser.id === message.userUid);
+                chat.writingUsers.splice(index, 1);
+            }
             
             CHAT_LIST.set(chat.id, chat);
             console.log(chat);
@@ -112,40 +183,22 @@ function onConnect(socket) {
             io.emit('updateChat', getFormatedMap(CHAT_LIST));
         }
     });
-
-    /*
-    socket.on('disconnect', () => {
-        console.log('disconnect');
-        const index = usersList.delete(socket.id);
-        console.log(socket.id);
-        if (index > -1) {
-            usersList.delete();
-        }
-        io.emit('updateUsers', getFormatedList(usersList));
-    });
-    */
 }
+
+/** Utils functions **/
 
 function getFormatedMap(map) {
     return Array.from(map.values());
-}
-
-function getFormatedList(list) {
-    var result = [];
-    for (const client in list) {
-        result.push(list[client]);
-    }
-    return result;
 }
 
 function findChat(chat) {
     let findedChat = null;
     if (CHAT_LIST.has(chat.id)) {
         findedChat = CHAT_LIST.get(chat.id);
-    } else if (chat.participants != undefined) {
+    } else if (chat.participants !== undefined) {
         findedChat = findChatByParticipants(chat.participants);
     }
-    return (findedChat == undefined) ? null : findedChat;
+    return (findedChat === undefined) ? null : findedChat;
 }
 
 function findChatByParticipants(participants) {
@@ -157,10 +210,6 @@ function findChatByParticipants(participants) {
 }
 
 function participantsAreEquals(participantsOne, participantsTwo) {
-    console.log('participants');
-    console.log(participantsOne);
-    console.log(participantsTwo);
-    let result = JSON.stringify(participantsOne) == JSON.stringify(participantsTwo);
-    console.log(result);
+    let result = JSON.stringify(participantsOne) === JSON.stringify(participantsTwo);
     return result;
 }

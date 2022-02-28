@@ -1,8 +1,15 @@
 import ChatFactory from "../../factories/ChatFactory";
 import Chat from "../../models/chats/Chat";
+import PublicChat from "../../models/chats/PublicChat";
+import { SocketController } from '../../services/socket/SocketController';
 import DataProviderBase from "./DataProviderBase";
 
 class ChatProvider extends DataProviderBase {
+    constructor() {
+        super();
+        this.currentChat = null;
+    }
+
     processDataSupplied() {
         var newProcessedData = new Map();
         console.log('processing data');
@@ -24,6 +31,49 @@ class ChatProvider extends DataProviderBase {
         console.log('processed data');
         console.log(newProcessedData);
         this.processedData = newProcessedData;
+    }
+
+    supplyCurrentChat(chat) {
+        if (chat instanceof PublicChat) {
+            SocketController.connectChat();
+        } else if (this.currentChat instanceof PublicChat) {
+            SocketController.disconnectChat();
+        }
+        this.currentChat = chat;
+    }
+
+    provideCurrentChat() {
+        return (this.currentChat === null)
+            ? null
+            : this.provideChat(this.currentChat);
+    }
+
+    provideChat(searchedChat) {
+        let chat = this.provideChatWhereID(searchedChat.getId());
+        if (chat == undefined && searchedChat.participants != undefined) {
+            chat = this.provideChatWhereParticipantsAre(searchedChat.getParticipants());
+        }
+        if (chat == undefined) {
+            chat = searchedChat;
+        }
+        return chat;
+    }
+
+    provideChatWhereID(chatId) {
+        return this.processedData.get(chatId);
+    }
+
+    provideChatWhereParticipantsAre(participants) {
+        return Array
+            .from(this.processedData.values())
+            .find( (chat) => chat.belongsTo(participants) );
+    }
+
+    providePublicChats() {
+        return new Map(
+            Array.from(this.processedData)
+                .filter( (chat) => chat[1] instanceof PublicChat )
+            );
     }
 }
 const instance = new ChatProvider();

@@ -14,22 +14,26 @@ const LISTEN_EVENTS = [
 export { LISTEN_EVENTS };
 
 /** Throwed Events **/
+const connectChat = 'connectChat';
+const disconnectChat = 'disconnectChat';
 const setUser = 'setUser';
 const removeUser = 'removeUser';
 const getUsers = 'getUsers';
 const setChat = 'setChat';
-const getChat = 'getChat';
 const getChats = 'getChats';
+const writingMessage = 'writingMessage';
 const sendMessage = 'sendMessage';
 
-export { setUser, removeUser, getUsers, setChat, getChat, getChats, sendMessage };
+export { connectChat, disconnectChat, setUser, removeUser, getUsers, setChat, getChats, writingMessage, sendMessage };
 
 const THROWED_EVENTS = [
+    connectChat,
+    disconnectChat,
     setUser,
     getUsers,
-    setChat, 
-    getChat, 
+    setChat,
     getChats,
+    writingMessage,
     sendMessage
 ];
 

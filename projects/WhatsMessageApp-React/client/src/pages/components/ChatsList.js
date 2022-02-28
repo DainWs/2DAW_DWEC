@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserProvider } from '../../services/providers/UsersProvider';
-import { getPublicChats } from '../../services/query/Queries';
+import { ChatProvider } from '../../services/providers/ChatProvider';
+import { UserProvider } from '../../services/providers/UserProvider';
 import { SocketController } from '../../services/socket/SocketController';
-import { updateUsers } from '../../services/socket/SocketEvents';
+import { updateUsers, updateChat } from '../../services/socket/SocketEvents';
 import { SocketObserver } from '../../services/socket/SocketObserver';
 import PrivateChatModel from './models/PrivateChatModel';
 import PublicChatModel from './models/PublicChatModel';
@@ -22,7 +22,7 @@ class ChatsList extends React.Component {
 
     update() {
         var procesedUsers = [];
-        this.publicChats = getPublicChats();
+        this.publicChats = ChatProvider.providePublicChats();
         console.log(this.publicChats);
         this.publicChats.forEach((chat) => {
             if (chat.getName().includes(this.filtre)) {
@@ -61,8 +61,10 @@ class ChatsList extends React.Component {
         }
     }
 
-    showChat(user) {
-        this.props.showChat(user);
+    showChat(chat) {
+        console.log(chat);
+        ChatProvider.supplyCurrentChat(chat);
+        SocketObserver.notify(updateChat);
     }
 
     onFiltreChange(event) {
@@ -100,6 +102,38 @@ class ChatsList extends React.Component {
                 <hr className="d-block d-lg-none mt-1 mb-0"/>
             </div>
         );
+    }
+
+    getProcessedList() {
+        var procesedUsers = [];
+        this.publicChats = ChatProvider.providePublicChats();
+        console.log(this.publicChats);
+        this.publicChats.forEach((chat) => {
+            if (chat.getName().includes(this.filtre)) {
+                procesedUsers.push(
+                    <PublicChatModel key={chat.getId()} chat={chat} showChat={(chat) => {this.showChat(chat)}}></PublicChatModel>
+                );
+            }
+        });
+
+        var firstUsersList = []
+        var lastUsersList = []
+        this.users = UserProvider.provide();
+        this.users.forEach((user) => {
+            if (user.getName().includes(this.filtre)) {
+                if (user.getState() == 1) {
+                    firstUsersList.push(
+                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
+                    );
+                } else {
+                    lastUsersList.push(
+                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
+                    );
+                }
+            }
+        });
+
+        procesedUsers.push(firstUsersList, lastUsersList);
     }
 }
 

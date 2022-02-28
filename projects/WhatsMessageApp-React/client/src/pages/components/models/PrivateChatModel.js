@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatFactory from '../../../factories/ChatFactory';
 import OAuthService from '../../../services/LocalOAuthService';
-import { getChatWhereParticipantsAre } from '../../../services/query/Queries';
+import { ChatProvider } from '../../../services/providers/ChatProvider';
 import { SocketController } from '../../../services/socket/SocketController';
 
 class PrivateChatModel extends React.Component {
@@ -14,13 +14,16 @@ class PrivateChatModel extends React.Component {
 
     showChat(instance) {
         let loggedUser = OAuthService.getLoggedUser();
-        let chat = getChatWhereParticipantsAre([instance.state.user.getId(), loggedUser.getId()]);
+        let chat = ChatProvider.provideChatWhereParticipantsAre([instance.state.user.getId(), loggedUser.getId()]);
         if (chat == null) {
             chat = new ChatFactory().getPrivateChat(instance.state.user.getId(), loggedUser.getId())
             SocketController.setChat(chat);
         }
+        let chats = ChatProvider.provide();
+        chats.set(chat.getId(), chat);
+        ChatProvider.supply(chats);
         console.log(chat);
-        instance.props.showChat({chat: chat, title: instance.state.user.getName()});
+        instance.props.showChat(chat);
     }
 
     render() {

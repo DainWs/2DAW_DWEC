@@ -2,10 +2,11 @@ import { sortParticipants } from "../../factories/ChatFactory";
 import Chat from "./Chat";
 
 class PrivateChat extends Chat {
-    constructor(genericObject = { id: '', participants: [], messages: [] }) {
+    constructor(genericObject = { id: '', participants: [], messages: [], writingUsers: [] }) {
         super(genericObject.id);
         this.participants = [];
         this.setMessages(genericObject.messages);
+        this.setWritingUsers(genericObject.writingUsers);
         this.setParticipants(genericObject.participants);
     }
 
@@ -20,15 +21,11 @@ class PrivateChat extends Chat {
     }
 
     hasParticipant(participantId) {
-        let finded = this.participants.find((id) => id == participantId);
-        console.log('hasParticipant');
-        console.log(finded);
-        return (finded);
+        return this.participants.find((id) => id == participantId);
     }
 
     belongsTo(otherParticipants) {
         let result = false;
-        console.log('belongs to');
         if (Array.isArray(otherParticipants)) {
             let myParticipants = JSON.stringify(this.participants);
             let heParticipants = JSON.stringify(sortParticipants(otherParticipants));

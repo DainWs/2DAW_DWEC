@@ -5,6 +5,7 @@ class PublicChat extends Chat {
         super(genericObject.id);
         this.setName(genericObject.name);
         this.setMessages(genericObject.messages);
+        this.setWritingUsers(genericObject.writingUsers);
     }
 
     setName(name) {
@@ -20,7 +21,7 @@ class PublicChat extends Chat {
     }
 
     belongsTo(users) {
-        return true;
+        return false;
     }
 }
 export default PublicChat;

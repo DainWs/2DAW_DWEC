@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import OAuthService from "../LocalOAuthService";
 import { DataProviderManager } from "../providers/DataProviderManager";
 import SocketDataProviderContext from "./SocketDataProviderContext";
-import { Connect, getChat, getChats, getUsers, removeUser, sendMessage, setChat, setUser, updateChat, updateUsers } from "./SocketEvents";
+import { Connect, connectChat, disconnectChat, getChat, getChats, getUsers, removeUser, sendMessage, setChat, setUser, updateChat, updateUsers, writingMessage } from "./SocketEvents";
 import { SocketObserver } from "./SocketObserver";
 
 var socket = io();
@@ -50,6 +50,16 @@ class SocketController {
     }
 
     /** Throwed events methods **/
+    connectChat() {
+        let user = OAuthService.getLoggedUser();
+        socket.emit(connectChat, user);
+    }
+
+    disconnectChat() {
+        let user = OAuthService.getLoggedUser();
+        socket.emit(disconnectChat, user);
+    }
+
     setUser() {
         let user = OAuthService.getLoggedUser();
         socket.emit(setUser, user);
@@ -68,12 +78,13 @@ class SocketController {
         socket.emit(setChat, chat);
     }
 
-    getChat(chat) {
-        socket.emit(getChat, chat);
-    }
-
     getChats(chat) {
         socket.emit(getChats, chat);
+    }
+
+    writingMessageIn(chat, hasStarted = true) {
+        let user = OAuthService.getLoggedUser();
+        socket.emit(writingMessage, {chat: chat, user: user, hasStarted: hasStarted});
     }
 
     sendMessage(chat, message) {

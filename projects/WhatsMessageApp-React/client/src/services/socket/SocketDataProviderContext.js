@@ -1,6 +1,6 @@
 import { ChatProvider } from "../providers/ChatProvider";
 import DataProviderContextInterface from "../providers/DataProviderContextInterface";
-import { UserProvider } from "../providers/UsersProvider";
+import { UserProvider } from "../providers/UserProvider";
 import { updateChat, updateUsers } from "./SocketEvents";
 
 const CLASS_MAPPER = new Map();
