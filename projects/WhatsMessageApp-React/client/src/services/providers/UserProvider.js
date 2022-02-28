@@ -11,7 +11,8 @@ class UserProvider extends DataProviderBase {
         console.log('processing data');
         console.log(this.data);
         if (Array.isArray(this.data)) {
-            this.data.forEach((userData) => {
+            let sortedData = this.data.sort( (u1, u2) => u1.state - u2.state );
+            sortedData.forEach((userData) => {
                 let user = userData;
                 if (!(user instanceof User)) {
                     user = new UserFactory().parseUser(user);
@@ -57,6 +58,12 @@ class UserProvider extends DataProviderBase {
                 });
         }
         return result;
+    }
+
+    provideWritingUsersOfChat(chat) {
+        let loggedUser = OAuthService.getLoggedUser();
+        return chat.getWritingUsers()
+            .filter((user) => user.id !== loggedUser.getId());
     }
 }
 const instance = new UserProvider();

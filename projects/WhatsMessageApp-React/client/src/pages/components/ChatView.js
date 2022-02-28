@@ -12,12 +12,9 @@ import { SocketObserver } from '../../services/socket/SocketObserver';
 import MessageModel from './models/MessageModel';
 
 class ChatView extends React.Component {
-    constructor(properties) {
+    constructor() {
         super();
-        this.isComponentMounted = false;
-
         this.chat = null;
-        this.title = '';
         this.state = {
             newMessage: "",
             isDragingOver: false,
@@ -127,84 +124,58 @@ class ChatView extends React.Component {
     /** End of attachment section **/
 
     componentDidMount() {
-        this.isComponentMounted = true;
-        var instance = this;
-        SocketObserver.subscribe(updateChat, 'ChatView', function() {instance.forceUpdate()});
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+        SocketObserver.subscribe(updateChat, 'ChatView', this.forceUpdate.bind(this));
         SocketController.getChats();
-
         if (this.chat instanceof PublicChat) SocketController.connectChat();
     }
 
     componentWillUnmount() {
-        this.isComponentMounted = false;
         SocketObserver.unsubscribe(updateChat, 'ChatView');
         if (this.chat instanceof PublicChat) SocketController.disconnectChat();
     }
 
     render() {
         this.chat = ChatProvider.provideCurrentChat();
-        console.log(this.chat);
-        let result = (this.chat === null) 
-            ? <></>
-            : (
-                <>
-                    <div className="py-2 px-4 border-bottom d-none d-lg-block" style={{backgroundColor: "#f0f2f5"}}>
-                        <div className="d-flex align-items-center py-1">
-                            <div className="position-relative">
-                                <img src={`https://bootdey.com/img/Content/avatar/avatar${this.getImage()}.png`} class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
-                            </div>
-                            <div className="flex-grow-1 pl-3 d-flex flex-column">
-                                <strong>{this.getTitle()}</strong>
-                                <span>{this.getWritingUsers()}</span>
-                            </div>
-                        </div>
-                    </div>
+        let result = (this.chat === null) ? <></> : this.getView();
+        return (<div className="col-12 col-lg-7 col-xl-9 d-flex flex-column p-0 chat">{result}</div>);
+    }
 
-                    <div className="position-relative flex-grow-1 drop-container drop-message" style={{overflowY: "scroll"}} onDragEnter={(e) => {this.onDragEnter(e)}}>
-                        {this.getDocumentView()}
-                        <div className={this.getDraggingOverClasses()}>
-                            <div className="position-absolute w-100 h-100" 
-                                style={{zIndex: "10", top: "0", left: "0"}}
-                                onDragOver={(e) => e.preventDefault()} //test this line
-                                onDragLeave={(e) => {this.onDragLeave(e)}} 
-                                onDrop={(e) => {this.onDrop(e)}}>
-                            </div>
-                            <i class="fa fa-solid fa-upload"></i>
-                            <h1>Upload File</h1>
-                            <p>Drag & Drop files here or click to upload</p>
-                        </div>
-                        <div className="chat-messages p-4">
-                            {this.getMessages()}
-                        </div>
-                    </div>
-
-                    <div className="flex-grow-0 py-3 px-4 border-top" style={{backgroundColor: "#f0f2f5"}}>
-                        <div className="input-group">
-                            <input type="text" 
-                                className="form-control" 
-                                placeholder="Type your message" 
-                                value={this.state.newMessage} 
-                                onChange={(event) => {this.onChangeMessageInput(event)}}
-                                onFocus={() => {this.onFocusMessageInput()}}
-                                onBlur={() => {this.onBlurMessageInput()}}/>
-                            <button className="btn btn-primary" onClick={() => {this.sendMessage()}}>Send</button>
-                        </div>
-                    </div>
-                </>
-            );
+    getView() {
         return (
-            <div className="col-12 col-lg-7 col-xl-9 d-flex flex-column p-0" style={{maxHeight: "100%"}}>
-                {result}
+            <>
+                {this.getChatHeader()}
+                {this.getChatBody()}
+                {this.getChatFooter()}
+            </>
+        );
+    }
+
+    /**** Chat Header ****/
+    getChatHeader() {
+        return (
+            <div className="py-2 px-4 border-bottom d-none d-lg-block chat__header">
+                <div className="d-flex align-items-center py-1">
+                    <div className="position-relative">
+                        <img src={`https://bootdey.com/img/Content/avatar/avatar${this.getImage()}.png`} class="rounded-circle mr-1" alt="Chat image" width="40" height="40"/>
+                    </div>
+                    <div className="flex-grow-1 pl-3 d-flex flex-column">
+                        <strong>{this.getTitle()}</strong>
+                        <span>{this.getWritingUsers()}</span>
+                    </div>
+                </div>
             </div>
         );
     }
 
+    // The header image
     getImage() {
         return (this.chat instanceof PublicChat)
             ? 7
             : this.getImageFromUser();
     }
 
+    // The header image when chat is private
     getImageFromUser() {
         let users = UserProvider.provideUsersOfChat(this.chat, false);
         return (users.length > 0)
@@ -212,12 +183,14 @@ class ChatView extends React.Component {
             : '1' ;
     }
 
+    // The header title
     getTitle() {
         return (this.chat instanceof PublicChat)
             ? this.chat.getName()
             : this.getTitleFromUsers();
     }
 
+    // The header title when chat is private
     getTitleFromUsers() {
         let users = UserProvider.provideUsersOfChat(this.chat, false);
         return (users.length > 0)
@@ -225,38 +198,56 @@ class ChatView extends React.Component {
             : '' ;
     }
 
-    getMessages() {
-        console.log(this.chat);
-        let loggedUser = OAuthService.getLoggedUser();
-        let procesedMessages = [];
-        for (var message of this.chat.getMessages()) {
-            let isMine = (message instanceof ClientMessage && message.getUserUid() == loggedUser.getId());
-            procesedMessages.push(
-                <MessageModel key={message.getId()} isMine={isMine} message={message}></MessageModel>
-            );
-        }
-        return procesedMessages;
-    }
-
+    // The header notification for users saying that someone is writing
     getWritingUsers() {
-        let result = null;
-        let loggedUser = OAuthService.getLoggedUser();
-        let writingUsers = this.chat.getWritingUsers();
-        let otherUsersWriting = writingUsers.filter((writingUsers) => writingUsers.id !== loggedUser.getId());
-        if (otherUsersWriting.length > 0) {
-            if (this.chat instanceof PublicChat) {
-                result = `${otherUsersWriting[0].name}  is writing...`;
-            } else {
-                result = 'Writing...';
-            }
+        let result = '';
+        let usersWriting = UserProvider.provideWritingUsersOfChat(this.chat);
+        if (usersWriting.length > 0) {
+            result = (this.chat instanceof PublicChat) 
+                ? `${usersWriting[0].name} is writing...`
+                : 'Writing...';
         }
         return result;
     }
+    /**** END Chat Header ****/
 
-    getDraggingOverClasses() {
-        return (this.state.isDragingOver) 
-            ? 'drop-zone flex-column justify-content-center align-items-center drog-active' 
-            : 'drop-zone flex-column justify-content-center align-items-center';
+    /**** Chat Body ****/
+    getChatBody() {
+        return (
+            <div className="position-relative flex-grow-1 chat__body" onDragEnter={this.onDragEnter.bind(this)}>
+                {this.getDocumentView()}
+                <div className={`chat__body--dropzone ${this.getDraggingOverClass()}`}>
+                    <div onDragOver={(e) => e.preventDefault()} //test this line
+                        onDragLeave={this.onDragLeave.bind(this)} 
+                        onDrop={this.onDrop.bind(this)}>
+                    </div>
+                    <i class="fa fa-solid fa-upload"></i>
+                    <h1>Upload File</h1>
+                    <p>Drag & Drop files here or click to upload</p>
+                </div>
+                <div className="chat__body--messages p-4">
+                    {this.getMessages()}
+                </div>
+            </div>
+        );
+    }
+
+    // The style for the dragging files action over chat
+    getDraggingOverClass() {
+        return (this.state.isDragingOver) ? 'drag-active' : '';
+    }
+
+    // The body messages from others users
+    getMessages() {
+        let loggedUser = OAuthService.getLoggedUser();
+        let procesedMessages = [];
+        for (var message of this.chat.getMessages()) {
+            let isMy = (message instanceof ClientMessage && message.getUserUid() == loggedUser.getId());
+            procesedMessages.push(
+                <MessageModel key={message.getId()} isMy={isMy} message={message}></MessageModel>
+            );
+        }
+        return procesedMessages;
     }
 
     /**
@@ -268,7 +259,7 @@ class ChatView extends React.Component {
         if (this.state.document != null) {
             let firstDocument = this.state.document[0];
             if (firstDocument.getType().includes("image")) {
-                document = this.getImageItemView(firstDocument.getSrc());
+                document = this.getImageItemView(firstDocument);
             } else {
                 document = this.getDocumentItemView();
             }
@@ -276,24 +267,44 @@ class ChatView extends React.Component {
         return document;
     }
 
+    // The image from the image type of dropped file
     getImageItemView(image) {
         return (
-            <div className="d-flex flex-column justify-content-center align-items-center h-100 position-absolute" 
-                    style={{background: "#ffffff9c", position: "absolute"}}>
-                <img src={image} style={{maxWidth: "90%", maxHeight: "90%"}}/>
-                <button id="close" onClick={() => {this.removeDocuments()}}></button>
+            <div className="chat__body--attachment image">
+                <img src={image.getSrc()} alt={image.getName()} className="mw-90 mh-90"/>
+                <button className="close" onClick={this.removeDocuments.bind(this)}></button>
             </div>
         );
     }
 
+    // The document from dropped file
     getDocumentItemView() {
         return (
-            <div className="d-flex flex-column justify-content-center align-items-center h-100 w-100 position-absolute" 
-                    style={{background: "#ffffff9c", position: "absolute"}}>
-                <i class="fa fa-solid fa-file" style={{fontSize: "8rem"}}></i>
-                <button id="close" onClick={() => {this.removeDocuments()}}></button>
+            <div className="chat__body--attachment document" >
+                <i class="fa fa-solid fa-file"></i>
+                <button className="close" onClick={this.removeDocuments.bind(this)}></button>
             </div>
         );
     }
+    /**** END Chat Body ****/
+
+    /**** Chat Footer ****/
+    getChatFooter() {
+        return (
+            <div className="flex-grow-0 py-3 px-4 border-top chat__footer">
+                <div className="input-group">
+                    <input type="text" 
+                        className="form-control" 
+                        placeholder="Type your message" 
+                        value={this.state.newMessage} 
+                        onChange={this.onChangeMessageInput.bind(this)}
+                        onFocus={this.onFocusMessageInput.bind(this)}
+                        onBlur={this.onBlurMessageInput.bind(this)}/>
+                    <button className="btn btn-primary" onClick={this.sendMessage.bind(this)}>Send</button>
+                </div>
+            </div>
+        );
+    }
+    /**** END Chat Footer ****/
 }
 export { ChatView }

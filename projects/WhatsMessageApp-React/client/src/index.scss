@@ -1,0 +1,280 @@
+/**== WhatsMessageApp-React ==**/
+
+/** Bootstrap **/
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+/** Utils **/
+/*** Variables ***/
+/*== Colors ==*/
+$theme-colors: map-merge(
+    $theme-colors,
+    (
+        "primary": #00A884,
+        "secondary": #E4E2DE,
+        
+        "white": #ffffff,
+        "blue": #53BDEB,
+        "green": #00C257,
+        "red": #C20000,
+
+        "light": #F0F2F5,
+        "gray": #54656F,
+        
+        "default-message": #ffffff,
+        "primary-message": #D9FDD3,
+        "secondary-message": #B0DFFF,
+        "terciary-message": #FFA4A4,
+    )
+);
+
+/** Styles **/
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background-color: theme-color("secondary");
+    
+    &::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        
+        z-index: -1;
+        width: 100vw;
+        height: 13.10vh;
+        
+        background-color: theme-color("primary");
+    }
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.login {
+    &-container {margin-top: 127px;}
+}
+
+.connected { background-color: theme-color("secondary-message"); }
+.disconnected { background-color: theme-color("terciary-message"); }
+
+.dropdown-item:hover,
+.dropdown-item:active {
+    color: white;
+    background-color: darken(theme-color("light"), 20);
+}
+
+.btn-img {
+    background-color: theme-color("white");
+    border-color: theme-color("white");
+}
+
+input[type="radio"]:checked + label.btn-img,
+.btn-img:hover {
+    background-color: theme-color("primary");
+    border-color: theme-color("primary");
+    transition: background-color 0.5s ease-in-out;
+}
+
+.chat {
+    max-height: 100%;
+
+    &__item {
+        &--online::before {color: theme-color("green");}
+        &--offline::before {color: theme-color("red");}
+    }
+
+    &__header {
+        background-color: theme-color("light");
+    }
+
+    &__body {
+        overflow-y: hidden;
+        
+        &--attachment {
+            position: absolute;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background-color: #ffffff9c;
+
+            &.image { height: 100%; }
+    
+            &.document {
+                width: 100%;
+                height: 100%;
+
+                i { font-size: 8rem; }
+            }
+
+            .close {
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                right: 0;
+
+                border: none;
+                border-radius: 50%;
+                padding: 0;
+                width: 2em; 
+                height: 2em;
+                
+                cursor: pointer;
+                font: inherit;
+                background: transparent;
+                color: theme-color("primary");
+                text-indent: 100%;
+
+                &:focus {
+                    outline: solid 0 transparent;
+                    box-shadow: 0 0 0 2px theme-color("primary");
+                }
+
+                &:hover {
+                    background: theme-color("primary");
+                    backdrop-filter: opacity(0.2);
+
+                    transition: background 0.3s ease-in-out;
+                }
+                
+                &:before, 
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 15%; 
+                    right: calc(50% - 0.0625em);
+                    
+                    border-radius: .125em;
+                    width: 0.125em; 
+                    height: 70%;
+                    
+                    transform: rotate(45deg);
+                    background: currentcolor;
+                }
+                
+                &:after { transform: rotate(-45deg); }
+            }
+        }
+
+        &--dropzone {
+            border: 4px dashed #4aa1f3;
+            width: 100%;
+            height: 100%;
+
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background: #ffffff9c;
+
+            &.drag-active {display: flex;}
+
+            div {
+                z-index: 10;
+                position: absolute;
+                top: 0;
+                left: 0;
+                
+                width: 100%;
+                height: 100%;
+            }
+        }
+        
+        &--messages {
+            overflow-y: auto;
+            max-height: 100%;
+
+            .message {
+                display: flex;
+                align-items: center;
+
+                &.right { flex-direction: row-reverse; }
+
+                &.client {
+                    .content { 
+                        flex-shrink: 1;
+
+                        background-color: theme-color("default-message");
+
+                        &.isMyMessage {
+                            background-color: theme-color("primary-message");
+                        }
+
+                        .text {
+                            display: flex;
+                            flex-direction: column;
+
+                            .date {
+                                text-align: right;
+                                font-size: 0.7rem;
+                            }
+                        }
+
+                        .attachment {
+                            display: flex;
+
+                            &:hover {
+                                color: black;
+
+                                .size { color: gray; }
+                            }
+                            
+                            & > div {
+                                * {text-decoration: none;}
+                                .size {color: rgb(220, 220, 220);}
+                            }
+
+                            &.image img {
+                                max-width: 100%;
+                                max-height: 100%;
+
+                                &:hover {
+                                    border: 2px solid gray;
+                                    border-radius: 5px;
+                                }
+                            }
+
+                            &.document {
+                                color: gray;
+
+                                i {font-size: 4rem;}
+                            }
+                        }
+                    }
+                }
+
+                &.server {
+                    display: block;
+
+                    & > div {
+                        flex-shrink: 1;
+
+                        & > div {
+                            display: flex;
+                            flex-direction: column;
+
+                            p {
+                                text-align: center;
+                            }
+
+                            .date {
+                                font-size: 0.7rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    &__footer {
+        background-color: theme-color("light");
+    }
+}

@@ -7,7 +7,6 @@ class Header  extends React.Component {
             <header>
                 <nav className="navbar navbar-light" style={{backgroundColor: "#00a884"}}>
                     <Link to="/" className="navbar-brand" style={{color: "white"}}><h1 className="h3 m-0">WhatsMessage</h1></Link>
-                    <Link to="/settings" className="nav-item h3 m-0 text-secondary"><i className="fa fa-solid fa-gear" style={{color: "white"}}></i></Link>
                 </nav>
             </header>
         );

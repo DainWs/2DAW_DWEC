@@ -68,7 +68,7 @@ function onConnect(socket) {
 
     socket.on('connectChat', (user) => {
         let chat = CHAT_LIST.get(101);
-        let serverMessage = {id: new Date().getTime(), message: null, type: user.state};
+        let serverMessage = {id: new Date().getTime(), message: null, type: 2};
         serverMessage.message = `${user.name} has connected`;
         chat.messages.push(serverMessage);
         CHAT_LIST.set(101, chat);
@@ -77,7 +77,7 @@ function onConnect(socket) {
 
     socket.on('disconnectChat', (user) => {
         let chat = CHAT_LIST.get(101);
-        let serverMessage = {id: new Date().getTime(), message: null, type: user.state};
+        let serverMessage = {id: new Date().getTime(), message: null, type: 1};
         serverMessage.message = `${user.name} has disconnected`;
         chat.messages.push(serverMessage);
         CHAT_LIST.set(101, chat);

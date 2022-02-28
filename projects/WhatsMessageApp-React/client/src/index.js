@@ -1,6 +1,8 @@
 /** CSS **/
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import './index.scss';
+
+/** JS **/
+import 'bootstrap/dist/js/bootstrap';
 
 /** REACT **/
 import React from 'react';
@@ -11,14 +13,12 @@ import reportWebVitals from './reportWebVitals';
 /** COMPONENTS **/
 import Layout from './pages/Layout';
 import HomePage from './pages/HomePage';
-import SettingsPage from './pages/SettingsPage';
 
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
        <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<HomePage />} />
       </Route>
     </Routes>

@@ -6,9 +6,9 @@ import { UserProvider } from '../../../services/providers/UserProvider';
 class MessageModel extends React.Component {
     constructor(properties) {
         super();
-        this.isMine = properties.isMine;
+        this.isMy = properties.isMy;
         this.message = properties.message;
-        this.user = (this.isMine) 
+        this.user = (this.isMy) 
             ? OAuthService.getLoggedUser() 
             : UserProvider.provideUsersOfMessage(this.message);
     }
@@ -25,35 +25,33 @@ class MessageModel extends React.Component {
 
     getServerMessageHtmlView() {
         return (
-            <div className="mb-2">
-                <div className="flex-shrink-1 rounded py-2 px-3 ml-3 mr-3" style={this.getServerMessageColor()}>
-                    <div className="d-flex flex-column">
-                        <p className="m-0" style={{textAlign: "center"}}>{this.message.getMessage()}</p>
-                        <p className="m-0" style={{textAlign: "center", fontSize: "0.7rem"}}>{this.getDate()}</p>
+            <div className="message server mb-2">
+                <div className={`rounded py-2 px-3 ml-3 mr-3 ${this.getServerMessageStateClass()}`}>
+                    <div>
+                        <p className="m-0">{this.message.getMessage()}</p>
+                        <p className="m-0 date">{this.getDate()}</p>
                     </div>
                 </div>
             </div>
         );
     }
 
-    getServerMessageColor() {
-        return (this.message.getType() == 2) 
-            ? {background: "rgb(176 223 255)"}
-            : {background: "rgb(255 164 164)"};
+    getServerMessageStateClass() {
+        return (this.message.getType() == 2) ? "connected" : "disconnected";
     }
 
     getClientMessageHtmlView() {
         return (
-            <div className={this.getMessageClass()}>
+            <div className={`message client mb-2 ${this.getMessageSide()}`}>
                 <div>
-                    <img src={this.getImage()} class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
+                    <img src={this.getImage()} class="rounded-circle mr-1" alt={this.user.getName()} width="40" height="40"/>
                 </div>
-                <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3 mr-3" style={this.getMessageStyle()}>
+                <div className={`content rounded py-2 px-3 ml-3 mr-3 ${this.getMessageClass()}`}>
                     <div className="font-weight-bold mb-1">{this.user.getName()}</div>
-                    <div className="d-flex flex-column">
+                    <div className="text">
                         <p className="my-1">{this.message.getMessage()}</p>
                         {this.getAttachment()}
-                        <p className="my-1" style={{textAlign: "right", fontSize: "0.7rem"}}>{this.getDate()}</p>
+                        <p className="my-1 date">{this.getDate()}</p>
                     </div>
                 </div>
             </div>
@@ -73,22 +71,16 @@ class MessageModel extends React.Component {
 
     getImage() {
         let imageId = this.user.getImageId();
-        if (!imageId) {
-            imageId = 1;
-        }
+        if (!imageId) imageId = 1;
         return `https://bootdey.com/img/Content/avatar/avatar${imageId}.png`;
     }
 
-    getMessageClass() {
-        return (this.props.isMine) 
-            ? "chat-message-right d-flex align-items-center flex-row-reverse mb-2" 
-            : "chat-message-left d-flex align-items-center mb-2";
+    getMessageSide() {
+        return (this.props.isMy) ? "right": "left";
     }
 
-    getMessageStyle() {
-        return (this.props.isMine) 
-            ? {backgroundColor: "#d9fdd3"} 
-            : {}
+    getMessageClass() {
+        return (this.props.isMy) ? "isMyMessage" : "";
     }
 
     getAttachment() {
@@ -99,14 +91,14 @@ class MessageModel extends React.Component {
             Array.from(attachments).forEach((attachment) => {
                 if (attachment.getType().includes('image')) {
                     result.push(
-                        <a className='d-flex my-1 attachment' href={attachment.getSrc()} download>
-                            <img className="attachment" src={attachment.getSrc()}/>
+                        <a className='attachment image my-1' href={attachment.getSrc()} download>
+                            <img src={attachment.getSrc()} alt={attachment.getName()}/>
                         </a>
                     );
                 } else {
                     result.push(
-                        <a className='d-flex my-1 attachment' href={attachment.getSrc()} download>
-                            <i class="fa fa-solid fa-file" style={{fontSize: "4rem"}}></i>
+                        <a className='attachment document my-1' href={attachment.getSrc()} download>
+                            <i class="fa fa-solid fa-file"></i>
                             <div className="mx-2">
                                 <span>{attachment.getName()}</span><br/>
                                 <span className="size">{attachment.getSize()} bytes</span>

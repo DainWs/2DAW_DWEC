@@ -16,7 +16,7 @@ class PublicChatModel extends React.Component {
 
     render() {
         return (
-            <a className="list-group-item list-group-item-action border-0" onClick={() => { this.showChat(this) }}>
+            <a className="list-group-item list-group-item-action border-0 chat__item" onClick={() => { this.showChat(this) }}>
                 <div className="d-flex align-items-start">
                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
                     <div className="flex-grow-1 ml-3">

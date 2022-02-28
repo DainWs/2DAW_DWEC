@@ -1,4 +1,5 @@
 import React from 'react';
+import OAuthService from '../../services/LocalOAuthService';
 import { ChatProvider } from '../../services/providers/ChatProvider';
 import { UserProvider } from '../../services/providers/UserProvider';
 import { SocketController } from '../../services/socket/SocketController';
@@ -10,130 +11,99 @@ import PublicChatModel from './models/PublicChatModel';
 class ChatsList extends React.Component {
     constructor() {
         super();
-        this.users = new Map();
-        this.publicChats = new Map();
-        this.filtre = '';
-        this.isComponentMounted = false;
-        this.state = {
-            users: []
-        };
-        this.update();
-    }
-
-    update() {
-        var procesedUsers = [];
-        this.publicChats = ChatProvider.providePublicChats();
-        console.log(this.publicChats);
-        this.publicChats.forEach((chat) => {
-            if (chat.getName().includes(this.filtre)) {
-                procesedUsers.push(
-                    <PublicChatModel key={chat.getId()} chat={chat} showChat={(chat) => {this.showChat(chat)}}></PublicChatModel>
-                );
-            }
-        });
-
-        var firstUsersList = []
-        var lastUsersList = []
-        this.users = UserProvider.provide();
-        this.users.forEach((user) => {
-            if (user.getName().includes(this.filtre)) {
-                if (user.getState() == 1) {
-                    firstUsersList.push(
-                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
-                    );
-                } else {
-                    lastUsersList.push(
-                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
-                    );
-                }
-            }
-        });
-
-        console.log(firstUsersList);
-        console.log(lastUsersList);
-        procesedUsers.push(firstUsersList);
-        procesedUsers.push(lastUsersList);
-
-        if (this.isComponentMounted) {
-            this.setState({ users: procesedUsers });
-        } else {
-            this.state = { users: procesedUsers };
-        }
+        this.state = { filtre: '' };
     }
 
     showChat(chat) {
-        console.log(chat);
         ChatProvider.supplyCurrentChat(chat);
         SocketObserver.notify(updateChat);
     }
 
     onFiltreChange(event) {
-        this.filtre = event.target.value;
-        this.update();
+        this.setState({
+            filtre: event.target.value
+        });
     }
 
     componentDidMount() {
-        this.isComponentMounted = true;
-        var instance = this;
-        SocketObserver.subscribe(updateUsers, 'UsersList', function() {instance.update()});
-        SocketController.getUsers();
-        this.update();
+        SocketObserver.subscribe(updateUsers, 'ChatsList', this.forceUpdate.bind(this));
     }
 
     componentWillUnmount() {
-        this.isComponentMounted = false;
-        SocketObserver.unsubscribe(updateUsers, 'UsersList');
+        SocketObserver.unsubscribe(updateUsers, 'ChatsList');
     }
 
     render() {
         return (
-            <div className="p-0 col-12 col-lg-5 col-xl-3 border-right" style={{backgroundColor: "#f0f2f5"}}>
-
+            <div className="p-0 col-12 col-lg-5 col-xl-3 bg-light border-right">
+                {this.getLoggedUserView()}
                 <div className="px-4 d-none d-md-block">
                     <div className="d-flex align-items-center">
                         <div className="flex-grow-1">
-                            <input type="text" className="form-control my-3" placeholder="Search..." value={this.filtre} onChange={(event) => {this.onFiltreChange(event)}}/>
+                            <input type="text" 
+                                className="form-control my-1" 
+                                placeholder="Search..." 
+                                value={this.state.filtre} 
+                                onChange={this.onFiltreChange.bind(this)}/>
                         </div>
                     </div>
                 </div>
-
-                {this.state.users}
-
-                <hr className="d-block d-lg-none mt-1 mb-0"/>
+                {this.getProcessedList()}
             </div>
         );
     }
 
+    getLoggedUserView() {
+        let loggedUser = OAuthService.getLoggedUser();
+        return (
+            <div className="px-4 list-group-item d-flex flex-row justify-content-between">
+                <div className="d-flex flex-row align-items-center">
+                    <img src={`https://bootdey.com/img/Content/avatar/avatar${loggedUser.getImageId()}.png`} class="rounded-circle mr-1" alt={loggedUser.getName()} width="40" height="40"/>
+                    <div className="d-flex flex-column">
+                        {loggedUser.getName()}
+                        {this.getState(loggedUser)}
+                    </div>
+                </div>
+                <div style={{margin: "auto 0"}}>
+                    <div class="dropdown">
+                        <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i className="fa fa-solid fa-gear" style={{color: "black"}}></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" onClick={OAuthService.logout}>Cerrar Sesi&oacute;n</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
+    getState(loggedUser) {
+        return (loggedUser.getState() == 2)
+            ? <div className="small"><span className="fas fa-circle" style={{color: "#00C257"}}></span> Online</div>
+            : <div className="small"><span className="fas fa-circle" style={{color: "#C20000"}}></span> Offline</div>;
+    }
+
     getProcessedList() {
         var procesedUsers = [];
-        this.publicChats = ChatProvider.providePublicChats();
-        console.log(this.publicChats);
-        this.publicChats.forEach((chat) => {
-            if (chat.getName().includes(this.filtre)) {
+        let publicChats = ChatProvider.providePublicChats();
+        publicChats.forEach((chat) => {
+            if (chat.getName().includes(this.state.filtre)) {
                 procesedUsers.push(
-                    <PublicChatModel key={chat.getId()} chat={chat} showChat={(chat) => {this.showChat(chat)}}></PublicChatModel>
+                    <PublicChatModel key={chat.getId()} chat={chat} showChat={this.showChat.bind(this)}></PublicChatModel>
                 );
             }
         });
 
-        var firstUsersList = []
-        var lastUsersList = []
-        this.users = UserProvider.provide();
-        this.users.forEach((user) => {
-            if (user.getName().includes(this.filtre)) {
-                if (user.getState() == 1) {
-                    firstUsersList.push(
-                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
-                    );
-                } else {
-                    lastUsersList.push(
-                        <PrivateChatModel key={user.getId()} user={user} showChat={(chat) => {this.showChat(chat)}}></PrivateChatModel>
-                    );
-                }
+        let users = UserProvider.provide();
+        users.forEach((user) => {
+            if (user.getName().includes(this.state.filtre)) {
+                procesedUsers.push(
+                    <PrivateChatModel key={user.getId()} user={user} showChat={this.showChat.bind(this)}></PrivateChatModel>
+                );
             }
         });
-
-        procesedUsers.push(firstUsersList, lastUsersList);
+        return procesedUsers;
     }
 }
 

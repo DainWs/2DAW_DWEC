@@ -28,7 +28,7 @@ class PrivateChatModel extends React.Component {
 
     render() {
         return (
-            <a className="list-group-item list-group-item-action border-0" onClick={() => { this.showChat(this) }}>
+            <a className="list-group-item list-group-item-action border-0 chat__item" onClick={() => { this.showChat(this) }}>
                 {this.getPendingView()}
                 <div className="d-flex align-items-start">
                     <img src={this.getImageView()} class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
@@ -58,8 +58,8 @@ class PrivateChatModel extends React.Component {
     getState() {
         console.log(this.state.user.getState());
         return (this.state.user.getState() == 2)
-            ? <div className="small"><span className="fas fa-circle chat-online"></span> Online</div>
-            : <div className="small"><span className="fas fa-circle chat-offline"></span> Offline</div>;
+            ? <div className="small"><span className="fas fa-circle chat__item--online"></span> Online</div>
+            : <div className="small"><span className="fas fa-circle chat__item--offline"></span> Offline</div>;
     }
 }
 //<div style={{width: "40", height: "40"}}><i className="fa fa-solid fa-user rounded-circle mr-1"></i></div>
