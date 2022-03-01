@@ -70,7 +70,7 @@ class ChatsList extends React.Component {
                             <i className="fa fa-solid fa-gear" style={{color: "black"}}></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" onClick={OAuthService.logout}>Cerrar Sesi&oacute;n</a>
+                            <a class="dropdown-item" onClick={OAuthService.logout.bind(OAuthService)}>Cerrar Sesi&oacute;n</a>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import ChatFactory from '../../../factories/ChatFactory';
 import OAuthService from '../../../services/LocalOAuthService';
 import { ChatProvider } from '../../../services/providers/ChatProvider';
+import { UserProvider } from '../../../services/providers/UserProvider';
 import { SocketController } from '../../../services/socket/SocketController';
 
 class PrivateChatModel extends React.Component {
@@ -20,44 +21,42 @@ class PrivateChatModel extends React.Component {
             SocketController.setChat(chat);
         }
         let chats = ChatProvider.provide();
-        chats.set(chat.getId(), chat);
         ChatProvider.supply(chats);
-        console.log(chat);
         instance.props.showChat(chat);
     }
 
     render() {
+        let user = UserProvider.provideUser(this.state.user.getId());
         return (
             <a className="list-group-item list-group-item-action border-0 chat__item" onClick={() => { this.showChat(this) }}>
-                {this.getPendingView()}
+                {this.getPendingView(user)}
                 <div className="d-flex align-items-start">
-                    <img src={this.getImageView()} class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
+                    <img src={this.getImageView(user)} class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40"/>
                     <div className="flex-grow-1 ml-3">
-                        {this.state.user.getName()}
-                        {this.getState()}
+                        {user.getName()}
+                        {this.getState(user)}
                     </div>
                 </div>
             </a>
         );
     }
 
-    getImageView() {
-        let imageId = this.state.user.getImageId();
+    getImageView(user) {
+        let imageId = user.getImageId();
         if (imageId == undefined || imageId == null) {
             imageId = 1;
         }
         return `https://bootdey.com/img/Content/avatar/avatar${imageId}.png`;
     }
 
-    getPendingView() {
-        return (this.state.user.getPendingMessages() > 0) 
-            ? (<div className="badge bg-success float-right">{this.state.user.getPendingMessages()}</div>) 
+    getPendingView(user) {
+        return (user.getPendingMessages() > 0) 
+            ? (<div className="badge bg-success float-right">{user.getPendingMessages()}</div>) 
             : (<></>);
     }
 
-    getState() {
-        console.log(this.state.user.getState());
-        return (this.state.user.getState() == 2)
+    getState(user) {
+        return (user.getState() == 2)
             ? <div className="small"><span className="fas fa-circle chat__item--online"></span> Online</div>
             : <div className="small"><span className="fas fa-circle chat__item--offline"></span> Offline</div>;
     }

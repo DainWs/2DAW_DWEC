@@ -1,9 +1,23 @@
 # WhatsMessageApp-React
-**Project name:** WhatsMessageApp-React<br/>
-**Author:** [DainWs](https://github.com/DainWs)<br/>
+**Project name:** WhatsMessageApp-React
+**Author:** [DainWs](https://github.com/DainWs)
+**Production:** [Heroku](https://calm-caverns-07225.herokuapp.com/)<br/>
 
 ## Caracteristics
 Login with an selected **image**, **name** and **state** (*connected* or *disconnected*):
+<center>
+    <img src="docs/Loging.gif" alt="Adding task" style="width: 80%;"/>
+</center>
+
+You can type messages with all guys in the global chat:
+<center>
+    <img src="docs/WriteInGlobal.gif" alt="Adding task" style="width: 80%;"/>
+</center>
+
+Too you can chatting with your friends in private chats and upload files!!!!
+<center>
+    <img src="docs/DownloadFiles.gif" alt="Adding task" style="width: 80%;"/>
+</center>
 
 ## Avaibles commands
 These are the commands you can use for this Node Multi Project:

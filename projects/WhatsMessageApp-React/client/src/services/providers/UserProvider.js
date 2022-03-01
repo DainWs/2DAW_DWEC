@@ -32,6 +32,12 @@ class UserProvider extends DataProviderBase {
         this.processedData = newProcessedData;
     }
 
+    provideUser(userId) {
+        return Array
+            .from(this.processedData.values())
+            .find((user) => user.getId() == userId);
+    }
+
     provideUsersOfMessage(message) {
         let result = null;
         if (message instanceof ClientMessage) {

@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', onConnect);
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log('listening on *:3000');
 });
 
@@ -86,7 +86,6 @@ function onConnect(socket) {
 
     socket.on('setUser', (user) => {
         console.log('setUser');
-        console.log(user);
 
         if (user != null) {
             let oldUser = Array.from(USERS_LIST.values()).find((tmpUser) => tmpUser.name == user.name );
@@ -98,7 +97,6 @@ function onConnect(socket) {
             }
             io.emit('updateUsers', getFormatedMap(USERS_LIST));
         }
-        console.log('endsetUser');
     });
 
     socket.on('removeUser', (user) => {
@@ -109,15 +107,11 @@ function onConnect(socket) {
     
     socket.on('getUsers', () => {
         console.log('getUsers');
-        console.log(USERS_LIST);
         socket.emit('updateUsers', getFormatedMap(USERS_LIST));
     });
 
     socket.on('setChat', (chatData) => {
         console.log('setChat');
-        console.log(chatData);
-        console.log(chatData.id);
-        console.log(chatData.participants);
         let chat = findChat(chatData);
         if (chat === null) {
             CHAT_LIST.set(chatData.id, chatData);
@@ -127,7 +121,6 @@ function onConnect(socket) {
 
     socket.on('getChats', () => {
         console.log('getChats');
-        console.log(CHAT_LIST);
         io.emit('updateChat', getFormatedMap(CHAT_LIST));
     });
 
@@ -156,11 +149,8 @@ function onConnect(socket) {
 
     socket.on('sendMessage', (data) => {
         console.log('sendMessage');
-        console.log(data);
-        console.log(data.chat);
         let chat = findChat(data.chat);
 
-        console.log(chat);
         if (chat !== null) {
             let message = data.message;
 
@@ -168,7 +158,6 @@ function onConnect(socket) {
                 chat.messages = [];
             }
 
-            console.log(chat);
             chat.messages.push(message);
 
             if (chat.writingUsers != undefined) {
@@ -177,9 +166,6 @@ function onConnect(socket) {
             }
             
             CHAT_LIST.set(chat.id, chat);
-            console.log(chat);
-            console.log(CHAT_LIST);
-            console.log(JSON.stringify(chat));
             io.emit('updateChat', getFormatedMap(CHAT_LIST));
         }
     });

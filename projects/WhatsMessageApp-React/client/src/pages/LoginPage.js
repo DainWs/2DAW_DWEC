@@ -73,7 +73,7 @@ class LoginPage extends React.Component {
                                                 Connected
                                             </label>
                                             
-                                            <input type="radio" name="options" className="d-none" id="disconected" checked={this.state.state == '1'} value={1} onChange={(event) => { this.onSelectedStateChange(event) }} />
+                                            <input type="radio" name="options" className="d-none" id="disconected" checked={this.state.state == '1'} value={1} onChange={(event) => { this.onSelectedStateChange(event) }} checked/>
                                             <label class={`btn btn-info rounded-right ${this.getActiveClassIfChecked('1')}`} htmlFor="disconected">
                                                 Disconected
                                             </label>
