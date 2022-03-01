@@ -3,10 +3,8 @@
  */
 class DataProviderManager {
     manage(context) {
-        console.log(context.getProviderClass());
         let provider = context.getProviderClass();
         let data = context.getData();
-
         provider.supply(data);
     }
 }

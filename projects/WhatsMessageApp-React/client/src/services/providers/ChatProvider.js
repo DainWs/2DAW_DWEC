@@ -12,8 +12,6 @@ class ChatProvider extends DataProviderBase {
 
     processDataSupplied() {
         var newProcessedData = new Map();
-        console.log('processing data');
-        console.log(this.data);
         if (Array.isArray(this.data)) {
             this.data.forEach((chatData) => {
                 let chat = chatData;
@@ -27,9 +25,6 @@ class ChatProvider extends DataProviderBase {
                 }
             });
         }
-        
-        console.log('processed data');
-        console.log(newProcessedData);
         this.processedData = newProcessedData;
     }
 

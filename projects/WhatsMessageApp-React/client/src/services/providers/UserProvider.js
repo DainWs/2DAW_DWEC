@@ -8,8 +8,6 @@ import PublicChat from "../../models/chats/PublicChat";
 class UserProvider extends DataProviderBase {
     processDataSupplied() {
         var newProcessedData = new Map();
-        console.log('processing data');
-        console.log(this.data);
         if (Array.isArray(this.data)) {
             let sortedData = this.data.sort( (u1, u2) => u1.state - u2.state );
             sortedData.forEach((userData) => {
@@ -26,9 +24,6 @@ class UserProvider extends DataProviderBase {
         }
 
         newProcessedData.delete(OAuthService.getLoggedUserId());
-        
-        console.log('processed data');
-        console.log(newProcessedData);
         this.processedData = newProcessedData;
     }
 
@@ -49,7 +44,6 @@ class UserProvider extends DataProviderBase {
     }
 
     provideUsersOfChat(chat, isLoggedAllowed) {
-        console.log(chat);
         let result = null;
         if (chat instanceof PublicChat) {
             result = [];

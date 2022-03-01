@@ -19,10 +19,7 @@ class SocketObserver {
     }
 
     notify(eventListName) {
-        this.subscribers.get(`${eventListName}`).forEach(callback => {
-            console.log(callback);
-            callback();
-        });
+        this.subscribers.get(`${eventListName}`).forEach(callback => callback());
     }
 }
 const instance = new SocketObserver();

@@ -13,17 +13,12 @@ class SocketController {
     /** Listened events methods **/
     onConnect() {
         let user = OAuthService.getLoggedUser();
-        console.log(user);
         socket.emit(setUser, user);
         SocketObserver.notify(Connect);
     }
 
     updateUsers(data) {
-        console.log('Update Users event handled.');
-        console.log(data);
-
         if (data) {
-            console.log("Passed");
             let context = new SocketDataProviderContext();   
             context.setProviderClass(updateUsers);
             context.setData(data);
@@ -34,12 +29,7 @@ class SocketController {
     }
 
     updateChat(data) {
-        console.log('Update Chat event handled.');
-        console.log(data);
-        
         if (data) {
-            console.log("Passed");
-
             let context = new SocketDataProviderContext();   
             context.setProviderClass(updateChat);
             context.setData(data);

@@ -48,7 +48,6 @@ class User {
     }
 
     setImageId(imageId) {
-        console.log(imageId);
         if (AllowedImagesId.has(imageId)) {
             this.imageId = imageId;
         }

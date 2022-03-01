@@ -111,5 +111,4 @@ class MessageModel extends React.Component {
         return result;
     }
 }
-//<div style={{ width: "40", height: "40" }}><i className="fa fa-solid fa-user rounded-circle mr-1 ml-1"></i></div>
 export default MessageModel;

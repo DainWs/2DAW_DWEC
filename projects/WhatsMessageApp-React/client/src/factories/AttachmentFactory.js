@@ -2,7 +2,6 @@ import Attachment from "../models/messages/attachment/Attachment";
 
 class AttachmentFactory {
     parseAttachments(attachments) {
-        console.log(attachments);
         var instance = this;
         var parsedAttachments = [];
         if (Array.isArray(attachments)) {
@@ -14,7 +13,6 @@ class AttachmentFactory {
                 parsedAttachments.splice(index, 0, attachment);
             });
         }
-        console.log(parsedAttachments);
         return parsedAttachments;
     }
 

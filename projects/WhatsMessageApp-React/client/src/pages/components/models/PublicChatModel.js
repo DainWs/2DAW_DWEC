@@ -10,7 +10,6 @@ class PublicChatModel extends React.Component {
 
     showChat(instance) {
         let chat = instance.state.chat;
-        console.log(chat);
         instance.props.showChat(chat);
     }
 
@@ -27,5 +26,4 @@ class PublicChatModel extends React.Component {
         );
     }
 }
-//<div style={{width: "40", height: "40"}}><i className="fa fa-solid fa-user rounded-circle mr-1"></i></div>
 export default PublicChatModel;

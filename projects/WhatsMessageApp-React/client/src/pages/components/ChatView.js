@@ -124,7 +124,6 @@ class ChatView extends React.Component {
     /** End of attachment section **/
 
     componentDidMount() {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
         SocketObserver.subscribe(updateChat, 'ChatView', this.forceUpdate.bind(this));
         SocketController.getChats();
         if (this.chat instanceof PublicChat) SocketController.connectChat();

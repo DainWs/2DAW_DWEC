@@ -8,7 +8,6 @@ class MessageFactory {
     }
 
     parseMessages(messages) {
-        console.log(messages);
         var instance = this;
         var parsedMessages = [];
         if (Array.isArray(messages)) {
@@ -20,7 +19,6 @@ class MessageFactory {
                 parsedMessages.splice(message.getId(), 0, message);
             });
         }
-        console.log(parsedMessages);
         return parsedMessages;
     }
 

@@ -61,5 +61,4 @@ class PrivateChatModel extends React.Component {
             : <div className="small"><span className="fas fa-circle chat__item--offline"></span> Offline</div>;
     }
 }
-//<div style={{width: "40", height: "40"}}><i className="fa fa-solid fa-user rounded-circle mr-1"></i></div>
 export default PrivateChatModel;
