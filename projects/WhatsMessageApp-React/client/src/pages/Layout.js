@@ -1,7 +1,6 @@
 import React from 'react';
-import { Outlet } from "react-router-dom";
 import OAuthService from '../services/LocalOAuthService';
-import Header from "./components/Header";
+import HomePage from './HomePage';
 import LoginPage from './LoginPage';
 
 class Layout extends React.Component {
@@ -26,10 +25,7 @@ class Layout extends React.Component {
 
   getNormalView() {
     return (
-      <>
-        <Header></Header>
-        <Outlet />
-      </>
+      <HomePage />
     );
   }
 }

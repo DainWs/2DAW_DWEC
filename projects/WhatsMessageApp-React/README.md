@@ -1,6 +1,6 @@
 # WhatsMessageApp-React
-**Project name:** WhatsMessageApp-React
-**Author:** [DainWs](https://github.com/DainWs)
+**Project name:** WhatsMessageApp-React<br/>
+**Author:** [DainWs](https://github.com/DainWs)<br/>
 **Production:** [Heroku](https://calm-caverns-07225.herokuapp.com/)<br/>
 
 ## Caracteristics
@@ -44,8 +44,8 @@ El código de la aplicación debe subirse a GitHub, indicando claramente en el R
 - [X] En el central, tendremos acceso a una sala común de chat en la que se encontrarán todos los usuarios.
 - [X] El servidor deberá informar a los usuarios cada vez que alguien entra o sale del chat.
 - [X] El servidor deberá informar a los usuarios cada vez cuando alguien está escribiendo.
-- [ ] Codigo subido a Github
-- [ ] Puesta en producción bien clara en el Readme.
+- [X] Codigo subido a Github
+- [X] Puesta en producción bien clara en el Readme.
 
 Esos son los requisitos mínimos (5 puntos). Para subir la nota, el alumno/a puede implementar las mejoras que quiera de la siguiente lista (tenéis libertad para escoger cuáles:
 

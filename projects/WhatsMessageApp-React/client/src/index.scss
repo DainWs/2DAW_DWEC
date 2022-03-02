@@ -38,7 +38,7 @@ body {
     
     &::after {
         content: "";
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         
@@ -50,12 +50,21 @@ body {
     }
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+.card {
+    &#login {
+        margin: 6.11vh 6.11vw;
+        padding: 3rem;
+    }
+
+    &#home {
+        overflow: hidden;
+        margin: 6.11vh 6.11vw 0 6.11vw;
+        height: calc(100vh - 6.11vh);
+    }
 }
 
-.login {
-    &-container {margin-top: 127px;}
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .connected { background-color: theme-color("secondary-message"); }

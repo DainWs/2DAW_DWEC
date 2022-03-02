@@ -56,7 +56,7 @@ class ChatsList extends React.Component {
     getLoggedUserView() {
         let loggedUser = OAuthService.getLoggedUser();
         return (
-            <div className="px-4 list-group-item d-flex flex-row justify-content-between">
+            <div className="px-4 list-group-item d-flex flex-row justify-content-between border-0">
                 <div className="d-flex flex-row align-items-center">
                     <img src={`https://bootdey.com/img/Content/avatar/avatar${loggedUser.getImageId()}.png`} class="rounded-circle mr-1" alt={loggedUser.getName()} width="40" height="40"/>
                     <div className="d-flex flex-column">

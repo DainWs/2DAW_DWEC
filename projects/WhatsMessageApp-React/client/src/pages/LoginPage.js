@@ -50,8 +50,7 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div id="login">
-                <h3 className="text-center text-white pt-5">Login form</h3>
+            <div className="card" id="login">
                 <div className="container login-container">
                     <div id="login-row" className="row justify-content-center align-items-center">
                         <div id="login-column" className="col-md-9">
@@ -62,18 +61,18 @@ class LoginPage extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="username" className="text-info">Username:</label><br />
-                                        <input type="text" id="username" className="form-control" value={this.state.username} onChange={(event) => { this.onUsernameChange(event) }} />
+                                        <input type="text" id="username" className="form-control" value={this.state.username} onChange={this.onUsernameChange.bind(this)} />
                                     </div>
                                     <div className="form-group d-flex justify-content-between">
-                                        <input type="button" className="btn btn-info btn-md" value="Log in" onClick={() => { this.onLogin() }} />
+                                        <input type="button" className="btn btn-info btn-md" value="Log in" onClick={this.onLogin.bind(this)} />
 
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <input type="radio" name="options" className="d-none" id="connected" checked={this.state.state == '2'} value={2} onChange={(event) => { this.onSelectedStateChange(event) }} /> 
+                                            <input type="radio" name="options" className="d-none" id="connected" checked={this.state.state == '2'} value={2} onChange={this.onSelectedStateChange.bind(this)} /> 
                                             <label class={`btn btn-info rounded-left ${this.getActiveClassIfChecked('2')}`} htmlFor="connected">
                                                 Connected
                                             </label>
                                             
-                                            <input type="radio" name="options" className="d-none" id="disconected" checked={this.state.state == '1'} value={1} onChange={(event) => { this.onSelectedStateChange(event) }} checked/>
+                                            <input type="radio" name="options" className="d-none" id="disconected" checked={this.state.state == '1'} value={1} onChange={this.onSelectedStateChange.bind(this)}/>
                                             <label class={`btn btn-info rounded-right ${this.getActiveClassIfChecked('1')}`} htmlFor="disconected">
                                                 Disconected
                                             </label>
